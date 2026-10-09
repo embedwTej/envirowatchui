@@ -22,6 +22,21 @@ import {
   Sparkles
 } from 'lucide-react';
 
+import bottlingImg from '../assets/sectors/sector_bottling.jpg';
+import refineryImg from '../assets/sectors/sector_refinery.jpg';
+import tankfarmImg from '../assets/sectors/sector_tankfarm.jpg';
+import boilerImg from '../assets/sectors/sector_boiler.jpg';
+import etpImg from '../assets/sectors/sector_etp.jpg';
+
+const getSectorImage = (loc) => {
+  const text = ((loc.department || '') + ' ' + (loc.name || '')).toLowerCase();
+  if (text.includes('bottl') || text.includes('packag')) return bottlingImg;
+  if (text.includes('tank') || text.includes('storage')) return tankfarmImg;
+  if (text.includes('boiler') || text.includes('util') || text.includes('wtp') || text.includes('steam')) return boilerImg;
+  if (text.includes('etp') || text.includes('effluent') || text.includes('water')) return etpImg;
+  return refineryImg;
+};
+
 export default function RealtimeMonitoring({ locations, onSelectLocation, onExport }) {
   const [activeTab, setActiveTab] = useState('All Location');
   const [filterDepartment, setFilterDepartment] = useState('All');
@@ -223,6 +238,9 @@ export default function RealtimeMonitoring({ locations, onSelectLocation, onExpo
               key={loc.id} 
               className={`modern-location-card ${isAlert ? 'is-alert-active' : isInactive ? 'is-inactive-card' : 'is-normal-card'}`}
               onClick={() => onSelectLocation(loc)}
+              style={{
+                backgroundImage: `linear-gradient(180deg, rgba(10, 18, 32, 0.76) 0%, rgba(6, 11, 20, 0.94) 100%), url(${getSectorImage(loc)})`
+              }}
             >
               {/* Card Header */}
               <div className="loc-card-header">
