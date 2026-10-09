@@ -1,35 +1,37 @@
 :root {
-  --sidebar-bg: #ffffff;
-  --sidebar-hover: #f1f5f9;
-  --sidebar-active: #059669;
-  --sidebar-text: #475569;
+  --sidebar-bg: #0b140d;
+  --sidebar-hover: #142217;
+  --sidebar-active: #2e9e1a;
+  --sidebar-text: #94a3b8;
   --sidebar-text-active: #ffffff;
   
-  --primary: #059669;
-  --primary-hover: #047857;
-  --primary-light: rgba(5, 150, 105, 0.12);
+  --primary: #2e9e1a;
+  --primary-hover: #1a6e0a;
+  --primary-light: rgba(46, 158, 26, 0.2);
+  --gold: #f5e17a;
+  --gold-dark: #c8960c;
   
-  --bg-main: #f4f6f8;
-  --bg-card: #ffffff;
+  --bg-main: #09100a;
+  --bg-card: #101a12;
   
-  --text-main: #0f172a;
-  --text-muted: #64748b;
-  --text-subtle: #475569;
+  --text-main: #ffffff;
+  --text-muted: #94a3b8;
+  --text-subtle: #cbd5e1;
   
-  --border-color: #e2e8f0;
-  --border-light: #f1f5f9;
+  --border-color: rgba(46, 158, 26, 0.25);
+  --border-light: rgba(255, 255, 255, 0.08);
   
-  --status-active-bg: rgba(16, 185, 129, 0.12);
-  --status-active-text: #059669;
+  --status-active-bg: rgba(46, 158, 26, 0.2);
+  --status-active-text: #5ecb3e;
   
-  --status-inactive-bg: rgba(100, 116, 139, 0.12);
-  --status-inactive-text: #64748b;
+  --status-inactive-bg: rgba(100, 116, 139, 0.2);
+  --status-inactive-text: #94a3b8;
   
-  --status-alert-bg: rgba(239, 68, 68, 0.12);
-  --status-alert-text: #dc2626;
+  --status-alert-bg: rgba(239, 68, 68, 0.2);
+  --status-alert-text: #fca5a5;
   
-  --status-warn-bg: rgba(245, 158, 11, 0.12);
-  --status-warn-text: #d97706;
+  --status-warn-bg: rgba(245, 158, 11, 0.2);
+  --status-warn-text: #f5e17a;
 
   --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --radius-sm: 8px;

@@ -4,61 +4,62 @@
    ========================================================= */
 
 :root {
-  /* Dufil Pristine Light Sidebar */
-  --sidebar-bg: #ffffff;
-  --sidebar-border: #e2e8f0;
-  --sidebar-hover: #f1f5f9;
-  --sidebar-active: #059669;
-  --sidebar-active-accent: #16a34a;
-  --sidebar-text: #475569;
+  /* Dufil Dark Logo Sidebar */
+  --sidebar-bg: #0b140d;
+  --sidebar-border: rgba(46, 158, 26, 0.2);
+  --sidebar-hover: #142217;
+  --sidebar-active: #2e9e1a;
+  --sidebar-active-accent: #f5e17a;
+  --sidebar-text: #a3b899;
   --sidebar-text-active: #ffffff;
 
-  /* Dufil Corporate Brand Palette (Emerald Green & Gold) */
-  --brand-primary: #059669;
-  --brand-primary-hover: #047857;
-  --brand-primary-gradient: linear-gradient(135deg, #059669 0%, #16a34a 100%);
-  --brand-accent: #16a34a;
-  --brand-dark: #064e3b;
-  --brand-light: rgba(5, 150, 105, 0.1);
+  /* Dufil Corporate Brand Palette (Green & Gold) */
+  --brand-primary: #2e9e1a;
+  --brand-primary-hover: #1a6e0a;
+  --brand-primary-gradient: linear-gradient(135deg, #2e9e1a 0%, #1a6e0a 100%);
+  --brand-accent: #f5e17a;
+  --brand-gold-gradient: linear-gradient(135deg, #f5e17a 0%, #c8960c 100%);
+  --brand-dark: #0d160e;
+  --brand-light: rgba(46, 158, 26, 0.2);
 
   /* Industrial Status Palette */
-  --status-normal: #059669;
-  --status-normal-bg: rgba(5, 150, 105, 0.1);
-  --status-normal-border: rgba(5, 150, 105, 0.3);
-  --status-alert: #dc2626;
-  --status-alert-bg: rgba(220, 38, 38, 0.1);
-  --status-alert-border: rgba(220, 38, 38, 0.3);
+  --status-normal: #5ecb3e;
+  --status-normal-bg: rgba(46, 158, 26, 0.2);
+  --status-normal-border: rgba(46, 158, 26, 0.4);
+  --status-alert: #ef4444;
+  --status-alert-bg: rgba(239, 68, 68, 0.2);
+  --status-alert-border: rgba(239, 68, 68, 0.45);
   --status-standby: #64748b;
-  --status-standby-bg: rgba(100, 116, 139, 0.1);
-  --status-standby-border: rgba(100, 116, 139, 0.25);
+  --status-standby-bg: rgba(100, 116, 139, 0.18);
+  --status-standby-border: rgba(100, 116, 139, 0.35);
 
-  /* Technical Workspace Background — Fresh Light Slate */
-  --bg-workspace: #f4f6f8;
-  --bg-card: #ffffff;
-  --bg-card-subtle: #f8fafc;
-  --bg-input: #f8fafc;
+  /* Technical Workspace Background — Rich Dufil Dark */
+  --bg-workspace: #09100a;
+  --bg-card: #101a12;
+  --bg-card-subtle: #142217;
+  --bg-input: #0e1710;
 
   /* Industrial Precision Typography */
   --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
   
-  --text-main: #0f172a;
-  --text-body: #334155;
-  --text-muted: #64748b;
-  --text-light: #64748b;
+  --text-main: #ffffff;
+  --text-body: #e2e8f0;
+  --text-muted: #94a3b8;
+  --text-light: #94a3b8;
 
   /* Precision Borders & Shadows */
-  --border-card: #e2e8f0;
-  --border-subtle: #f1f5f9;
-  --border-strong: #cbd5e1;
-  --border-focus: #059669;
+  --border-card: rgba(46, 158, 26, 0.28);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(46, 158, 26, 0.5);
+  --border-focus: #2e9e1a;
 
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
-  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
-  --shadow-hover: 0 10px 25px rgba(5, 150, 105, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04);
-  --shadow-glow-primary: 0 0 15px rgba(5, 150, 105, 0.2);
-  --shadow-modal: 0 20px 40px rgba(0, 0, 0, 0.15);
+  --shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.4);
+  --shadow-card: 0 4px 18px 0 rgba(0, 0, 0, 0.5), 0 0 15px rgba(46, 158, 26, 0.1);
+  --shadow-hover: 0 12px 28px -4px rgba(0, 0, 0, 0.7), 0 0 20px rgba(46, 158, 26, 0.25);
+  --shadow-glow-primary: 0 0 20px rgba(46, 158, 26, 0.35);
+  --shadow-modal: 0 25px 50px -5px rgba(0, 0, 0, 0.9);
 
   --shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
   --shadow-card: 0 4px 18px 0 rgba(0, 0, 0, 0.4), 0 2px 6px -1px rgba(0, 0, 0, 0.25);
@@ -4368,10 +4369,11 @@ input, select, textarea {
   right: 20px !important;
   z-index: 50 !important;
   margin: 0 !important;
-  background: #ffffff !important;
-  border: 1.5px solid #059669 !important;
+  background: rgba(16, 26, 18, 0.96) !important;
+  backdrop-filter: blur(18px) !important;
+  border: 1.5px solid #2e9e1a !important;
   border-radius: 16px !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 0 20px rgba(5, 150, 105, 0.1) !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), 0 0 25px rgba(46, 158, 26, 0.25) !important;
   padding: 14px 20px !important;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
@@ -4382,7 +4384,7 @@ input, select, textarea {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding-bottom: 8px;
   margin-bottom: 10px;
 }
@@ -4402,25 +4404,25 @@ input, select, textarea {
 
 .dock-kpi-pill {
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
   font-family: 'Inter', -apple-system, sans-serif;
-  color: #475569;
+  color: #cbd5e1;
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
 .dock-kpi-pill strong {
-  color: #0f172a;
-  font-weight: 800;
+  color: #ffffff;
+  font-weight: 700;
 }
 
 .dock-kpi-pill.kpi-pill-alert {
-  color: #dc2626 !important;
+  color: #fca5a5 !important;
 }
 
 .dock-kpi-pill.kpi-pill-alert strong {
-  color: #dc2626 !important;
+  color: #ef4444 !important;
 }
 
 .kpi-dot {
@@ -4431,27 +4433,27 @@ input, select, textarea {
 }
 
 .dot-cyan {
-  background: #0284c7;
-  box-shadow: 0 0 6px rgba(2, 132, 199, 0.4);
+  background: #38bdf8;
+  box-shadow: 0 0 6px #38bdf8;
 }
 
 .dot-red {
-  background: #dc2626;
-  box-shadow: 0 0 6px rgba(220, 38, 38, 0.4);
+  background: #ef4444;
+  box-shadow: 0 0 6px #ef4444;
 }
 
 .dot-emerald {
-  background: #059669;
-  box-shadow: 0 0 6px rgba(5, 150, 105, 0.4);
+  background: #2e9e1a;
+  box-shadow: 0 0 6px #2e9e1a;
 }
 
 .dock-minimize-toggle-btn {
   font-size: 11.5px;
-  font-weight: 700;
+  font-weight: 600;
   font-family: 'Inter', -apple-system, sans-serif;
-  color: #059669;
-  background: rgba(5, 150, 105, 0.08);
-  border: 1px solid rgba(5, 150, 105, 0.25);
+  color: #f5e17a;
+  background: rgba(46, 158, 26, 0.2);
+  border: 1px solid rgba(46, 158, 26, 0.4);
   padding: 4px 10px;
   border-radius: 8px;
   display: flex;
@@ -4461,7 +4463,7 @@ input, select, textarea {
 }
 
 .dock-minimize-toggle-btn:hover {
-  background: #059669;
+  background: #2e9e1a;
   color: #ffffff;
 }
 
@@ -4491,15 +4493,15 @@ input, select, textarea {
 }
 
 .dock-status-icon.bg-red-alert {
-  background: rgba(220, 38, 38, 0.1);
-  color: #dc2626;
-  border: 1px solid rgba(220, 38, 38, 0.3);
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.5);
 }
 
 .dock-status-icon.bg-emerald-normal {
-  background: rgba(5, 150, 105, 0.1);
-  color: #059669;
-  border: 1px solid rgba(5, 150, 105, 0.3);
+  background: rgba(46, 158, 26, 0.25);
+  color: #5ecb3e;
+  border: 1px solid rgba(46, 158, 26, 0.5);
 }
 
 .dock-title-block {
@@ -4516,35 +4518,35 @@ input, select, textarea {
 
 .dock-zone-id {
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 700;
   font-family: 'Inter', -apple-system, sans-serif;
-  color: #b45309;
+  color: #f5e17a;
   letter-spacing: 0.02em;
 }
 
 .dock-stream-live {
   font-size: 11px;
   font-family: 'Inter', -apple-system, sans-serif;
-  color: #059669;
-  font-weight: 700;
+  color: #5ecb3e;
+  font-weight: 600;
 }
 
 .dock-zone-name {
   font-size: 15px;
   font-weight: 800;
   font-family: 'Inter', -apple-system, sans-serif;
-  color: #0f172a !important;
+  color: #ffffff !important;
   letter-spacing: -0.01em;
 }
 
 .dock-zone-sector {
   font-size: 11.5px;
   font-family: 'Inter', -apple-system, sans-serif;
-  color: #475569 !important;
+  color: #cbd5e1 !important;
 }
 
 .dock-zone-sector strong {
-  color: #0f172a !important;
+  color: #ffffff !important;
 }
 
 .dock-metrics-strip {
@@ -4555,8 +4557,8 @@ input, select, textarea {
 }
 
 .dock-metric-box {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   padding: 8px 14px;
   min-width: 100px;
@@ -4565,8 +4567,8 @@ input, select, textarea {
 }
 
 .dock-metric-box.box-breach {
-  border-color: rgba(220, 38, 38, 0.4);
-  background: rgba(220, 38, 38, 0.08);
+  border-color: rgba(239, 68, 68, 0.6);
+  background: rgba(239, 68, 68, 0.15);
 }
 
 .metric-box-label {
@@ -4575,7 +4577,7 @@ input, select, textarea {
   font-family: 'Inter', -apple-system, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #64748b !important;
+  color: #94a3b8 !important;
   margin-bottom: 3px;
 }
 
@@ -4583,12 +4585,12 @@ input, select, textarea {
   font-size: 15px;
   font-weight: 800;
   font-family: 'Inter', -apple-system, sans-serif;
-  color: #0f172a !important;
+  color: #ffffff !important;
 }
 
 .dock-metric-box .metric-bar-wrap {
   height: 4px;
-  background: #e2e8f0;
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 4px;
   margin-top: 6px;
   overflow: hidden;
@@ -5043,11 +5045,11 @@ input, select, textarea {
 }
 
 .device-loc-subnav {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: #101a12;
+  border: 1px solid rgba(46, 158, 26, 0.3);
   border-radius: var(--radius-md, 16px);
   padding: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
 }
 
 .subnav-header {
@@ -5060,7 +5062,7 @@ input, select, textarea {
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #059669; /* Dufil green accent */
+  color: #f5e17a; /* Dufil gold accent */
   margin-bottom: 10px;
 }
 
@@ -5069,8 +5071,8 @@ input, select, textarea {
   align-items: center;
   gap: 8px;
   padding: 8px 12px;
-  background: #f8fafc;
-  border: 1px solid #cbd5e1;
+  background: #0e1710;
+  border: 1px solid rgba(46, 158, 26, 0.25);
   border-radius: var(--radius-sm, 10px);
 }
 
@@ -5078,17 +5080,17 @@ input, select, textarea {
   background: transparent;
   border: none;
   outline: none;
-  color: #0f172a;
+  color: #ffffff;
   font-size: 12.5px;
   width: 100%;
 }
 
 .subnav-search-wrap input::placeholder {
-  color: #94a3b8;
+  color: #64748b;
 }
 
 .subnav-search-icon {
-  color: #059669;
+  color: #2e9e1a;
   flex-shrink: 0;
 }
 
@@ -5107,9 +5109,9 @@ input, select, textarea {
   justify-content: space-between;
   padding: 10px 14px;
   border-radius: var(--radius-sm, 10px);
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  color: #334155;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #e2e8f0;
   font-size: 13.5px;
   font-weight: 600;
   text-align: left;
@@ -5118,18 +5120,18 @@ input, select, textarea {
 }
 
 .subnav-loc-item:hover {
-  background: rgba(5, 150, 105, 0.08);
-  border-color: rgba(5, 150, 105, 0.3);
-  color: #059669;
+  background: rgba(46, 158, 26, 0.16);
+  border-color: rgba(46, 158, 26, 0.4);
+  color: #ffffff;
   transform: translateX(2px);
 }
 
 .subnav-loc-item.active {
-  background: linear-gradient(135deg, #059669 0%, #16a34a 100%);
-  border: 1px solid #059669;
+  background: linear-gradient(135deg, #2e9e1a 0%, #1a6e0a 100%);
+  border: 1px solid #2e9e1a;
   color: #ffffff;
   font-weight: 700;
-  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.25);
+  box-shadow: 0 4px 14px rgba(46, 158, 26, 0.35);
 }
 
 .subnav-item-name {
@@ -5146,19 +5148,19 @@ input, select, textarea {
   height: 20px;
   padding: 0 6px;
   border-radius: 999px;
-  background: rgba(0, 0, 0, 0.06);
+  background: rgba(255, 255, 255, 0.1);
   font-size: 11px;
   font-weight: 700;
-  color: #64748b;
+  color: #94a3b8;
 }
 
 .subnav-loc-item.active .subnav-item-count {
   background: #f5e17a;
-  color: #78350f;
+  color: #5a4100;
 }
 
 /* ============================================================
-   FACILITY MAP POPUPS — DUFIL PRISTINE LIGHT STYLING
+   FACILITY MAP POPUPS — DUFIL LOGO DARK THEME STYLING
    ============================================================ */
 .continuous-hotspot-container {
   position: absolute;
@@ -5179,14 +5181,14 @@ input, select, textarea {
 }
 
 .radar-normal {
-  border: 2px solid rgba(5, 150, 105, 0.75);
-  background: rgba(5, 150, 105, 0.2);
+  border: 2px solid rgba(46, 158, 26, 0.85);
+  background: rgba(46, 158, 26, 0.25);
   animation: radarPulse 2s infinite ease-out;
 }
 
 .radar-alert {
-  border: 2px solid rgba(220, 38, 38, 0.85);
-  background: rgba(220, 38, 38, 0.2);
+  border: 2px solid rgba(239, 68, 68, 0.85);
+  background: rgba(239, 68, 68, 0.25);
   animation: radarPulseAlert 1.2s infinite ease-out;
 }
 
@@ -5204,9 +5206,9 @@ input, select, textarea {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #ffffff;
-  border: 3px solid #059669;
-  box-shadow: 0 0 14px rgba(5, 150, 105, 0.6), 0 3px 10px rgba(0, 0, 0, 0.15);
+  background: #0b140d;
+  border: 3px solid #2e9e1a;
+  box-shadow: 0 0 14px rgba(46, 158, 26, 0.85), 0 3px 10px rgba(0, 0, 0, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -5220,15 +5222,15 @@ input, select, textarea {
 }
 
 .spot-is-alert .hotspot-pin-head {
-  border-color: #dc2626;
-  box-shadow: 0 0 16px rgba(220, 38, 38, 0.7), 0 3px 10px rgba(0, 0, 0, 0.15);
+  border-color: #ef4444;
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.9), 0 3px 10px rgba(0, 0, 0, 0.7);
 }
 
 .pin-pointer-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #d97706;
+  background: #f5e17a;
 }
 
 .continuous-popup-card {
@@ -5239,9 +5241,10 @@ input, select, textarea {
   width: 250px;
   padding: 14px;
   border-radius: 16px;
-  background: #ffffff;
-  border: 1.5px solid #059669;
-  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.12), 0 0 20px rgba(5, 150, 105, 0.15);
+  background: rgba(16, 26, 18, 0.96);
+  backdrop-filter: blur(18px);
+  border: 1.5px solid #2e9e1a;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), 0 0 24px rgba(46, 158, 26, 0.3);
   z-index: 60;
   display: flex;
   flex-direction: column;
@@ -5259,50 +5262,50 @@ input, select, textarea {
   height: 0;
   border-left: 9px solid transparent;
   border-right: 9px solid transparent;
-  border-top: 9px solid #059669;
+  border-top: 9px solid #2e9e1a;
 }
 
 .continuous-popup-card.popup-is-top-edge::after {
   bottom: auto;
   top: -9px;
   border-top: none;
-  border-bottom: 9px solid #059669;
+  border-bottom: 9px solid #2e9e1a;
 }
 
 .popup-theme-alert {
-  border-color: #dc2626;
-  box-shadow: 0 14px 36px rgba(220, 38, 38, 0.15);
+  border-color: #ef4444;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 28px rgba(239, 68, 68, 0.35);
 }
 
 .popup-theme-alert::after {
-  border-top-color: #dc2626;
+  border-top-color: #ef4444;
 }
 
 .popup-theme-alert.popup-is-top-edge::after {
-  border-bottom-color: #dc2626;
+  border-bottom-color: #ef4444;
 }
 
 .continuous-popup-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding-bottom: 8px;
 }
 
 .popup-zone-badge {
   font-size: 13.5px;
   font-weight: 800;
-  color: #0f172a;
+  color: #ffffff;
   letter-spacing: -0.01em;
 }
 
 .alert-badge-micro {
   font-size: 9px;
   font-weight: 800;
-  background: rgba(220, 38, 38, 0.1);
-  border: 1px solid rgba(220, 38, 38, 0.3);
-  color: #dc2626;
+  background: rgba(239, 68, 68, 0.25);
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  color: #fca5a5;
   padding: 2px 6px;
   border-radius: 4px;
   letter-spacing: 0.05em;
@@ -5313,8 +5316,8 @@ input, select, textarea {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #059669;
-  box-shadow: 0 0 8px #059669;
+  background: #2e9e1a;
+  box-shadow: 0 0 10px #2e9e1a;
   animation: pulse 1.5s infinite;
 }
 
@@ -5329,18 +5332,18 @@ input, select, textarea {
   align-items: center;
   gap: 5px;
   padding: 5px 9px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   font-size: 11.5px;
   font-weight: 700;
-  color: #1e293b;
+  color: #e2e8f0;
 }
 
 .pill-breach-alert {
-  background: rgba(220, 38, 38, 0.1);
-  border-color: rgba(220, 38, 38, 0.3);
-  color: #dc2626;
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
 }
 
 .popup-inspect-link {
@@ -5349,8 +5352,8 @@ input, select, textarea {
   justify-content: space-between;
   width: 100%;
   padding: 7px 12px;
-  background: linear-gradient(135deg, #059669 0%, #16a34a 100%);
-  border: 1px solid #059669;
+  background: linear-gradient(135deg, #2e9e1a 0%, #1a6e0a 100%);
+  border: 1px solid #2e9e1a;
   border-radius: 10px;
   color: #ffffff;
   font-size: 12px;
@@ -5360,7 +5363,7 @@ input, select, textarea {
 }
 
 .popup-inspect-link:hover {
-  background: linear-gradient(135deg, #047857 0%, #059669 100%);
-  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+  background: linear-gradient(135deg, #3bb824 0%, #2e9e1a 100%);
+  box-shadow: 0 4px 14px rgba(46, 158, 26, 0.4);
 }
 
