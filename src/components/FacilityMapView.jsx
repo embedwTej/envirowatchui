@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   MapPin, 
   Layers, 
@@ -10,18 +10,24 @@ import {
   Sun, 
   Activity, 
   Maximize2, 
-  Minimize2,
-  RefreshCw,
-  Eye,
-  Radio,
-  ChevronRight,
-  ExternalLink,
-  Play,
-  Pause,
-  Compass,
-  Cpu
+  Minimize2, 
+  ZoomIn, 
+  ZoomOut, 
+  RotateCcw,
+  Eye, 
+  Radio, 
+  ChevronRight, 
+  ExternalLink, 
+  Play, 
+  Pause, 
+  Compass, 
+  Cpu,
+  Move,
+  X,
+  Camera
 } from 'lucide-react';
-import plantMapImg from '../assets/plant-facility-map.png';
+import plantIsometricImg from '../assets/plant-isometric-clean.jpg';
+import plantDroneImg from '../assets/plant-aerial-drone.jpg';
 
 // Zones calibrated precisely to the Raffles Oil isometric plant diagram
 const INITIAL_ZONES = [
@@ -244,21 +250,39 @@ export default function FacilityMapView({ onSelectLocation }) {
   const [popupViewStyle, setPopupViewStyle] = useState('full'); // 'full' or 'compact'
   const [filterMode, setFilterMode] = useState('all'); // 'all', 'alerts', 'temp', 'noise', 'water'
   const [isAutoCycling, setIsAutoCycling] = useState(false);
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isFullscreenModal, setIsFullscreenModal] = useState(false);
+  const [mapPerspective, setMapPerspective] = useState('3d'); // '3d' or 'aerial'
+  const [zoomLevel, setZoomLevel] = useState(1);
+  const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [lastStreamTime, setLastStreamTime] = useState(new Date().toLocaleTimeString());
+
+  const mapContainerRef = useRef(null);
+
+  // Keyboard shortcut: Esc to exit fullscreen
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && isFullscreenModal) {
+        setIsFullscreenModal(false);
+        setZoomLevel(1);
+        setPanOffset({ x: 0, y: 0 });
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isFullscreenModal]);
 
   // Continuous real-time telemetry streaming simulation (heartbeat every 2 seconds)
   useEffect(() => {
     const timer = setInterval(() => {
       setZones((prevZones) =>
         prevZones.map((z) => {
-          // slight natural harmonic fluctuations
           const tempDelta = (Math.random() - 0.5) * 0.2;
           const noiseDelta = (Math.random() - 0.5) * 0.4;
           const newTemp = z.temp ? Number((z.temp + tempDelta).toFixed(1)) : null;
           
           let newNoise = z.noise ? Number((z.noise + noiseDelta).toFixed(1)) : null;
-          // Keep Bottling in breach alert threshold (>55 dB)
           if (z.id === 'bottling' && newNoise < 64) newNoise = 67.8;
 
           return {
@@ -275,7 +299,7 @@ export default function FacilityMapView({ onSelectLocation }) {
     return () => clearInterval(timer);
   }, []);
 
-  // Optional auto-cycle camera spotlight among zones
+  // Auto-tour cycling
   useEffect(() => {
     if (!isAutoCycling) return;
     const cycleTimer = setInterval(() => {
@@ -289,6 +313,31 @@ export default function FacilityMapView({ onSelectLocation }) {
     return () => clearInterval(cycleTimer);
   }, [isAutoCycling, zones]);
 
+  // Zoom handlers
+  const handleZoomIn = () => setZoomLevel((z) => Math.min(2.8, Number((z + 0.2).toFixed(1))));
+  const handleZoomOut = () => setZoomLevel((z) => Math.max(0.7, Number((z - 0.2).toFixed(1))));
+  const handleResetZoom = () => {
+    setZoomLevel(1);
+    setPanOffset({ x: 0, y: 0 });
+  };
+
+  // Drag pan handlers
+  const handleMouseDown = (e) => {
+    if (e.button !== 0) return; // primary click only
+    setIsDragging(true);
+    setDragStart({ x: e.clientX - panOffset.x, y: e.clientY - panOffset.y });
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    setPanOffset({
+      x: e.clientX - dragStart.x,
+      y: e.clientY - dragStart.y
+    });
+  };
+
+  const handleMouseUp = () => setIsDragging(false);
+
   const filteredZones = zones.filter((z) => {
     if (filterMode === 'alerts') return z.status === 'Alert';
     if (filterMode === 'temp') return z.temp !== null;
@@ -299,8 +348,195 @@ export default function FacilityMapView({ onSelectLocation }) {
 
   const highlightedZone = zones.find((z) => z.id === activeHighlightId) || zones[0];
 
+  // Render the core interactive map canvas
+  const renderMapCanvas = (inFullscreen = false) => (
+    <div 
+      className={`isometric-map-wrapper ${isDragging ? 'is-panning' : ''}`}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+      style={{
+        cursor: isDragging ? 'grabbing' : zoomLevel > 1 ? 'grab' : 'default'
+      }}
+    >
+      <div 
+        className="map-zoom-transform-stage"
+        style={{
+          transform: `translate(${panOffset.x}px, ${panOffset.y}px) scale(${zoomLevel})`,
+          transformOrigin: 'center center',
+          transition: isDragging ? 'none' : 'transform 0.15s ease-out'
+        }}
+      >
+        {/* Dynamic High-Definition Plant Map Image (3D Model or Aerial Drone) */}
+        <img 
+          src={mapPerspective === '3d' ? plantIsometricImg : plantDroneImg} 
+          alt="Raffles Oil Facility Digital Twin" 
+          className="plant-backdrop-image"
+          draggable={false}
+        />
+
+        {/* Continuous Live Hotspot Popups */}
+        {filteredZones.map((spot) => {
+          const isAlert = spot.status === 'Alert';
+          const isHighlighted = spot.id === activeHighlightId;
+
+          return (
+            <div 
+              key={spot.id}
+              className={`continuous-hotspot-container ${isAlert ? 'spot-is-alert' : 'spot-is-normal'} ${isHighlighted ? 'spot-is-highlighted' : ''}`}
+              style={{ left: spot.left, top: spot.top }}
+              onClick={(e) => {
+                e.stopPropagation();
+                setActiveHighlightId(spot.id);
+              }}
+            >
+              {/* Pulsing Radar Ring */}
+              <div className={`hotspot-radar-ring ${isAlert ? 'radar-alert' : 'radar-normal'}`}></div>
+
+              {/* Pin Pointer Pinhead */}
+              <div className="hotspot-pin-head">
+                <div className="pin-pointer-dot"></div>
+              </div>
+
+              {/* CONTINUOUS LIVE POPUP CARD (Always Visible) */}
+              {showContinuousPopups && (
+                <div 
+                  className={`continuous-popup-card ${isAlert ? 'popup-theme-alert' : 'popup-theme-normal'} ${isHighlighted ? 'popup-highlight-glow' : ''} ${popupViewStyle === 'compact' ? 'popup-compact-mode' : ''}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActiveHighlightId(spot.id);
+                  }}
+                >
+                  <div className="continuous-popup-header">
+                    <div className="popup-title-area">
+                      <span className="popup-zone-badge">{spot.name}</span>
+                      {isAlert && <span className="alert-badge-micro">ALARM</span>}
+                    </div>
+                    <span className="live-stream-dot-micro"></span>
+                  </div>
+
+                  {popupViewStyle === 'full' ? (
+                    <div className="continuous-metrics-row">
+                      {spot.temp !== null && (
+                        <div className="metric-micro-pill">
+                          <Thermometer size={11} className="text-orange" />
+                          <span>{spot.temp}°C</span>
+                        </div>
+                      )}
+
+                      {spot.noise !== null && (
+                        <div className={`metric-micro-pill ${spot.noise > 55 ? 'pill-breach-alert' : ''}`}>
+                          <Volume2 size={11} className={spot.noise > 55 ? 'text-alert' : 'text-purple'} />
+                          <span className={spot.noise > 55 ? 'text-alert font-bold' : ''}>{spot.noise} dB</span>
+                        </div>
+                      )}
+
+                      {spot.humidity !== null && (
+                        <div className="metric-micro-pill">
+                          <Droplets size={11} className="text-blue" />
+                          <span>{spot.humidity}%</span>
+                        </div>
+                      )}
+
+                      {spot.ph !== null && (
+                        <div className="metric-micro-pill">
+                          <Activity size={11} className="text-emerald" />
+                          <span>pH {spot.ph}</span>
+                        </div>
+                      )}
+
+                      {spot.tds !== null && (
+                        <div className="metric-micro-pill">
+                          <Activity size={11} className="text-teal" />
+                          <span>{spot.tds} ppm</span>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="compact-metric-text">
+                      {isAlert ? (
+                        <span className="text-alert font-bold">⚠️ Noise: {spot.noise} dB</span>
+                      ) : spot.temp ? (
+                        <span>{spot.temp}°C • {spot.noise ? `${spot.noise} dB` : `${spot.humidity}%`}</span>
+                      ) : (
+                        <span>Online</span>
+                      )}
+                    </div>
+                  )}
+
+                  <button 
+                    className="popup-inspect-link"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onSelectLocation(spot);
+                    }}
+                    title="Inspect full diagnostics"
+                  >
+                    <span>Diagnose</span>
+                    <ChevronRight size={11} />
+                  </button>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Floating Canvas Quick Controls (Zoom & Fullscreen) */}
+      <div className="canvas-float-controls" onClick={(e) => e.stopPropagation()}>
+        <button 
+          className="float-tool-btn" 
+          onClick={handleZoomIn} 
+          title="Zoom In (+)"
+        >
+          <ZoomIn size={15} />
+        </button>
+        <button 
+          className="float-tool-btn" 
+          onClick={handleZoomOut} 
+          title="Zoom Out (-)"
+        >
+          <ZoomOut size={15} />
+        </button>
+        {zoomLevel !== 1 && (
+          <button 
+            className="float-tool-btn" 
+            onClick={handleResetZoom} 
+            title="Reset Zoom (100%)"
+          >
+            <RotateCcw size={14} />
+            <span className="btn-pct-label">{Math.round(zoomLevel * 100)}%</span>
+          </button>
+        )}
+        {!inFullscreen && (
+          <button 
+            className="float-tool-btn float-btn-fullscreen-trigger" 
+            onClick={() => {
+              setIsFullscreenModal(true);
+              setZoomLevel(1.1);
+              setPanOffset({ x: 0, y: 0 });
+            }} 
+            title="Open High-Definition Fullscreen Viewer"
+          >
+            <Maximize2 size={15} />
+            <span className="fullscreen-btn-text">Open Fullscreen HD</span>
+          </button>
+        )}
+      </div>
+
+      {/* Subtle Pan Hint when zoomed */}
+      {zoomLevel > 1 && (
+        <div className="canvas-pan-hint">
+          <Move size={12} />
+          <span>Click & Drag to Pan Facility</span>
+        </div>
+      )}
+    </div>
+  );
+
   return (
-    <div className={`facility-map-page animate-fade-in ${isFullscreen ? 'map-fullscreen-active' : ''}`}>
+    <div className="facility-map-page animate-fade-in">
       {/* Top Banner */}
       <div className="dashboard-title-banner">
         <div>
@@ -360,15 +596,34 @@ export default function FacilityMapView({ onSelectLocation }) {
             ))}
           </div>
 
-          {/* Continuous Popups Controls */}
+          {/* Perspective & Continuous Popups Controls */}
           <div className="map-tools-right">
+            <div className="perspective-toggle-cluster">
+              <button 
+                className={`perspective-pill ${mapPerspective === '3d' ? 'active' : ''}`}
+                onClick={() => setMapPerspective('3d')}
+                title="Switch to 3D Architectural Model"
+              >
+                <Layers size={13} />
+                <span>3D Twin</span>
+              </button>
+              <button 
+                className={`perspective-pill ${mapPerspective === 'aerial' ? 'active' : ''}`}
+                onClick={() => setMapPerspective('aerial')}
+                title="Switch to Satellite Drone Aerial Photo"
+              >
+                <Camera size={13} />
+                <span>Drone Aerial</span>
+              </button>
+            </div>
+
             <button
               className={`map-tool-toggle-btn ${showContinuousPopups ? 'active' : ''}`}
               onClick={() => setShowContinuousPopups(!showContinuousPopups)}
               title="Show continuous popups for all zones on the map"
             >
               <Eye size={14} />
-              <span>{showContinuousPopups ? 'Continuous Popups: ON' : 'Show Popups'}</span>
+              <span>{showContinuousPopups ? 'Popups: ON' : 'Show Popups'}</span>
             </button>
 
             <button
@@ -391,133 +646,106 @@ export default function FacilityMapView({ onSelectLocation }) {
 
             <button
               className="map-fullscreen-btn"
-              onClick={() => setIsFullscreen(!isFullscreen)}
+              onClick={() => {
+                setIsFullscreenModal(true);
+                setZoomLevel(1.1);
+                setPanOffset({ x: 0, y: 0 });
+              }}
             >
-              {isFullscreen ? <Minimize2 size={15} /> : <Maximize2 size={15} />}
-              <span>{isFullscreen ? 'Exit Fullscreen' : 'Full Canvas'}</span>
+              <Maximize2 size={15} />
+              <span>Open Fullscreen HD</span>
             </button>
           </div>
         </div>
       </div>
 
-      {/* 2.5D Isometric Architectural Map with Continuous Live Popups */}
-      <div className="facility-canvas-container">
-        <div className="isometric-map-wrapper">
-          {/* Raffles Oil Actual Architectural Layout Image */}
-          <img 
-            src={plantMapImg} 
-            alt="Raffles Oil Facility Digital Twin" 
-            className="plant-backdrop-image"
-          />
-
-          {/* Continuous Live Hotspot Popups for Each Zone */}
-          {filteredZones.map((spot) => {
-            const isAlert = spot.status === 'Alert';
-            const isHighlighted = spot.id === activeHighlightId;
-
-            return (
-              <div 
-                key={spot.id}
-                className={`continuous-hotspot-container ${isAlert ? 'spot-is-alert' : 'spot-is-normal'} ${isHighlighted ? 'spot-is-highlighted' : ''}`}
-                style={{ left: spot.left, top: spot.top }}
-                onClick={() => setActiveHighlightId(spot.id)}
-              >
-                {/* Pulsing Radar Rings */}
-                <div className={`hotspot-radar-ring ${isAlert ? 'radar-alert' : 'radar-normal'}`}></div>
-
-                {/* Pin Needle Pinhead */}
-                <div className="hotspot-pin-head">
-                  <div className="pin-pointer-dot"></div>
-                </div>
-
-                {/* CONTINUOUS LIVE POPUP CARD (Always Visible) */}
-                {showContinuousPopups && (
-                  <div 
-                    className={`continuous-popup-card ${isAlert ? 'popup-theme-alert' : 'popup-theme-normal'} ${isHighlighted ? 'popup-highlight-glow' : ''} ${popupViewStyle === 'compact' ? 'popup-compact-mode' : ''}`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setActiveHighlightId(spot.id);
-                    }}
-                  >
-                    {/* Header */}
-                    <div className="continuous-popup-header">
-                      <div className="popup-title-area">
-                        <span className="popup-zone-badge">{spot.name}</span>
-                        {isAlert && <span className="alert-badge-micro">ALARM</span>}
-                      </div>
-                      <span className="live-stream-dot-micro"></span>
-                    </div>
-
-                    {/* Sensor Data (Continuous Live Stream) */}
-                    {popupViewStyle === 'full' ? (
-                      <div className="continuous-metrics-row">
-                        {spot.temp !== null && (
-                          <div className="metric-micro-pill">
-                            <Thermometer size={11} className="text-orange" />
-                            <span>{spot.temp}°C</span>
-                          </div>
-                        )}
-
-                        {spot.noise !== null && (
-                          <div className={`metric-micro-pill ${spot.noise > 55 ? 'pill-breach-alert' : ''}`}>
-                            <Volume2 size={11} className={spot.noise > 55 ? 'text-alert' : 'text-purple'} />
-                            <span className={spot.noise > 55 ? 'text-alert font-bold' : ''}>{spot.noise} dB</span>
-                          </div>
-                        )}
-
-                        {spot.humidity !== null && (
-                          <div className="metric-micro-pill">
-                            <Droplets size={11} className="text-blue" />
-                            <span>{spot.humidity}%</span>
-                          </div>
-                        )}
-
-                        {spot.ph !== null && (
-                          <div className="metric-micro-pill">
-                            <Activity size={11} className="text-emerald" />
-                            <span>pH {spot.ph}</span>
-                          </div>
-                        )}
-
-                        {spot.tds !== null && (
-                          <div className="metric-micro-pill">
-                            <Activity size={11} className="text-teal" />
-                            <span>{spot.tds} ppm</span>
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      /* Compact Mode */
-                      <div className="compact-metric-text">
-                        {isAlert ? (
-                          <span className="text-alert font-bold">⚠️ Noise: {spot.noise} dB</span>
-                        ) : spot.temp ? (
-                          <span>{spot.temp}°C • {spot.noise ? `${spot.noise} dB` : `${spot.humidity}%`}</span>
-                        ) : (
-                          <span>Online</span>
-                        )}
-                      </div>
-                    )}
-
-                    {/* Hover Click Button */}
-                    <button 
-                      className="popup-inspect-link"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onSelectLocation(spot);
-                      }}
-                      title="Inspect full diagnostics"
-                    >
-                      <span>Diagnose</span>
-                      <ChevronRight size={11} />
-                    </button>
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
+      {/* Standard View 2.5D Isometric Canvas */}
+      <div className="facility-canvas-container" ref={mapContainerRef}>
+        {renderMapCanvas(false)}
       </div>
+
+      {/* DEDICATED HIGH-DEFINITION FULLSCREEN VIEWER MODAL */}
+      {isFullscreenModal && (
+        <div className="fullscreen-map-modal animate-fade-in">
+          {/* Top Command Bar */}
+          <div className="fullscreen-top-command-bar">
+            <div className="fs-header-left">
+              <div className="fs-plant-badge">
+                <Compass size={18} className="text-emerald" />
+                <span className="fs-brand-title">RAFFLES OIL — HIGH-DEFINITION SPATIAL TELEMETRY</span>
+              </div>
+              <span className="live-pill-tag">
+                <span className="live-pulse-dot"></span>
+                Continuous Real-Time Stream: {lastStreamTime}
+              </span>
+            </div>
+
+            {/* Center Controls */}
+            <div className="fs-header-center">
+              <div className="perspective-toggle-cluster fs-perspective">
+                <button 
+                  className={`perspective-pill ${mapPerspective === '3d' ? 'active' : ''}`}
+                  onClick={() => setMapPerspective('3d')}
+                  title="Switch to 3D Architectural Model"
+                >
+                  <Layers size={13} />
+                  <span>3D Twin</span>
+                </button>
+                <button 
+                  className={`perspective-pill ${mapPerspective === 'aerial' ? 'active' : ''}`}
+                  onClick={() => setMapPerspective('aerial')}
+                  title="Switch to Satellite Drone Aerial Photo"
+                >
+                  <Camera size={13} />
+                  <span>Drone Aerial</span>
+                </button>
+              </div>
+
+              <div className="fs-zoom-cluster">
+                <button className="fs-ctrl-btn" onClick={handleZoomOut} title="Zoom Out (-)">
+                  <ZoomOut size={16} />
+                </button>
+                <span className="fs-zoom-readout">{Math.round(zoomLevel * 100)}%</span>
+                <button className="fs-ctrl-btn" onClick={handleZoomIn} title="Zoom In (+)">
+                  <ZoomIn size={16} />
+                </button>
+                <button className="fs-ctrl-btn fs-btn-reset" onClick={handleResetZoom} title="Reset Zoom">
+                  <RotateCcw size={14} />
+                  <span>Reset</span>
+                </button>
+              </div>
+
+              <button 
+                className={`fs-toggle-popups-btn ${showContinuousPopups ? 'is-active' : ''}`}
+                onClick={() => setShowContinuousPopups(!showContinuousPopups)}
+              >
+                <Eye size={15} />
+                <span>{showContinuousPopups ? 'Popups Visible' : 'Popups Hidden'}</span>
+              </button>
+            </div>
+
+            {/* Close Button */}
+            <div className="fs-header-right">
+              <button 
+                className="fs-exit-modal-btn"
+                onClick={() => {
+                  setIsFullscreenModal(false);
+                  setZoomLevel(1);
+                  setPanOffset({ x: 0, y: 0 });
+                }}
+              >
+                <X size={18} />
+                <span>Exit Fullscreen (Esc)</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Full-bleed Interactive Viewport */}
+          <div className="fullscreen-map-viewport">
+            {renderMapCanvas(true)}
+          </div>
+        </div>
+      )}
 
       {/* Selected Zone Deep Diagnostic Deck */}
       {highlightedZone && (
