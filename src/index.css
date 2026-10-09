@@ -1,48 +1,60 @@
 :root {
-  --sidebar-bg: #0b140d;
-  --sidebar-hover: #142217;
+  --sidebar-bg: #070e09;
+  --sidebar-hover: #111d13;
   --sidebar-active: #2e9e1a;
   --sidebar-text: #94a3b8;
   --sidebar-text-active: #ffffff;
 
   --primary: #2e9e1a;
-  --primary-hover: #1a6e0a;
-  --primary-light: rgba(46, 158, 26, 0.2);
-  --gold: #f5e17a;
-  --gold-dark: #c8960c;
+  --primary-hover: #238014;
+  --primary-light: rgba(46, 158, 26, 0.16);
+  --primary-glow: rgba(46, 158, 26, 0.35);
 
-  --bg-main: #09100a;
-  --bg-card: #101a12;
+  --gold: #f5e17a;
+  --gold-dark: #d4a017;
+  --gold-glow: rgba(245, 225, 122, 0.25);
+
+  --bg-main: #080f0a;
+  --bg-card: #0e1811;
+  --bg-card-elevated: #132217;
+  --bg-input: #101c13;
 
   --text-main: #ffffff;
   --text-muted: #94a3b8;
   --text-subtle: #cbd5e1;
 
-  --border-color: rgba(46, 158, 26, 0.25);
+  --border-color: rgba(46, 158, 26, 0.22);
+  --border-card: rgba(46, 158, 26, 0.20);
   --border-light: rgba(255, 255, 255, 0.08);
+  --border-focus: #2e9e1a;
 
-  --status-active-bg: rgba(46, 158, 26, 0.2);
-  --status-active-text: #5ecb3e;
+  --status-active-bg: rgba(46, 158, 26, 0.18);
+  --status-active-text: #4ade80;
 
-  --status-inactive-bg: rgba(100, 116, 139, 0.2);
+  --status-inactive-bg: rgba(100, 116, 139, 0.18);
   --status-inactive-text: #94a3b8;
 
-  --status-alert-bg: rgba(239, 68, 68, 0.2);
-  --status-alert-text: #fca5a5;
+  --status-alert-bg: rgba(239, 68, 68, 0.18);
+  --status-alert-text: #f87171;
 
-  --status-warn-bg: rgba(245, 158, 11, 0.2);
-  --status-warn-text: #f5e17a;
+  --status-warn-bg: rgba(245, 158, 11, 0.18);
+  --status-warn-text: #fbbf24;
 
-  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 18px;
-  --radius-xl: 24px;
+  --font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 26px;
   --radius-pill: 9999px;
 
-  --shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 14px -2px rgba(0, 0, 0, 0.5), 0 2px 6px -1px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 16px 32px -4px rgba(0, 0, 0, 0.7), 0 4px 12px -2px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.5), 0 0 12px rgba(46, 158, 26, 0.08);
+  --shadow-lg: 0 16px 36px rgba(0, 0, 0, 0.7), 0 0 24px rgba(46, 158, 26, 0.15);
+  --shadow-glow: 0 0 20px rgba(46, 158, 26, 0.3);
 }
 
 * {
