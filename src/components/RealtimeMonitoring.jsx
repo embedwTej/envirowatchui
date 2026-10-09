@@ -97,17 +97,20 @@ export default function RealtimeMonitoring({ locations, onSelectLocation, onExpo
             <div className="kpi-icon-container kpi-teal-icon">
               <Building2 size={20} />
             </div>
-            <span className="kpi-trend-pill positive">100% Online</span>
+            <div className="kpi-status-badge positive">
+              <span className="badge-glow-dot green"></span>
+              <span>100% ONLINE</span>
+            </div>
           </div>
           <div className="kpi-card-body">
-            <span className="kpi-metric-number">{totalLocations}</span>
-            <span className="kpi-metric-title">Monitored Units</span>
+            <div className="kpi-metric-number">{totalLocations}</div>
+            <div className="kpi-metric-title">Total Monitored Units</div>
           </div>
           <div className="kpi-card-footer">
             <div className="kpi-progress-bar">
               <div className="kpi-progress-fill fill-teal" style={{ width: '100%' }}></div>
             </div>
-            <span className="kpi-footer-sub">All sectors active</span>
+            <div className="kpi-footer-sub">All plant sectors connected</div>
           </div>
         </div>
 
@@ -116,17 +119,20 @@ export default function RealtimeMonitoring({ locations, onSelectLocation, onExpo
             <div className="kpi-icon-container kpi-red-icon">
               <AlertTriangle size={20} />
             </div>
-            <span className="kpi-trend-pill alert-pulse">Alarm</span>
+            <div className="kpi-status-badge alert">
+              <span className="badge-glow-dot red"></span>
+              <span>ALARM ACTIVE</span>
+            </div>
           </div>
           <div className="kpi-card-body">
-            <span className="kpi-metric-number text-alert">{alertCount}</span>
-            <span className="kpi-metric-title">Critical Breach</span>
+            <div className="kpi-metric-number text-alert">{alertCount}</div>
+            <div className="kpi-metric-title">Critical Breach Alert</div>
           </div>
           <div className="kpi-card-footer">
             <div className="kpi-progress-bar">
-              <div className="kpi-progress-fill fill-red" style={{ width: `${(alertCount / totalLocations) * 100}%` }}></div>
+              <div className="kpi-progress-fill fill-red" style={{ width: `${Math.max(15, (alertCount / totalLocations) * 100)}%` }}></div>
             </div>
-            <span className="kpi-footer-sub text-alert">Bottling: 68.4 dB</span>
+            <div className="kpi-footer-sub text-alert">Bottling Hub: 68.4 dB (Limit: 55 dB)</div>
           </div>
         </div>
 
@@ -135,17 +141,20 @@ export default function RealtimeMonitoring({ locations, onSelectLocation, onExpo
             <div className="kpi-icon-container kpi-green-icon">
               <Leaf size={20} />
             </div>
-            <span className="kpi-trend-pill positive">Normal</span>
+            <div className="kpi-status-badge normal">
+              <span className="badge-glow-dot green"></span>
+              <span>OPTIMAL</span>
+            </div>
           </div>
           <div className="kpi-card-body">
-            <span className="kpi-metric-number">{normalCount}</span>
-            <span className="kpi-metric-title">Normal Units</span>
+            <div className="kpi-metric-number">{normalCount}</div>
+            <div className="kpi-metric-title">Normal Operating Units</div>
           </div>
           <div className="kpi-card-footer">
             <div className="kpi-progress-bar">
               <div className="kpi-progress-fill fill-green" style={{ width: `${(normalCount / totalLocations) * 100}%` }}></div>
             </div>
-            <span className="kpi-footer-sub">Within limits</span>
+            <div className="kpi-footer-sub">Telemetry within limits</div>
           </div>
         </div>
 
@@ -154,36 +163,40 @@ export default function RealtimeMonitoring({ locations, onSelectLocation, onExpo
             <div className="kpi-icon-container kpi-amber-icon">
               <ShieldAlert size={20} />
             </div>
-            <span className="kpi-trend-pill neutral">Standby</span>
+            <div className="kpi-status-badge standby">
+              <span className="badge-glow-dot slate"></span>
+              <span>STANDBY</span>
+            </div>
           </div>
           <div className="kpi-card-body">
-            <span className="kpi-metric-number">{inactiveCount}</span>
-            <span className="kpi-metric-title">Standby Units</span>
+            <div className="kpi-metric-number">{inactiveCount}</div>
+            <div className="kpi-metric-title">Standby / Inactive Units</div>
           </div>
           <div className="kpi-card-footer">
             <div className="kpi-progress-bar">
               <div className="kpi-progress-fill fill-amber" style={{ width: `${(inactiveCount / totalLocations) * 100}%` }}></div>
             </div>
-            <span className="kpi-footer-sub">Maintenance mode</span>
+            <div className="kpi-footer-sub">Maintenance mode active</div>
           </div>
         </div>
       </div>
 
-      {/* Control Bar & Filtering */}
+      {/* Control Bar & Filtering Tabs */}
       <div className="monitoring-control-bar">
         <div className="filter-pill-cluster">
           {[
-            { id: 'All Location', label: 'All Location', count: totalLocations },
-            { id: 'Normal', label: 'Normal', count: normalCount },
-            { id: 'Alert', label: 'Alert', count: alertCount },
-            { id: 'Inactive', label: 'Inactive', count: inactiveCount },
+            { id: 'All Location', label: 'All Units', count: totalLocations, isTotal: true },
+            { id: 'Normal', label: 'Optimal', count: normalCount, dot: 'green' },
+            { id: 'Alert', label: 'Alerts', count: alertCount, dot: 'red', alert: alertCount > 0 },
+            { id: 'Inactive', label: 'Standby', count: inactiveCount, dot: 'slate' },
           ].map((tab) => (
             <button
               key={tab.id}
-              className={`filter-pill-item ${activeTab === tab.id ? 'active' : ''}`}
+              className={`filter-pill-item ${activeTab === tab.id ? 'active' : ''} ${tab.alert ? 'has-active-alert' : ''}`}
               onClick={() => setActiveTab(tab.id)}
             >
-              <span>{tab.label}</span>
+              {tab.dot && <span className={`tab-indicator-dot dot-${tab.dot}`}></span>}
+              <span className="tab-label-text">{tab.label}</span>
               <span className="pill-badge">{tab.count}</span>
             </button>
           ))}
