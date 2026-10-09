@@ -13,6 +13,8 @@ import {
   ChevronRight
 } from 'lucide-react';
 
+import DufilLogo from './DufilLogo';
+
 export default function Sidebar({ currentView, setCurrentView, onLogout, activeAlertCount = 1 }) {
   const menuItems = [
     { id: 'realtime', label: 'Realtime Monitoring', icon: LayoutGrid },
@@ -30,14 +32,7 @@ export default function Sidebar({ currentView, setCurrentView, onLogout, activeA
       {/* Brand Header */}
       <div className="sidebar-header">
         <div className="sidebar-logo">
-          <div className="logo-icon-box dufil-logo-box">
-            <span className="logo-letter">D</span>
-            <div className="logo-pulse-ring"></div>
-          </div>
-          <div className="logo-text-block">
-            <span className="logo-brand-title">DUFIL</span>
-            <span className="logo-brand-subtitle">Raffles Oil Complex</span>
-          </div>
+          <DufilLogo size="medium" showTagline={true} />
         </div>
       </div>
 

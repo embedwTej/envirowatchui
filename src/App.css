@@ -4748,3 +4748,316 @@ input, select, textarea {
   background: #0369a1;
   box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
 }
+
+/* ============================================================
+   DARK THEME — HISTORICAL DATA, ALERTS & SHARED FILTER CARDS
+   ============================================================ */
+
+/* Shared filter panel */
+.modern-filter-card {
+  background: rgba(15, 24, 42, 0.82) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  backdrop-filter: blur(12px);
+}
+
+.filter-cell-label {
+  color: #94a3b8 !important;
+}
+
+.modern-select {
+  background: rgba(255,255,255,0.06) !important;
+  color: #e2e8f0 !important;
+  border: 1px solid rgba(255,255,255,0.12) !important;
+}
+
+.modern-select option {
+  background: #0f1a2e;
+  color: #e2e8f0;
+}
+
+.modern-select:focus {
+  border-color: #10b981 !important;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.18) !important;
+}
+
+/* Time window pills */
+.segmented-range-pills {
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid rgba(255,255,255,0.09) !important;
+}
+
+.range-pill {
+  color: #94a3b8 !important;
+}
+
+.range-pill.active {
+  background: rgba(16, 185, 129, 0.18) !important;
+  color: #10b981 !important;
+  box-shadow: none !important;
+}
+
+/* Sensor strip */
+.strip-label {
+  color: #94a3b8 !important;
+}
+
+.strip-text-btn {
+  color: #10b981 !important;
+}
+
+.strip-text-btn:hover {
+  background: rgba(16, 185, 129, 0.1) !important;
+}
+
+.text-muted {
+  color: #475569 !important;
+}
+
+/* Sensor toggle chips */
+.sensor-toggle-chip {
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid rgba(255,255,255,0.10) !important;
+  color: #cbd5e1 !important;
+}
+
+.sensor-toggle-chip:hover {
+  background: rgba(255,255,255,0.09) !important;
+  border-color: rgba(255,255,255,0.18) !important;
+}
+
+.sensor-toggle-chip.is-selected {
+  background: rgba(16, 185, 129, 0.14) !important;
+  border-color: #10b981 !important;
+  color: #ecfdf5 !important;
+}
+
+/* Historical stat cards */
+.telemetry-stat-card {
+  background: rgba(15, 24, 42, 0.82) !important;
+  border: 1px solid rgba(255,255,255,0.07) !important;
+  backdrop-filter: blur(12px);
+}
+
+.stat-title {
+  color: #94a3b8 !important;
+}
+
+.stat-multi-summary {
+  color: #64748b !important;
+}
+
+/* Chart card */
+.executive-chart-card {
+  background: rgba(15, 24, 42, 0.85) !important;
+  border: 1px solid rgba(255,255,255,0.07) !important;
+  backdrop-filter: blur(12px);
+}
+
+.chart-title-stack h3 {
+  color: #f1f5f9 !important;
+}
+
+.chart-subtext {
+  color: #94a3b8 !important;
+}
+
+/* Chart legend chips */
+.legend-chip-interactive {
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid rgba(255,255,255,0.10) !important;
+}
+
+.legend-sensor-name {
+  color: #cbd5e1 !important;
+}
+
+/* SVG axis/grid labels inside chart */
+.main-telemetry-svg text {
+  fill: #94a3b8 !important;
+}
+
+/* ---- ALERTS & THRESHOLDS ---- */
+
+.alerts-feed-card {
+  background: rgba(15, 24, 42, 0.82) !important;
+  border: 1px solid rgba(255,255,255,0.07) !important;
+  backdrop-filter: blur(12px);
+}
+
+.feed-toolbar .sort-wrapper {
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid rgba(255,255,255,0.10) !important;
+}
+
+.sort-hint {
+  color: #94a3b8 !important;
+}
+
+.sort-dropdown-input {
+  color: #e2e8f0 !important;
+  background: transparent !important;
+}
+
+.sort-dropdown-input option {
+  background: #0f1a2e;
+  color: #e2e8f0;
+}
+
+/* Alert items */
+.alert-stream-item {
+  background: rgba(220, 38, 38, 0.07) !important;
+  border: 1px solid rgba(220, 38, 38, 0.25) !important;
+  border-left: 3px solid #dc2626 !important;
+}
+
+.alert-stream-item.is-acked {
+  background: rgba(255,255,255,0.04) !important;
+  border-color: rgba(255,255,255,0.08) !important;
+  border-left-color: #475569 !important;
+}
+
+.alert-badge-icon {
+  background: rgba(220, 38, 38, 0.18) !important;
+  border: 1px solid rgba(220, 38, 38, 0.3) !important;
+}
+
+.alert-entity-name {
+  color: #f1f5f9 !important;
+}
+
+.alert-metric-tag {
+  background: rgba(255,255,255,0.06) !important;
+  color: #94a3b8 !important;
+  border: 1px solid rgba(255,255,255,0.10) !important;
+}
+
+.alert-description-text {
+  color: #94a3b8 !important;
+}
+
+.alert-spec-chips {
+  color: #64748b !important;
+}
+
+.spec-chip {
+  background: rgba(255,255,255,0.04) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  color: #94a3b8 !important;
+}
+
+.empty-state-shield {
+  background: rgba(16, 185, 129, 0.08) !important;
+  border: 1px solid rgba(16, 185, 129, 0.2) !important;
+}
+
+.feed-empty-state h3 {
+  color: #f1f5f9 !important;
+}
+
+.feed-empty-state p {
+  color: #94a3b8 !important;
+}
+
+/* Summary pills in alerts banner */
+.alerts-summary-pills {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stat-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.stat-pill-critical {
+  background: rgba(220, 38, 38, 0.12);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  color: #fca5a5;
+}
+
+.stat-pill-normal {
+  background: rgba(16, 185, 129, 0.10);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  color: #6ee7b7;
+}
+
+/* ============================================================
+   MAP POPUP CYCLE ANIMATION
+   ============================================================ */
+
+@keyframes popupFadeSlide {
+  0%   { opacity: 0; transform: translateY(6px) scale(0.95); }
+  15%  { opacity: 1; transform: translateY(0)   scale(1);    }
+  85%  { opacity: 1; transform: translateY(0)   scale(1);    }
+  100% { opacity: 0; transform: translateY(-4px) scale(0.97);}
+}
+
+.popup-cycle-anim {
+  animation: popupFadeSlide 2.5s ease-in-out forwards;
+}
+
+/* ============================================================
+   SEARCH INPUT DARK OVERRIDE (Alerts filter)
+   ============================================================ */
+.search-input-wrap input,
+.search-input-dark {
+  background: rgba(255,255,255,0.06) !important;
+  color: #e2e8f0 !important;
+  border: 1px solid rgba(255,255,255,0.12) !important;
+  caret-color: #10b981;
+}
+
+.search-input-wrap input::placeholder,
+.search-input-dark::placeholder {
+  color: #64748b !important;
+}
+
+/* ---- Alerts search bar dark override ---- */
+.search-filter-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: rgba(255,255,255,0.06) !important;
+  border: 1px solid rgba(255,255,255,0.10) !important;
+  border-radius: var(--radius-sm);
+}
+
+.search-filter-input input {
+  background: transparent !important;
+  border: none !important;
+  outline: none;
+  color: #e2e8f0 !important;
+  font-size: 13px;
+  caret-color: #10b981;
+  min-width: 240px;
+}
+
+.search-filter-input input::placeholder {
+  color: #64748b !important;
+}
+
+.search-icon-muted {
+  color: #64748b;
+  flex-shrink: 0;
+}
+
+/* Resolved/acknowledged status badge */
+.resolved-status-box {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6ee7b7;
+  padding: 4px 10px;
+  border-radius: var(--radius-xs);
+  background: rgba(16, 185, 129, 0.10);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}

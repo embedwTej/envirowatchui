@@ -14,6 +14,8 @@ import {
   ExternalLink
 } from 'lucide-react';
 
+import DufilLogo from './DufilLogo';
+
 export default function Navbar({ 
   currentViewTitle, 
   alerts = [], 
@@ -38,7 +40,7 @@ export default function Navbar({
     <header className="top-navbar">
       <div className="navbar-left">
         <div className="page-breadcrumb">
-          <span className="breadcrumb-brand">Dufil Industrial</span>
+          <DufilLogo size="small" showTagline={false} />
           <span className="breadcrumb-separator">/</span>
           <span className="breadcrumb-current">{currentViewTitle}</span>
         </div>

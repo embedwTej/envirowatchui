@@ -283,6 +283,8 @@ export default function FacilityMapView({
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [lastStreamTime, setLastStreamTime] = useState(new Date().toLocaleTimeString());
   const [copiedUrl, setCopiedUrl] = useState(false);
+  // visiblePopupId controls which zone shows a popup at a time
+  const [visiblePopupId, setVisiblePopupId] = useState(() => getInitialZone());
 
   // Function to copy direct shareable browser URL
   const handleCopyDirectUrl = (zoneId = null) => {
@@ -347,19 +349,38 @@ export default function FacilityMapView({
     return () => clearInterval(timer);
   }, []);
 
-  // Auto-tour cycling
+  // Auto-tour cycling — always ON, cycles every 2.5s. Popup shows for 2s then fades before next.
   useEffect(() => {
-    if (!isAutoCycling) return;
-    const cycleTimer = setInterval(() => {
-      setActiveHighlightId((currentId) => {
-        const currentIndex = zones.findIndex((z) => z.id === currentId);
-        const nextIndex = (currentIndex + 1) % zones.length;
-        return zones[nextIndex].id;
-      });
-    }, 4000);
+    const POPUP_SHOW_MS = 2200;   // how long popup stays visible
+    const POPUP_GAP_MS = 300;     // brief gap between popups
 
-    return () => clearInterval(cycleTimer);
-  }, [isAutoCycling, zones]);
+    let showTimer;
+    let gapTimer;
+    let zoneIndex = 0;
+
+    const showNext = () => {
+      const allZoneIds = INITIAL_ZONES.map(z => z.id);
+      const id = allZoneIds[zoneIndex % allZoneIds.length];
+      setVisiblePopupId(id);
+      setActiveHighlightId(id);
+      zoneIndex++;
+
+      // After POPUP_SHOW_MS, hide popup briefly then show next
+      showTimer = setTimeout(() => {
+        setVisiblePopupId(null); // hide
+        gapTimer = setTimeout(showNext, POPUP_GAP_MS);
+      }, POPUP_SHOW_MS);
+    };
+
+    // Start after a short delay
+    const startTimer = setTimeout(showNext, 600);
+
+    return () => {
+      clearTimeout(startTimer);
+      clearTimeout(showTimer);
+      clearTimeout(gapTimer);
+    };
+  }, []);
 
   // Zoom handlers
   const handleZoomIn = () => setZoomLevel((z) => Math.min(2.8, Number((z + 0.2).toFixed(1))));
@@ -447,10 +468,10 @@ export default function FacilityMapView({
                 <div className="pin-pointer-dot"></div>
               </div>
 
-              {/* CONTINUOUS LIVE POPUP CARD (Always Visible) */}
-              {showContinuousPopups && (
+              {/* CYCLING LIVE POPUP CARD — only visible for the active zone */}
+              {visiblePopupId === spot.id && (
                 <div 
-                  className={`continuous-popup-card ${isAlert ? 'popup-theme-alert' : 'popup-theme-normal'} ${isHighlighted ? 'popup-highlight-glow' : ''} ${popupViewStyle === 'compact' ? 'popup-compact-mode' : ''}`}
+                  className={`continuous-popup-card popup-cycle-anim ${isAlert ? 'popup-theme-alert' : 'popup-theme-normal'} popup-highlight-glow`}
                   onClick={(e) => {
                     e.stopPropagation();
                     setActiveHighlightId(spot.id);
@@ -464,54 +485,42 @@ export default function FacilityMapView({
                     <span className="live-stream-dot-micro"></span>
                   </div>
 
-                  {popupViewStyle === 'full' ? (
-                    <div className="continuous-metrics-row">
-                      {spot.temp !== null && (
-                        <div className="metric-micro-pill">
-                          <Thermometer size={11} className="text-orange" />
-                          <span>{spot.temp}°C</span>
-                        </div>
-                      )}
+                  <div className="continuous-metrics-row">
+                    {spot.temp !== null && (
+                      <div className="metric-micro-pill">
+                        <Thermometer size={11} className="text-orange" />
+                        <span>{spot.temp}°C</span>
+                      </div>
+                    )}
 
-                      {spot.noise !== null && (
-                        <div className={`metric-micro-pill ${spot.noise > 55 ? 'pill-breach-alert' : ''}`}>
-                          <Volume2 size={11} className={spot.noise > 55 ? 'text-alert' : 'text-purple'} />
-                          <span className={spot.noise > 55 ? 'text-alert font-bold' : ''}>{spot.noise} dB</span>
-                        </div>
-                      )}
+                    {spot.noise !== null && (
+                      <div className={`metric-micro-pill ${spot.noise > 55 ? 'pill-breach-alert' : ''}`}>
+                        <Volume2 size={11} className={spot.noise > 55 ? 'text-alert' : 'text-purple'} />
+                        <span className={spot.noise > 55 ? 'text-alert' : ''}>{spot.noise} dB</span>
+                      </div>
+                    )}
 
-                      {spot.humidity !== null && (
-                        <div className="metric-micro-pill">
-                          <Droplets size={11} className="text-blue" />
-                          <span>{spot.humidity}%</span>
-                        </div>
-                      )}
+                    {spot.humidity !== null && (
+                      <div className="metric-micro-pill">
+                        <Droplets size={11} className="text-blue" />
+                        <span>{spot.humidity}%</span>
+                      </div>
+                    )}
 
-                      {spot.ph !== null && (
-                        <div className="metric-micro-pill">
-                          <Activity size={11} className="text-emerald" />
-                          <span>pH {spot.ph}</span>
-                        </div>
-                      )}
+                    {spot.ph !== null && (
+                      <div className="metric-micro-pill">
+                        <Activity size={11} className="text-emerald" />
+                        <span>pH {spot.ph}</span>
+                      </div>
+                    )}
 
-                      {spot.tds !== null && (
-                        <div className="metric-micro-pill">
-                          <Activity size={11} className="text-teal" />
-                          <span>{spot.tds} ppm</span>
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="compact-metric-text">
-                      {isAlert ? (
-                        <span className="text-alert font-bold">⚠️ Noise: {spot.noise} dB</span>
-                      ) : spot.temp ? (
-                        <span>{spot.temp}°C • {spot.noise ? `${spot.noise} dB` : `${spot.humidity}%`}</span>
-                      ) : (
-                        <span>Online</span>
-                      )}
-                    </div>
-                  )}
+                    {spot.tds !== null && (
+                      <div className="metric-micro-pill">
+                        <Activity size={11} className="text-teal" />
+                        <span>{spot.tds} ppm</span>
+                      </div>
+                    )}
+                  </div>
 
                   <button 
                     className="popup-inspect-link"

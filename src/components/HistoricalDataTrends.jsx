@@ -358,7 +358,7 @@ export default function HistoricalDataTrends({ locations }) {
                     y1={y}
                     x2={width - paddingRight}
                     y2={y}
-                    stroke="#e8edf2"
+                    stroke="rgba(255,255,255,0.08)"
                     strokeDasharray={ratio === 0 || ratio === 1 ? 'none' : '3 3'}
                   />
                   <text
