@@ -1,6 +1,7 @@
 import React from 'react';
 import { 
   LayoutGrid, 
+  Map,
   Bell, 
   ShieldAlert, 
   TrendingUp, 
@@ -15,6 +16,7 @@ import {
 export default function Sidebar({ currentView, setCurrentView, onLogout, activeAlertCount = 1 }) {
   const menuItems = [
     { id: 'realtime', label: 'Realtime Monitoring', icon: LayoutGrid },
+    { id: 'facility-map', label: 'Plant GIS Map', icon: Map },
     { id: 'alerts', label: 'Alerts & Thresholds', icon: Bell, badge: activeAlertCount > 0 ? activeAlertCount : null },
     { id: 'alert-management', label: 'Alert Management', icon: ShieldAlert },
     { id: 'historical', label: 'Historical Data & Trends', icon: TrendingUp },

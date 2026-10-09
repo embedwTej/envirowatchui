@@ -18,6 +18,7 @@ import LocationManagement from './components/LocationManagement';
 import DeviceManagement from './components/DeviceManagement';
 import UsersRoles from './components/UsersRoles';
 import HistoricalDataTrends from './components/HistoricalDataTrends';
+import FacilityMapView from './components/FacilityMapView';
 import LocationDetailModal from './components/LocationDetailModal';
 
 export default function App() {
@@ -198,6 +199,7 @@ export default function App() {
 
   const viewTitles = {
     'realtime': 'Realtime Monitoring',
+    'facility-map': 'Plant GIS Digital Twin',
     'alerts': 'Alerts & Thresholds',
     'alert-management': 'Alert Management',
     'historical': 'Historical Data & Trends',
@@ -235,6 +237,12 @@ export default function App() {
               locations={locations}
               onSelectLocation={(loc) => setSelectedDetailLoc(loc)}
               onExport={handleExportData}
+            />
+          )}
+
+          {currentView === 'facility-map' && (
+            <FacilityMapView
+              onSelectLocation={(loc) => setSelectedDetailLoc(loc)}
             />
           )}
 
