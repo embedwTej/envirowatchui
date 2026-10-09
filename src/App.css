@@ -4,26 +4,26 @@
    ========================================================= */
 
 :root {
-  /* Dufil Dark Slate Sidebar */
-  --sidebar-bg: #070e1b;
-  --sidebar-border: #142033;
-  --sidebar-hover: #101c2e;
-  --sidebar-active: #064e3b;
+  /* Dufil Soft Slate Sidebar */
+  --sidebar-bg: #141e2e;
+  --sidebar-border: rgba(255, 255, 255, 0.08);
+  --sidebar-hover: #1e293b;
+  --sidebar-active: #059669;
   --sidebar-active-accent: #10b981;
   --sidebar-text: #94a3b8;
   --sidebar-text-active: #ffffff;
 
-  /* Dufil Corporate Brand Palette (Emerald Green) */
+  /* Dufil Corporate Brand Palette (Emerald Green & Gold) */
   --brand-primary: #059669;
   --brand-primary-hover: #047857;
   --brand-primary-gradient: linear-gradient(135deg, #059669 0%, #10b981 100%);
   --brand-accent: #10b981;
   --brand-dark: #064e3b;
-  --brand-light: rgba(16, 185, 129, 0.15);
+  --brand-light: rgba(16, 185, 129, 0.18);
 
   /* Industrial Status Palette */
   --status-normal: #10b981;
-  --status-normal-bg: rgba(16, 185, 129, 0.14);
+  --status-normal-bg: rgba(16, 185, 129, 0.15);
   --status-normal-border: rgba(16, 185, 129, 0.4);
   --status-alert: #ef4444;
   --status-alert-bg: rgba(239, 68, 68, 0.16);
@@ -32,11 +32,11 @@
   --status-standby-bg: rgba(100, 116, 139, 0.14);
   --status-standby-border: rgba(100, 116, 139, 0.35);
 
-  /* Technical Workspace Background - Dufil Dark */
-  --bg-workspace: #080f1d;
-  --bg-card: rgba(13, 22, 38, 0.85);
-  --bg-card-subtle: rgba(17, 28, 48, 0.75);
-  --bg-input: #0c1626;
+  /* Technical Workspace Background — Soft Slate Navy */
+  --bg-workspace: #0f172a;
+  --bg-card: rgba(30, 41, 59, 0.88);
+  --bg-card-subtle: rgba(47, 63, 86, 0.65);
+  --bg-input: #1e293b;
 
   /* Industrial Precision Typography */
   --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -44,14 +44,14 @@
   --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
   
   --text-main: #f8fafc;
-  --text-body: #cbd5e1;
+  --text-body: #e2e8f0;
   --text-muted: #94a3b8;
-  --text-light: #64748b;
+  --text-light: #94a3b8;
 
   /* Industrial Precision Borders & Shadows */
-  --border-card: #1e2e48;
-  --border-subtle: #142033;
-  --border-strong: #2a3f60;
+  --border-card: rgba(255, 255, 255, 0.12);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.2);
   --border-focus: #10b981;
 
   --shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
@@ -5074,12 +5074,12 @@ input, select, textarea {
 }
 
 .device-loc-subnav {
-  background: rgba(13, 23, 18, 0.90);
-  border: 1px solid rgba(46, 158, 26, 0.25);
+  background: rgba(30, 41, 59, 0.92);
+  border: 1px solid rgba(16, 185, 129, 0.3);
   border-radius: var(--radius-md, 16px);
   padding: 16px;
   backdrop-filter: blur(14px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
 }
 
 .subnav-header {
@@ -5271,10 +5271,10 @@ input, select, textarea {
   width: 250px;
   padding: 14px;
   border-radius: 16px;
-  background: rgba(13, 23, 18, 0.95);
+  background: rgba(30, 41, 59, 0.95);
   backdrop-filter: blur(18px);
-  border: 1px solid rgba(46, 158, 26, 0.5);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 24px rgba(46, 158, 26, 0.25);
+  border: 1px solid rgba(16, 185, 129, 0.45);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(16, 185, 129, 0.2);
   z-index: 40;
   display: flex;
   flex-direction: column;
@@ -5292,7 +5292,7 @@ input, select, textarea {
   height: 0;
   border-left: 9px solid transparent;
   border-right: 9px solid transparent;
-  border-top: 9px solid rgba(13, 23, 18, 0.95);
+  border-top: 9px solid rgba(30, 41, 59, 0.95);
 }
 
 .popup-theme-alert {

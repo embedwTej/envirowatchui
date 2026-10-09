@@ -1,23 +1,23 @@
 :root {
-  --sidebar-bg: #070e1b;
-  --sidebar-hover: #101c2e;
-  --sidebar-active: #064e3b;
+  --sidebar-bg: #141e2e;
+  --sidebar-hover: #1e293b;
+  --sidebar-active: #059669;
   --sidebar-text: #94a3b8;
   --sidebar-text-active: #ffffff;
   
   --primary: #059669;
   --primary-hover: #047857;
-  --primary-light: rgba(16, 185, 129, 0.15);
+  --primary-light: rgba(16, 185, 129, 0.2);
   
-  --bg-main: #080f1d;
-  --bg-card: rgba(13, 22, 38, 0.85);
+  --bg-main: #0f172a;
+  --bg-card: rgba(30, 41, 59, 0.88);
   
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
-  --text-subtle: #64748b;
+  --text-subtle: #cbd5e1;
   
-  --border-color: #1e2e48;
-  --border-light: #142033;
+  --border-color: rgba(255, 255, 255, 0.12);
+  --border-light: rgba(255, 255, 255, 0.08);
   
   --status-active-bg: rgba(16, 185, 129, 0.15);
   --status-active-text: #10b981;
