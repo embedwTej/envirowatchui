@@ -368,13 +368,14 @@ input, select, textarea {
   flex-direction: column;
   min-width: 0;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
   max-height: 100vh;
 }
 
 .top-navbar {
   height: 60px;
-  background: rgba(8, 15, 29, 0.92);
-  backdrop-filter: blur(14px);
+  background: #0b140d;
   border-bottom: 1px solid var(--border-card);
   padding: 0 28px;
   display: flex;
@@ -541,8 +542,8 @@ input, select, textarea {
   top: calc(100% + 6px);
   right: 0;
   width: 320px;
-  background: #ffffff;
-  border: 1px solid #cbd5e1;
+  background: #101a12;
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-hover);
   overflow: hidden;
@@ -555,13 +556,13 @@ input, select, textarea {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #f8fafc;
+  background: #101a12;
 }
 
 .notification-header h4 {
   font-size: 12.5px;
   font-weight: 700;
-  color: #0f172a;
+  color: #ffffff;
 }
 
 .notification-header p {
@@ -582,7 +583,7 @@ input, select, textarea {
 
 .notification-item {
   padding: 10px 14px;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--border-card);
   display: flex;
   align-items: flex-start;
   gap: 10px;
@@ -590,20 +591,20 @@ input, select, textarea {
 }
 
 .notification-item:hover {
-  background: #f8fafc;
+  background: #101a12;
 }
 
 .notification-item.unread {
-  background: #fffafa;
+  background: rgba(239,68,68,0.08);
 }
 
 .notif-icon-circle {
   width: 24px;
   height: 24px;
   border-radius: var(--radius-xs);
-  background: #fef2f2;
+  background: rgba(239,68,68,0.12);
   color: #dc2626;
-  border: 1px solid #fecaca;
+  border: 1px solid rgba(239,68,68,0.35);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -622,7 +623,7 @@ input, select, textarea {
   justify-content: space-between;
   font-size: 12px;
   font-weight: 700;
-  color: #0f172a;
+  color: #ffffff;
 }
 
 .notif-time {
@@ -682,7 +683,7 @@ input, select, textarea {
   gap: 6px;
   font-size: 11.5px;
   color: #475569;
-  background: #ffffff;
+  background: #101a12;
   border: 1px solid var(--border-card);
   padding: 5px 12px;
   border-radius: var(--radius-sm);
@@ -699,16 +700,15 @@ input, select, textarea {
 }
 
 .kpi-card {
-  background: rgba(13, 22, 38, 0.85);
-  backdrop-filter: blur(12px);
+  background: #101a12;
   border: 1px solid var(--border-card);
   border-radius: var(--radius-md);
   padding: 16px 18px 14px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
-  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   position: relative;
   overflow: hidden;
 }
@@ -1062,10 +1062,10 @@ input, select, textarea {
   gap: 12px;
   cursor: pointer;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(10px);
   overflow: hidden;
   position: relative;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  contain: paint;
 }
 
 .modern-location-card:hover {
@@ -1206,8 +1206,7 @@ input, select, textarea {
   align-items: center;
   gap: 12px;
   padding: 6px 12px;
-  background: rgba(6, 11, 20, 0.75);
-  backdrop-filter: blur(8px);
+  background: #09100a;
   border-radius: 12px;
   font-size: 11px;
   font-family: var(--font-mono);
@@ -1234,24 +1233,23 @@ input, select, textarea {
 }
 
 .metric-tile {
-  background: rgba(7, 13, 24, 0.75);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #142217;
+  border: 1px solid var(--border-card);
   border-radius: 12px;
   padding: 9px 12px;
   display: flex;
   flex-direction: column;
   gap: 2px;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s ease, background 0.2s ease;
 }
 
 .metric-tile:hover {
-  background: rgba(10, 18, 32, 0.9);
-  border-color: rgba(16, 185, 129, 0.35);
+  background: #182a1d;
+  border-color: rgba(46, 158, 26, 0.5);
 }
 
 .metric-tile-breach {
-  background: rgba(45, 12, 18, 0.85);
+  background: rgba(239, 68, 68, 0.15);
   border-color: rgba(239, 68, 68, 0.5);
 }
 
@@ -1361,12 +1359,11 @@ input, select, textarea {
 
 /* ================= ENTERPRISE INDUSTRIAL TABLES ================= */
 .enterprise-table-card {
-  background: rgba(13, 22, 38, 0.85);
-  backdrop-filter: blur(14px);
+  background: #101a12;
   border: 1px solid var(--border-card);
   border-radius: var(--radius-md);
   padding: 20px 22px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
 .table-header-toolbar {
@@ -1559,9 +1556,9 @@ input, select, textarea {
 }
 
 .pill-inactive {
-  background: #f8fafc;
+  background: #101a12;
   color: #64748b;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border-card);
 }
 
 .action-buttons-cell {
@@ -1585,8 +1582,8 @@ input, select, textarea {
 }
 
 .edit-btn:hover {
-  background: #f1f5f9;
-  color: #0f172a;
+  background: #142217;
+  color: #ffffff;
   border-color: #cbd5e1;
 }
 
@@ -1595,8 +1592,8 @@ input, select, textarea {
 }
 
 .delete-btn:hover {
-  background: #fef2f2;
-  border-color: #fecaca;
+  background: rgba(239,68,68,0.12);
+  border-color: rgba(239,68,68,0.35);
 }
 
 .table-footer-controls {
@@ -1604,7 +1601,7 @@ input, select, textarea {
   align-items: center;
   justify-content: space-between;
   padding-top: 14px;
-  border-top: 1px solid #f1f5f9;
+  border-top: 1px solid var(--border-card);
 }
 
 .rows-per-page {
@@ -1616,12 +1613,12 @@ input, select, textarea {
 }
 
 .rows-select-input {
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-xs);
   padding: 3px 6px;
   font-size: 11.5px;
-  background: #ffffff;
-  color: #0f172a;
+  background: #101a12;
+  color: #ffffff;
   font-weight: 600;
   font-family: var(--font-mono);
 }
@@ -1646,8 +1643,8 @@ input, select, textarea {
 .nav-page-btn {
   width: 28px;
   height: 28px;
-  border: 1px solid #cbd5e1;
-  background: #ffffff;
+  border: 1px solid var(--border-card);
+  background: #101a12;
   border-radius: var(--radius-xs);
   display: flex;
   align-items: center;
@@ -1661,9 +1658,9 @@ input, select, textarea {
 }
 
 .nav-page-btn:not(:disabled):hover {
-  background: #f8fafc;
+  background: #101a12;
   border-color: #94a3b8;
-  color: #0f172a;
+  color: #ffffff;
 }
 
 /* ================= ALERTS STREAM ================= */
@@ -1686,15 +1683,15 @@ input, select, textarea {
 }
 
 .stat-pill-critical {
-  background: #fef2f2;
+  background: rgba(239,68,68,0.12);
   color: #dc2626;
-  border: 1px solid #fecaca;
+  border: 1px solid rgba(239,68,68,0.35);
 }
 
 .stat-pill-normal {
-  background: #f0fdf4;
+  background: rgba(46,158,26,0.12);
   color: #16a34a;
-  border: 1px solid #bbf7d0;
+  border: 1px solid rgba(46,158,26,0.35);
 }
 
 .blink-red {
@@ -1706,7 +1703,7 @@ input, select, textarea {
 }
 
 .modern-filter-card {
-  background: #ffffff;
+  background: #101a12;
   border: 1px solid var(--border-card);
   border-radius: var(--radius-md);
   padding: 16px 20px;
@@ -1735,11 +1732,11 @@ input, select, textarea {
 }
 
 .modern-select {
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-sm);
   padding: 8px 10px;
-  background: #ffffff;
-  color: #0f172a;
+  background: #101a12;
+  color: #ffffff;
   outline: none;
   font-size: 13px;
   font-weight: 600;
@@ -1752,7 +1749,7 @@ input, select, textarea {
 }
 
 .alerts-feed-card {
-  background: #ffffff;
+  background: #101a12;
   border: 1px solid var(--border-card);
   border-radius: var(--radius-md);
   padding: 18px 20px;
@@ -1770,11 +1767,11 @@ input, select, textarea {
   display: flex;
   align-items: center;
   gap: 6px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--border-card);
   padding: 5px 10px;
   border-radius: var(--radius-sm);
   font-size: 12px;
-  background: #ffffff;
+  background: #101a12;
 }
 
 .sort-hint {
@@ -1787,7 +1784,7 @@ input, select, textarea {
 .sort-dropdown-input {
   border: none;
   background: transparent;
-  color: #0f172a;
+  color: #ffffff;
   font-weight: 600;
   outline: none;
 }
@@ -1806,8 +1803,8 @@ input, select, textarea {
   width: 48px;
   height: 48px;
   border-radius: var(--radius-sm);
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
+  background: rgba(46,158,26,0.12);
+  border: 1px solid rgba(46,158,26,0.35);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1817,7 +1814,7 @@ input, select, textarea {
 .feed-empty-state h3 {
   font-size: 15px;
   font-weight: 700;
-  color: #0f172a;
+  color: #ffffff;
 }
 
 .feed-empty-state p {
@@ -1838,14 +1835,14 @@ input, select, textarea {
   justify-content: space-between;
   padding: 14px 16px;
   border-radius: var(--radius-sm);
-  border: 1px solid #fecaca;
+  border: 1px solid rgba(239,68,68,0.35);
   border-left: 3px solid #dc2626;
-  background: #fffafa;
+  background: rgba(239,68,68,0.08);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
 }
 
 .alert-stream-item.is-acked {
-  background: #f8fafc;
+  background: #101a12;
   border-color: #cbd5e1;
   border-left-color: #94a3b8;
   opacity: 0.9;
@@ -1861,9 +1858,9 @@ input, select, textarea {
   width: 32px;
   height: 32px;
   border-radius: var(--radius-xs);
-  background: #fee2e2;
+  background: rgba(239,68,68,0.15);
   color: #dc2626;
-  border: 1px solid #fecaca;
+  border: 1px solid rgba(239,68,68,0.35);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1885,18 +1882,18 @@ input, select, textarea {
 .alert-entity-name {
   font-size: 14px;
   font-weight: 700;
-  color: #0f172a;
+  color: #ffffff;
 }
 
 .alert-metric-tag {
-  background: #f1f5f9;
+  background: #142217;
   font-size: 10.5px;
   font-weight: 700;
   font-family: var(--font-mono);
   color: #475569;
   padding: 1px 6px;
   border-radius: var(--radius-xs);
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border-card);
 }
 
 .alert-severity-badge {
@@ -1909,9 +1906,9 @@ input, select, textarea {
 }
 
 .severity-high {
-  background: #fee2e2;
+  background: rgba(239,68,68,0.15);
   color: #dc2626;
-  border: 1px solid #fecaca;
+  border: 1px solid rgba(239,68,68,0.35);
 }
 
 .alert-description-text {
@@ -1930,8 +1927,8 @@ input, select, textarea {
 }
 
 .spec-chip {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: #101a12;
+  border: 1px solid var(--border-card);
   padding: 1px 6px;
   border-radius: var(--radius-xs);
 }
@@ -1967,8 +1964,8 @@ input, select, textarea {
   font-size: 12px;
   font-weight: 600;
   font-family: var(--font-mono);
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
+  background: rgba(46,158,26,0.12);
+  border: 1px solid rgba(46,158,26,0.35);
   padding: 5px 10px;
   border-radius: var(--radius-sm);
 }
@@ -1982,7 +1979,7 @@ input, select, textarea {
 
 .device-loc-subnav {
   width: 240px;
-  background: #ffffff;
+  background: #101a12;
   border: 1px solid var(--border-card);
   border-radius: var(--radius-md);
   padding: 14px 8px;
@@ -1997,7 +1994,7 @@ input, select, textarea {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--border-card);
   margin-bottom: 6px;
 }
 
@@ -2013,8 +2010,8 @@ input, select, textarea {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: #f8fafc;
-  border: 1px solid #cbd5e1;
+  background: #101a12;
+  border: 1px solid var(--border-card);
   padding: 5px 8px;
   border-radius: var(--radius-xs);
 }
@@ -2051,12 +2048,12 @@ input, select, textarea {
 }
 
 .subnav-loc-item:hover {
-  background: #f8fafc;
-  color: #0f172a;
+  background: #101a12;
+  color: #ffffff;
 }
 
 .subnav-loc-item.active {
-  background: #e0f2fe;
+  background: rgba(46,158,26,0.15);
   color: #0284c7;
   font-weight: 700;
 }
@@ -2085,14 +2082,14 @@ input, select, textarea {
 .zone-current-heading h3 {
   font-size: 16px;
   font-weight: 700;
-  color: #0f172a;
+  color: #ffffff;
 }
 
 .zone-active-nodes-tag {
   font-size: 10px;
   color: #16a34a;
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
+  background: rgba(46,158,26,0.12);
+  border: 1px solid rgba(46,158,26,0.35);
   padding: 1px 6px;
   border-radius: var(--radius-xs);
   font-weight: 700;
@@ -2107,7 +2104,7 @@ input, select, textarea {
 
 .device-friendly-name {
   font-weight: 700;
-  color: #0f172a;
+  color: #ffffff;
 }
 
 .device-mac-row {
@@ -2129,8 +2126,8 @@ input, select, textarea {
 }
 
 .copy-mac-btn:hover {
-  color: #0f172a;
-  background: #f1f5f9;
+  color: #ffffff;
+  background: #142217;
 }
 
 .last-sync-cell, .power-signal-cell {
@@ -2172,7 +2169,7 @@ input, select, textarea {
 
 .user-full-name {
   font-weight: 700;
-  color: #0f172a;
+  color: #ffffff;
 }
 
 .user-email-text {
@@ -2194,13 +2191,13 @@ input, select, textarea {
 }
 
 .role-admin {
-  background: #e0f2fe;
+  background: rgba(46,158,26,0.15);
   color: #0284c7;
   border: 1px solid #bae6fd;
 }
 
 .role-operator {
-  background: #f3e8ff;
+  background: rgba(245,225,122,0.1);
   color: #7e22ce;
   border: 1px solid #e9d5ff;
 }
@@ -2208,8 +2205,8 @@ input, select, textarea {
 .sector-tag-chip {
   font-size: 11px;
   color: #475569;
-  background: #f1f5f9;
-  border: 1px solid #e2e8f0;
+  background: #142217;
+  border: 1px solid var(--border-card);
   padding: 2px 7px;
   border-radius: var(--radius-xs);
   font-weight: 600;
@@ -2253,8 +2250,8 @@ input, select, textarea {
 .segmented-range-pills {
   display: flex;
   align-items: center;
-  background: #f1f5f9;
-  border: 1px solid #cbd5e1;
+  background: #142217;
+  border: 1px solid var(--border-card);
   padding: 2px;
   border-radius: var(--radius-sm);
   gap: 2px;
@@ -2269,7 +2266,7 @@ input, select, textarea {
 }
 
 .range-pill.active {
-  background: #ffffff;
+  background: #101a12;
   color: #0284c7;
   font-weight: 700;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -2314,7 +2311,7 @@ input, select, textarea {
 }
 
 .strip-text-btn:hover {
-  background: #e0f2fe;
+  background: rgba(46,158,26,0.15);
 }
 
 .sensor-checkbox-pills {
@@ -2335,12 +2332,12 @@ input, select, textarea {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.15s ease;
-  background: #ffffff;
+  background: #101a12;
 }
 
 .sensor-toggle-chip:hover {
   border-color: #cbd5e1;
-  background: #f8fafc;
+  background: #101a12;
 }
 
 .sensor-toggle-chip.is-selected {
@@ -2373,7 +2370,7 @@ input, select, textarea {
 }
 
 .telemetry-stat-card {
-  background: #ffffff;
+  background: #101a12;
   border: 1px solid var(--border-card);
   border-radius: var(--radius-md);
   padding: 14px 16px;
@@ -2426,7 +2423,7 @@ input, select, textarea {
 }
 
 .executive-chart-card {
-  background: #ffffff;
+  background: #101a12;
   border: 1px solid var(--border-card);
   border-radius: var(--radius-md);
   padding: 20px 22px;
@@ -2445,7 +2442,7 @@ input, select, textarea {
 .chart-title-stack h3 {
   font-size: 16px;
   font-weight: 700;
-  color: #0f172a;
+  color: #ffffff;
 }
 
 .chart-subtext {
@@ -2467,8 +2464,8 @@ input, select, textarea {
   padding: 4px 8px;
   border-radius: var(--radius-xs);
   font-size: 11.5px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background: #101a12;
+  border: 1px solid var(--border-card);
 }
 
 .legend-dot {
@@ -2876,7 +2873,7 @@ input, select, textarea {
 
 .no-hw-card {
   padding: 16px;
-  background: #f8fafc;
+  background: #101a12;
   border-radius: 8px;
   font-size: 12.5px;
   color: #64748b;
@@ -3045,7 +3042,7 @@ input, select, textarea {
   padding: 48px 44px;
   display: flex;
   align-items: center;
-  background: #ffffff;
+  background: #101a12;
 }
 
 .login-glass-card {
@@ -3075,7 +3072,7 @@ input, select, textarea {
 .login-header-text h2 {
   font-size: 21px;
   font-weight: 800;
-  color: #0f172a;
+  color: #ffffff;
   letter-spacing: -0.02em;
 }
 
@@ -3105,10 +3102,10 @@ input, select, textarea {
 .form-group input {
   width: 100%;
   padding: 11px 14px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--border-card);
   border-radius: 9px;
   font-size: 14px;
-  color: #0f172a;
+  color: #ffffff;
   outline: none;
 }
 
@@ -3134,7 +3131,7 @@ input, select, textarea {
 }
 
 .password-toggle-btn:hover {
-  color: #0f172a;
+  color: #ffffff;
 }
 
 .login-actions {
@@ -3166,7 +3163,7 @@ input, select, textarea {
 .client-demo-profiles {
   margin-top: 24px;
   padding-top: 20px;
-  border-top: 1px solid #f1f5f9;
+  border-top: 1px solid var(--border-card);
 }
 
 .demo-label {
@@ -3205,7 +3202,7 @@ input, select, textarea {
   position: fixed;
   bottom: 24px;
   right: 28px;
-  background: #0f172a;
+  background: #09100a;
   color: #ffffff;
   padding: 12px 20px;
   border-radius: 10px;
@@ -3265,7 +3262,7 @@ input, select, textarea {
   display: flex;
   align-items: center;
   gap: 7px;
-  background: #ffffff;
+  background: #101a12;
   border: 1px solid var(--border-card);
   padding: 7px 14px;
   border-radius: 9px;
@@ -3276,14 +3273,14 @@ input, select, textarea {
 }
 
 .facility-stat-item.alert-breach-item {
-  background: #fff5f5;
-  border-color: #fecaca;
+  background: rgba(239,68,68,0.08);
+  border-color: rgba(239,68,68,0.35);
   color: #dc2626;
 }
 
 /* Controls Toolbar */
 .map-controls-card {
-  background: #ffffff;
+  background: #101a12;
   border: 1px solid var(--border-card);
   border-radius: var(--radius-md);
   padding: 10px 16px;
@@ -3322,8 +3319,8 @@ input, select, textarea {
   align-items: center;
   gap: 5px;
   padding: 5px 10px;
-  background: #f8fafc;
-  border: 1px solid #cbd5e1;
+  background: #101a12;
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-xs);
   font-size: 12px;
   font-weight: 600;
@@ -3332,8 +3329,8 @@ input, select, textarea {
 }
 
 .map-chip-btn:hover {
-  background: #f1f5f9;
-  color: #0f172a;
+  background: #142217;
+  color: #ffffff;
 }
 
 .map-chip-btn.active {
@@ -3367,15 +3364,15 @@ input, select, textarea {
   font-size: 11.5px;
   font-weight: 600;
   color: #64748b;
-  border: 1px solid #cbd5e1;
-  background: #ffffff;
+  border: 1px solid var(--border-card);
+  background: #101a12;
   transition: all 0.15s ease;
 }
 
 .map-tool-toggle-btn.active {
-  background: #f0fdf4;
+  background: rgba(46,158,26,0.12);
   color: #16a34a;
-  border-color: #bbf7d0;
+  border-color: rgba(46,158,26,0.35);
   font-weight: 700;
 }
 
@@ -3396,14 +3393,14 @@ input, select, textarea {
 }
 
 .map-direct-url-btn:hover {
-  background: #e0f2fe;
+  background: rgba(46,158,26,0.15);
   border-color: #7dd3fc;
   color: #0369a1;
 }
 
 .map-direct-url-btn.is-copied {
-  background: #f0fdf4;
-  border-color: #bbf7d0;
+  background: rgba(46,158,26,0.12);
+  border-color: rgba(46,158,26,0.35);
   color: #16a34a;
 }
 
@@ -3416,14 +3413,14 @@ input, select, textarea {
   font-size: 11.5px;
   font-weight: 600;
   color: #334155;
-  background: #f8fafc;
-  border: 1px solid #cbd5e1;
+  background: #101a12;
+  border: 1px solid var(--border-card);
   transition: all 0.15s ease;
 }
 
 .map-fullscreen-btn:hover {
   background: #e2e8f0;
-  color: #0f172a;
+  color: #ffffff;
 }
 
 /* 2.5D Isometric Canvas */
@@ -3495,7 +3492,7 @@ input, select, textarea {
 .pin-pointer-dot {
   width: 5px;
   height: 5px;
-  background: #ffffff;
+  background: #101a12;
   border-radius: 50%;
 }
 
@@ -3528,7 +3525,7 @@ input, select, textarea {
   bottom: calc(100% + 6px);
   left: 50%;
   transform: translateX(-50%);
-  background: #0f172a;
+  background: #09100a;
   border: 1px solid #334155;
   border-radius: var(--radius-xs);
   padding: 6px 9px;
@@ -3635,7 +3632,7 @@ input, select, textarea {
 }
 
 .pill-breach-alert {
-  background: #ffffff;
+  background: #101a12;
   color: #dc2626 !important;
   font-weight: 700;
 }
@@ -3675,7 +3672,7 @@ input, select, textarea {
 
 /* ================= ACTIVE ZONE DEEP DIAGNOSTIC DOCK ================= */
 .active-zone-dock {
-  background: #ffffff;
+  background: #101a12;
   border: 1px solid var(--border-card);
   border-radius: var(--radius-md);
   padding: 16px 20px;
@@ -3742,7 +3739,7 @@ input, select, textarea {
 .dock-zone-name {
   font-size: 16px;
   font-weight: 700;
-  color: #0f172a;
+  color: #ffffff;
 }
 
 .dock-zone-sector {
@@ -3758,8 +3755,8 @@ input, select, textarea {
 }
 
 .dock-metric-box {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background: #101a12;
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-xs);
   padding: 6px 12px;
   min-width: 95px;
@@ -3769,8 +3766,8 @@ input, select, textarea {
 }
 
 .dock-metric-box.box-breach {
-  background: #fff5f5;
-  border-color: #fecaca;
+  background: rgba(239,68,68,0.08);
+  border-color: rgba(239,68,68,0.35);
   border-left: 2px solid #dc2626;
 }
 
@@ -3785,7 +3782,7 @@ input, select, textarea {
   font-size: 15px;
   font-weight: 700;
   font-family: var(--font-mono);
-  color: #0f172a;
+  color: #ffffff;
 }
 
 .metric-bar-wrap {
@@ -3820,8 +3817,8 @@ input, select, textarea {
   align-items: center;
   gap: 5px;
   padding: 8px 12px;
-  background: #f8fafc;
-  border: 1px solid #cbd5e1;
+  background: #101a12;
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-sm);
   font-size: 12px;
   font-weight: 600;
@@ -3830,8 +3827,8 @@ input, select, textarea {
 }
 
 .dock-share-btn:hover {
-  background: #f1f5f9;
-  color: #0f172a;
+  background: #142217;
+  color: #ffffff;
   border-color: #94a3b8;
 }
 
@@ -3860,11 +3857,11 @@ input, select, textarea {
 }
 
 .table-row-interactive:hover td {
-  background-color: #f8fafc !important;
+  background-color: #101a12 !important;
 }
 
 .row-selected-highlight td {
-  background-color: #f0fdf4 !important;
+  background-color: rgba(46,158,26,0.12) !important;
 }
 
 .icon-alert-bg {
@@ -3876,8 +3873,8 @@ input, select, textarea {
 .perspective-toggle-cluster {
   display: flex;
   align-items: center;
-  background: #f1f5f9;
-  border: 1px solid #cbd5e1;
+  background: #142217;
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-sm);
   padding: 2px;
   gap: 2px;
@@ -3896,11 +3893,11 @@ input, select, textarea {
 }
 
 .perspective-pill:hover {
-  color: #0f172a;
+  color: #ffffff;
 }
 
 .perspective-pill.active {
-  background: #ffffff;
+  background: #101a12;
   color: #0284c7;
   font-weight: 700;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -3928,7 +3925,7 @@ input, select, textarea {
   display: flex;
   align-items: center;
   gap: 5px;
-  background: #0f172a;
+  background: #09100a;
   padding: 4px 6px;
   border-radius: var(--radius-sm);
   border: 1px solid #334155;
@@ -3983,7 +3980,7 @@ input, select, textarea {
   position: absolute;
   top: 14px;
   left: 14px;
-  background: #0f172a;
+  background: #09100a;
   color: #38bdf8;
   font-size: 11px;
   font-weight: 600;
@@ -4631,8 +4628,8 @@ input, select, textarea {
   font-family: 'Inter', -apple-system, sans-serif;
   padding: 5px 10px;
   border-radius: 8px;
-  background: #f8fafc;
-  border: 1px solid #cbd5e1;
+  background: #101a12;
+  border: 1px solid var(--border-card);
   color: #334155;
   white-space: nowrap;
   display: inline-flex;
@@ -4726,9 +4723,8 @@ input, select, textarea {
 
 /* Shared filter panel */
 .modern-filter-card {
-  background: rgba(15, 24, 42, 0.82) !important;
-  border: 1px solid rgba(255,255,255,0.08) !important;
-  backdrop-filter: blur(12px);
+  background: #101a12 !important;
+  border: 1px solid var(--border-card) !important;
 }
 
 .filter-cell-label {
@@ -4736,25 +4732,25 @@ input, select, textarea {
 }
 
 .modern-select {
-  background: rgba(255,255,255,0.06) !important;
-  color: #e2e8f0 !important;
-  border: 1px solid rgba(255,255,255,0.12) !important;
+  background: #142217 !important;
+  color: #ffffff !important;
+  border: 1px solid var(--border-card) !important;
 }
 
 .modern-select option {
-  background: #0f1a2e;
-  color: #e2e8f0;
+  background: #101a12;
+  color: #ffffff;
 }
 
 .modern-select:focus {
-  border-color: #10b981 !important;
-  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.18) !important;
+  border-color: #2e9e1a !important;
+  box-shadow: 0 0 0 2px rgba(46, 158, 26, 0.25) !important;
 }
 
 /* Time window pills */
 .segmented-range-pills {
-  background: rgba(255,255,255,0.05) !important;
-  border: 1px solid rgba(255,255,255,0.09) !important;
+  background: #142217 !important;
+  border: 1px solid var(--border-card) !important;
 }
 
 .range-pill {
@@ -4762,9 +4758,9 @@ input, select, textarea {
 }
 
 .range-pill.active {
-  background: rgba(16, 185, 129, 0.18) !important;
-  color: #10b981 !important;
-  box-shadow: none !important;
+  background: #2e9e1a !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(46, 158, 26, 0.4) !important;
 }
 
 /* Sensor strip */
@@ -4773,40 +4769,39 @@ input, select, textarea {
 }
 
 .strip-text-btn {
-  color: #10b981 !important;
+  color: #2e9e1a !important;
 }
 
 .strip-text-btn:hover {
-  background: rgba(16, 185, 129, 0.1) !important;
+  background: rgba(46, 158, 26, 0.12) !important;
 }
 
 .text-muted {
-  color: #475569 !important;
+  color: #94a3b8 !important;
 }
 
 /* Sensor toggle chips */
 .sensor-toggle-chip {
-  background: rgba(255,255,255,0.05) !important;
-  border: 1px solid rgba(255,255,255,0.10) !important;
+  background: #142217 !important;
+  border: 1px solid var(--border-card) !important;
   color: #cbd5e1 !important;
 }
 
 .sensor-toggle-chip:hover {
-  background: rgba(255,255,255,0.09) !important;
-  border-color: rgba(255,255,255,0.18) !important;
+  background: #1a2c1e !important;
+  border-color: rgba(46, 158, 26, 0.4) !important;
 }
 
 .sensor-toggle-chip.is-selected {
-  background: rgba(16, 185, 129, 0.14) !important;
-  border-color: #10b981 !important;
-  color: #ecfdf5 !important;
+  background: rgba(46, 158, 26, 0.2) !important;
+  border-color: #2e9e1a !important;
+  color: #ffffff !important;
 }
 
 /* Historical stat cards */
 .telemetry-stat-card {
-  background: rgba(15, 24, 42, 0.82) !important;
-  border: 1px solid rgba(255,255,255,0.07) !important;
-  backdrop-filter: blur(12px);
+  background: #101a12 !important;
+  border: 1px solid var(--border-card) !important;
 }
 
 .stat-title {
@@ -4819,13 +4814,12 @@ input, select, textarea {
 
 /* Chart card */
 .executive-chart-card {
-  background: rgba(15, 24, 42, 0.85) !important;
-  border: 1px solid rgba(255,255,255,0.07) !important;
-  backdrop-filter: blur(12px);
+  background: #101a12 !important;
+  border: 1px solid var(--border-card) !important;
 }
 
 .chart-title-stack h3 {
-  color: #f1f5f9 !important;
+  color: #ffffff !important;
 }
 
 .chart-subtext {
@@ -4834,8 +4828,8 @@ input, select, textarea {
 
 /* Chart legend chips */
 .legend-chip-interactive {
-  background: rgba(255,255,255,0.05) !important;
-  border: 1px solid rgba(255,255,255,0.10) !important;
+  background: #142217 !important;
+  border: 1px solid var(--border-card) !important;
 }
 
 .legend-sensor-name {
@@ -4850,14 +4844,13 @@ input, select, textarea {
 /* ---- ALERTS & THRESHOLDS ---- */
 
 .alerts-feed-card {
-  background: rgba(15, 24, 42, 0.82) !important;
-  border: 1px solid rgba(255,255,255,0.07) !important;
-  backdrop-filter: blur(12px);
+  background: #101a12 !important;
+  border: 1px solid var(--border-card) !important;
 }
 
 .feed-toolbar .sort-wrapper {
-  background: rgba(255,255,255,0.05) !important;
-  border: 1px solid rgba(255,255,255,0.10) !important;
+  background: #142217 !important;
+  border: 1px solid var(--border-card) !important;
 }
 
 .sort-hint {

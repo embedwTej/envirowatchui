@@ -4,32 +4,32 @@
   --sidebar-active: #2e9e1a;
   --sidebar-text: #94a3b8;
   --sidebar-text-active: #ffffff;
-  
+
   --primary: #2e9e1a;
   --primary-hover: #1a6e0a;
   --primary-light: rgba(46, 158, 26, 0.2);
   --gold: #f5e17a;
   --gold-dark: #c8960c;
-  
+
   --bg-main: #09100a;
   --bg-card: #101a12;
-  
+
   --text-main: #ffffff;
   --text-muted: #94a3b8;
   --text-subtle: #cbd5e1;
-  
+
   --border-color: rgba(46, 158, 26, 0.25);
   --border-light: rgba(255, 255, 255, 0.08);
-  
+
   --status-active-bg: rgba(46, 158, 26, 0.2);
   --status-active-text: #5ecb3e;
-  
+
   --status-inactive-bg: rgba(100, 116, 139, 0.2);
   --status-inactive-text: #94a3b8;
-  
+
   --status-alert-bg: rgba(239, 68, 68, 0.2);
   --status-alert-text: #fca5a5;
-  
+
   --status-warn-bg: rgba(245, 158, 11, 0.2);
   --status-warn-text: #f5e17a;
 
@@ -69,7 +69,9 @@ button {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-input, select, textarea {
+input,
+select,
+textarea {
   font-family: inherit;
 }
 
@@ -78,26 +80,45 @@ input, select, textarea {
   width: 6px;
   height: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 9999px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
 
 /* Subtle animations */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes pulseGlow {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.75; transform: scale(1.05); }
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.75;
+    transform: scale(1.05);
+  }
 }
 
 .animate-fade-in {
