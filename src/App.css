@@ -3217,10 +3217,10 @@ input, select, textarea {
 
 /* 2.5D Isometric Canvas */
 .facility-canvas-container {
-  background: #ffffff;
-  border: 1px solid var(--border-card);
+  background: #0f172a;
+  border: 1px solid #1e293b;
   border-radius: var(--radius-xl);
-  padding: 14px;
+  padding: 12px;
   box-shadow: var(--shadow-card);
   position: relative;
   overflow: hidden;
@@ -3232,7 +3232,7 @@ input, select, textarea {
   border-radius: 12px;
   overflow: hidden;
   background: #0b1320;
-  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.35);
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.6);
 }
 
 .plant-backdrop-image {
@@ -3240,310 +3240,393 @@ input, select, textarea {
   height: auto;
   display: block;
   user-select: none;
-  filter: contrast(1.03) saturate(1.05);
+  filter: contrast(1.04) saturate(1.08);
 }
 
-/* Hotspot Pins */
-.map-hotspot-pin {
+/* ================= CONTINUOUS LIVE HOTSPOT POPUPS ================= */
+.continuous-hotspot-container {
   position: absolute;
   transform: translate(-50%, -50%);
   cursor: pointer;
-  z-index: 20;
+  z-index: 25;
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: z-index 0.2s ease;
 }
 
-.map-hotspot-pin:hover, .map-hotspot-pin.pin-selected {
-  transform: translate(-50%, -50%) scale(1.18);
-  z-index: 30;
+.continuous-hotspot-container:hover, .continuous-hotspot-container.spot-is-highlighted {
+  z-index: 50;
 }
 
-.pin-core-bubble {
-  width: 28px;
-  height: 28px;
+/* Hotspot Pointer Pinhead */
+.hotspot-pin-head {
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
-  background: #10b981;
-  border: 2.5px solid #ffffff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 0 12px rgba(16, 185, 129, 0.6);
+  background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+  border: 2px solid #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5), 0 0 10px rgba(16, 185, 129, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  z-index: 2;
   transition: all 0.2s ease;
 }
 
-.pin-normal .pin-core-bubble {
-  background: linear-gradient(135deg, #10b981 0%, #047857 100%);
-}
-
-.pin-alert .pin-core-bubble {
+.spot-is-alert .hotspot-pin-head {
   background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
-  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.7), 0 0 18px rgba(239, 68, 68, 0.8);
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.8), 0 0 16px rgba(239, 68, 68, 0.9);
   border-color: #fee2e2;
 }
 
-.pin-icon-alert {
-  color: #ffffff;
-  animation: pulseGlow 1s infinite ease-in-out;
-}
-
-.pin-dot-center {
-  width: 7px;
-  height: 7px;
+.pin-pointer-dot {
+  width: 6px;
+  height: 6px;
   background: #ffffff;
   border-radius: 50%;
 }
 
-/* Radar Beacon Rings */
-.radar-beacon-ring {
+/* Pulsing Radar Ring */
+.hotspot-radar-ring {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 44px;
-  height: 44px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   pointer-events: none;
+  z-index: 1;
 }
 
-.beacon-normal {
-  border: 2px solid rgba(16, 185, 129, 0.6);
+.radar-normal {
+  border: 2px solid rgba(16, 185, 129, 0.7);
   animation: radarPulse 2s infinite ease-out;
 }
 
-.beacon-alert {
-  border: 2.5px solid rgba(239, 68, 68, 0.85);
-  animation: radarPulse 1.2s infinite ease-out;
+.radar-alert {
+  border: 2.5px solid rgba(239, 68, 68, 0.9);
+  animation: radarPulse 1.1s infinite ease-out;
 }
 
-@keyframes radarPulse {
-  0% {
-    transform: translate(-50%, -50%) scale(0.6);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(2.2);
-    opacity: 0;
-  }
-}
-
-/* Live Value Tag Banner below Pin */
-.pin-value-tag {
-  margin-top: 6px;
-  background: rgba(15, 23, 42, 0.88);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  color: #ffffff;
-  padding: 3px 8px;
-  border-radius: 6px;
-  font-size: 11px;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-  pointer-events: none;
-}
-
-.tag-zone-name {
-  font-weight: 600;
-  color: #e2e8f0;
-}
-
-.tag-zone-metric {
-  color: #34d399;
-  font-weight: 800;
-}
-
-.tag-alert-pulse {
-  background: rgba(185, 28, 28, 0.92);
-  border-color: #fca5a5;
-}
-
-.tag-alert-pulse .tag-zone-metric {
-  color: #ffffff;
-}
-
-/* Floating HUD Card */
-.hotspot-hud-card {
+/* The Continuous Live Popup Card (Attached above Pin) */
+.continuous-popup-card {
   position: absolute;
-  width: 320px;
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  border-radius: var(--radius-lg);
-  padding: 18px;
-  box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.05);
-  z-index: 50;
-  animation: fadeIn 0.2s ease;
-}
-
-.hotspot-hud-card.hud-alert-theme {
-  border-color: #fca5a5;
-  box-shadow: 0 20px 45px -10px rgba(239, 68, 68, 0.25), 0 0 0 1px rgba(239, 68, 68, 0.2);
-}
-
-.hud-card-header {
+  bottom: calc(100% + 7px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(11, 20, 38, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  border-radius: 9px;
+  padding: 7px 11px;
+  box-shadow: 0 10px 25px -4px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.3);
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: 12px;
+  flex-direction: column;
+  gap: 4px;
+  white-space: nowrap;
+  pointer-events: auto;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
 }
 
-.hud-badge-row {
+/* Arrow Notch Pointer below Popup */
+.continuous-popup-card::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: rgba(11, 20, 38, 0.92) transparent transparent transparent;
+}
+
+.continuous-popup-card:hover {
+  transform: translateX(-50%) translateY(-2px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.6);
+  border-color: #34d399;
+}
+
+/* Alert Theme for Breach Zone */
+.popup-theme-alert {
+  background: rgba(185, 28, 28, 0.95);
+  border-color: #fca5a5;
+  box-shadow: 0 10px 25px rgba(239, 68, 68, 0.5), 0 0 16px rgba(239, 68, 68, 0.6);
+  animation: pulseGlow 1.6s infinite ease-in-out;
+}
+
+.popup-theme-alert::after {
+  border-color: rgba(185, 28, 28, 0.95) transparent transparent transparent;
+}
+
+.popup-highlight-glow {
+  border-color: #34d399;
+  box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.4), 0 12px 28px rgba(0, 0, 0, 0.6);
+}
+
+.popup-compact-mode {
+  padding: 5px 9px;
+}
+
+/* Popup Header */
+.continuous-popup-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
-  margin-bottom: 4px;
 }
 
-.hud-status-chip {
-  font-size: 9.5px;
+.popup-title-area {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.popup-zone-badge {
+  font-size: 11.5px;
   font-weight: 800;
-  letter-spacing: 0.04em;
-  padding: 2px 7px;
-  border-radius: 4px;
-}
-
-.chip-red {
-  background: #fee2e2;
-  color: #dc2626;
-  border: 1px solid #fecaca;
-}
-
-.chip-green {
-  background: #ecfdf5;
-  color: #059669;
-  border: 1px solid #a7f3d0;
-}
-
-.hud-time-tag {
-  font-size: 10px;
-  color: #94a3b8;
-  font-weight: 500;
-}
-
-.hud-title {
-  font-size: 16px;
-  font-weight: 800;
-  color: #0f172a;
+  color: #ffffff;
   letter-spacing: -0.01em;
 }
 
-.hud-sector {
-  font-size: 11.5px;
-  color: #64748b;
-  font-weight: 500;
+.alert-badge-micro {
+  background: #ffffff;
+  color: #dc2626;
+  font-size: 9px;
+  font-weight: 900;
+  padding: 1px 5px;
+  border-radius: 4px;
 }
 
-.hud-close-action {
-  font-size: 13px;
-  color: #94a3b8;
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
+.live-stream-dot-micro {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #10b981;
+  box-shadow: 0 0 8px #10b981;
+  animation: pulseGlow 1.2s infinite ease-in-out;
+}
+
+/* Metrics Row */
+.continuous-metrics-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.metric-micro-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.12);
+  padding: 2.5px 6px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.pill-breach-alert {
+  background: #ffffff;
+  color: #dc2626 !important;
+  font-weight: 900;
+}
+
+.compact-metric-text {
+  font-size: 11px;
+  font-weight: 700;
+  color: #e2e8f0;
+}
+
+/* Inspect Link */
+.popup-inspect-link {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #6ee7b7;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  align-self: flex-start;
+  margin-top: 2px;
+  transition: all 0.15s ease;
+}
+
+.popup-inspect-link:hover {
+  color: #ffffff;
+  transform: translateX(2px);
+}
+
+.popup-theme-alert .popup-inspect-link {
+  color: #fef08a;
+}
+
+/* ================= ACTIVE ZONE DEEP DIAGNOSTIC DOCK ================= */
+.active-zone-dock {
+  background: #ffffff;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  box-shadow: var(--shadow-card);
+  flex-wrap: wrap;
+}
+
+.dock-left-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.dock-status-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #ffffff;
+  flex-shrink: 0;
 }
 
-.hud-close-action:hover {
-  background: #f1f5f9;
-  color: #0f172a;
+.bg-emerald-normal {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.35);
 }
 
-.hud-alert-banner {
+.bg-red-alert {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+}
+
+.dock-title-block {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.dock-tag-row {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #fef2f2;
-  border: 1px solid #fee2e2;
-  color: #dc2626;
-  font-size: 11.5px;
+}
+
+.dock-zone-id {
+  font-size: 11px;
+  font-weight: 800;
+  color: #64748b;
+  letter-spacing: 0.05em;
+}
+
+.dock-stream-live {
+  font-size: 11px;
+  color: #059669;
   font-weight: 700;
-  padding: 8px 10px;
-  border-radius: 7px;
-  margin-bottom: 12px;
-  line-height: 1.3;
 }
 
-.hud-telemetry-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-  margin-bottom: 14px;
+.dock-zone-name {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
 }
 
-.hud-tile {
+.dock-zone-sector {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.dock-metrics-strip {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.dock-metric-box {
   background: #f8fafc;
-  border: 1px solid #edf2f7;
-  border-radius: 8px;
-  padding: 7px 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 9px;
+  padding: 8px 14px;
+  min-width: 105px;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
 }
 
-.hud-tile-breach {
+.dock-metric-box.box-breach {
   background: #fff5f5;
   border-color: #fecaca;
 }
 
-.hud-tile-top {
-  display: flex;
-  align-items: center;
-  gap: 5px;
+.metric-box-label {
   font-size: 10.5px;
+  font-weight: 700;
   color: #64748b;
-  font-weight: 600;
+  text-transform: uppercase;
 }
 
-.hud-val {
-  font-size: 14.5px;
+.metric-box-val {
+  font-size: 16px;
   font-weight: 800;
   color: #0f172a;
 }
 
-.hud-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-top: 1px solid #f1f5f9;
-  padding-top: 12px;
+.metric-bar-wrap {
+  width: 100%;
+  height: 4px;
+  background: #e2e8f0;
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-top: 2px;
 }
 
-.hud-hardware-meta {
-  font-size: 10.5px;
-  color: #64748b;
-  font-weight: 500;
+.metric-bar-inner {
+  height: 100%;
+  border-radius: 9999px;
 }
 
-.hud-inspect-btn {
+.fill-orange { background: #f97316; }
+.fill-purple { background: #8b5cf6; }
+.fill-blue { background: #0284c7; }
+.fill-amber { background: #f59e0b; }
+.fill-green { background: #10b981; }
+.fill-teal { background: #0d9488; }
+
+.dock-launch-inspect-btn {
   display: flex;
   align-items: center;
-  gap: 5px;
-  background: var(--brand-primary);
+  gap: 8px;
+  background: var(--brand-primary-gradient);
   color: #ffffff;
-  padding: 6px 12px;
-  border-radius: 7px;
-  font-size: 12px;
+  padding: 10px 18px;
+  border-radius: 9px;
+  font-size: 13px;
   font-weight: 700;
-  transition: all 0.2s ease;
+  box-shadow: var(--shadow-glow-primary);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
 }
 
-.hud-inspect-btn:hover {
+.dock-launch-inspect-btn:hover {
   background: var(--brand-primary-hover);
-  transform: translateY(-1px);
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 20px -2px rgba(5, 150, 105, 0.45);
 }
 
 /* Zone Matrix Table */
-.map-zone-matrix-card {
-  margin-top: 8px;
-}
-
 .table-row-interactive {
   cursor: pointer;
   transition: background-color 0.15s ease;

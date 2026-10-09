@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   MapPin, 
   Layers, 
@@ -13,25 +13,27 @@ import {
   Minimize2,
   RefreshCw,
   Eye,
-  ShieldCheck,
+  Radio,
   ChevronRight,
   ExternalLink,
-  Radio,
-  SlidersHorizontal,
-  Compass
+  Play,
+  Pause,
+  Compass,
+  Cpu
 } from 'lucide-react';
 import plantMapImg from '../assets/plant-facility-map.png';
 
-// Facility hotspots calibrated exactly to the Raffles Oil isometric plant diagram
-const PLANT_HOTSPOTS = [
+// Zones calibrated precisely to the Raffles Oil isometric plant diagram
+const INITIAL_ZONES = [
   {
     id: 'bottling',
-    name: 'Bottling Unit',
-    sector: 'Packaging & Dispatch',
-    left: '55.5%',
-    top: '22.0%',
+    name: 'Bottling',
+    fullName: 'Bottling & Packaging Hub',
+    sector: 'Packaging & Warehouse',
+    left: '56.5%',
+    top: '19.5%',
     status: 'Alert',
-    alertMessage: 'Noise threshold breach: 68.4 dB (Limit: 55 dB)',
+    alertMessage: 'Noise threshold breach: 68.4 dB (OSHA Max: 55 dB)',
     temp: 29.2,
     noise: 68.4,
     humidity: 52.0,
@@ -42,14 +44,15 @@ const PLANT_HOTSPOTS = [
     battery: 89,
     signal: 'Strong',
     devicesCount: 4,
-    lastSync: 'Just now'
+    lastSync: 'Live'
   },
   {
     id: 'refinery',
-    name: 'Refinery Tower',
+    name: 'Refinery',
+    fullName: 'Primary Refining Complex',
     sector: 'Core Production',
-    left: '23.0%',
-    top: '58.0%',
+    left: '23.5%',
+    top: '56.5%',
     status: 'Normal',
     alertMessage: null,
     temp: 26.5,
@@ -62,14 +65,15 @@ const PLANT_HOTSPOTS = [
     battery: 98,
     signal: 'Strong',
     devicesCount: 6,
-    lastSync: '2s ago'
+    lastSync: 'Live'
   },
   {
     id: 'tankfarm',
-    name: 'Tankfarm Storage',
+    name: 'Tankfarm',
+    fullName: 'Tankfarm Bulk Storage',
     sector: 'Bulk Liquid Logistics',
     left: '51.5%',
-    top: '48.0%',
+    top: '45.0%',
     status: 'Normal',
     alertMessage: null,
     temp: 24.1,
@@ -82,14 +86,15 @@ const PLANT_HOTSPOTS = [
     battery: 95,
     signal: 'Strong',
     devicesCount: 8,
-    lastSync: '5s ago'
+    lastSync: 'Live'
   },
   {
     id: 'boiler-wtp',
     name: 'Boiler & WTP',
+    fullName: 'Boiler & Water Treatment',
     sector: 'Utilities & Steam',
-    left: '35.0%',
-    top: '42.5%',
+    left: '35.5%',
+    top: '42.0%',
     status: 'Normal',
     alertMessage: null,
     temp: 28.6,
@@ -102,14 +107,15 @@ const PLANT_HOTSPOTS = [
     battery: 92,
     signal: 'Good',
     devicesCount: 3,
-    lastSync: '8s ago'
+    lastSync: 'Live'
   },
   {
     id: 'etp',
-    name: 'ETP Area (Water Treatment)',
+    name: 'ETP Area',
+    fullName: 'Effluent Treatment Plant',
     sector: 'Environmental Compliance',
     left: '36.0%',
-    top: '19.5%',
+    top: '18.5%',
     status: 'Normal',
     alertMessage: null,
     temp: 24.8,
@@ -122,14 +128,15 @@ const PLANT_HOTSPOTS = [
     battery: 94,
     signal: 'Strong',
     devicesCount: 5,
-    lastSync: '3s ago'
+    lastSync: 'Live'
   },
   {
     id: 'g-house',
-    name: 'G House (Generator Hub)',
+    name: 'G House',
+    fullName: 'Generator & Grid Substation',
     sector: 'Auxiliary Power',
     left: '33.5%',
-    top: '29.5%',
+    top: '26.5%',
     status: 'Normal',
     alertMessage: null,
     temp: 23.8,
@@ -142,14 +149,15 @@ const PLANT_HOTSPOTS = [
     battery: 91,
     signal: 'Strong',
     devicesCount: 2,
-    lastSync: '12s ago'
+    lastSync: 'Live'
   },
   {
     id: 'admin',
-    name: 'Administrative Complex',
+    name: 'Admin',
+    fullName: 'Administrative HQ',
     sector: 'Facility Office',
     left: '54.5%',
-    top: '76.5%',
+    top: '75.0%',
     status: 'Normal',
     alertMessage: null,
     temp: 22.0,
@@ -162,14 +170,15 @@ const PLANT_HOTSPOTS = [
     battery: 100,
     signal: 'Strong',
     devicesCount: 2,
-    lastSync: '1s ago'
+    lastSync: 'Live'
   },
   {
     id: 'garden',
-    name: 'Garden & Amenities Pond',
-    sector: 'Buffer & Retention',
+    name: 'Garden & Amenities',
+    fullName: 'Garden, Lake & Amenities',
+    sector: 'Retention & Recreation',
     left: '81.0%',
-    top: '56.5%',
+    top: '53.0%',
     status: 'Normal',
     alertMessage: null,
     temp: 24.8,
@@ -182,14 +191,15 @@ const PLANT_HOTSPOTS = [
     battery: 97,
     signal: 'Strong',
     devicesCount: 2,
-    lastSync: '4s ago'
+    lastSync: 'Live'
   },
   {
     id: 'old-gate',
     name: 'Old Entrance Gate',
+    fullName: 'North Gate Logistics Post',
     sector: 'North Perimeter',
-    left: '87.0%',
-    top: '14.5%',
+    left: '86.5%',
+    top: '11.5%',
     status: 'Standby',
     alertMessage: null,
     temp: 25.0,
@@ -202,14 +212,15 @@ const PLANT_HOTSPOTS = [
     battery: 99,
     signal: 'Good',
     devicesCount: 1,
-    lastSync: '14s ago'
+    lastSync: 'Live'
   },
   {
     id: 'new-gate',
     name: 'New Entrance Gate',
-    sector: 'Primary Freight Security',
-    left: '93.0%',
-    top: '88.0%',
+    fullName: 'Primary South Vehicle Gate',
+    sector: 'Security Checkpoint',
+    left: '93.5%',
+    top: '89.5%',
     status: 'Normal',
     alertMessage: null,
     temp: 23.5,
@@ -222,127 +233,121 @@ const PLANT_HOTSPOTS = [
     battery: 96,
     signal: 'Strong',
     devicesCount: 2,
-    lastSync: '2s ago'
-  },
-  {
-    id: 'open-land',
-    name: 'Open Land Boundary',
-    sector: 'West Perimeter Buffer',
-    left: '6.5%',
-    top: '48.5%',
-    status: 'Standby',
-    alertMessage: null,
-    temp: 25.4,
-    noise: 36.0,
-    humidity: 50.0,
-    light: 510,
-    ph: null,
-    cod: null,
-    tds: null,
-    battery: 99,
-    signal: 'Good',
-    devicesCount: 1,
-    lastSync: '25s ago'
-  },
-  {
-    id: 'express-road',
-    name: 'Express Road Freight Corridor',
-    sector: 'External Logistics Axis',
-    left: '49.5%',
-    top: '7.5%',
-    status: 'Normal',
-    alertMessage: null,
-    temp: 27.0,
-    noise: 62.0,
-    humidity: 45.0,
-    light: 550,
-    ph: null,
-    cod: null,
-    tds: null,
-    battery: 93,
-    signal: 'Good',
-    devicesCount: 2,
-    lastSync: '6s ago'
+    lastSync: 'Live'
   }
 ];
 
 export default function FacilityMapView({ onSelectLocation }) {
-  const [selectedHotspot, setSelectedHotspot] = useState(PLANT_HOTSPOTS[0]); // default Bottling selected
-  const [filterMode, setFilterMode] = useState('all'); // all, alerts, temp, noise, water
-  const [showValues, setShowValues] = useState(true);
-  const [showRings, setShowRings] = useState(true);
+  const [zones, setZones] = useState(INITIAL_ZONES);
+  const [activeHighlightId, setActiveHighlightId] = useState('bottling');
+  const [showContinuousPopups, setShowContinuousPopups] = useState(true);
+  const [popupViewStyle, setPopupViewStyle] = useState('full'); // 'full' or 'compact'
+  const [filterMode, setFilterMode] = useState('all'); // 'all', 'alerts', 'temp', 'noise', 'water'
+  const [isAutoCycling, setIsAutoCycling] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [lastStreamTime, setLastStreamTime] = useState(new Date().toLocaleTimeString());
 
-  // Filtered hotspots based on active toolbar category
-  const filteredSpots = PLANT_HOTSPOTS.filter((spot) => {
-    if (filterMode === 'alerts') return spot.status === 'Alert';
-    if (filterMode === 'temp') return spot.temp !== null;
-    if (filterMode === 'noise') return spot.noise !== null;
-    if (filterMode === 'water') return spot.ph !== null || spot.cod !== null || spot.tds !== null;
+  // Continuous real-time telemetry streaming simulation (heartbeat every 2 seconds)
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setZones((prevZones) =>
+        prevZones.map((z) => {
+          // slight natural harmonic fluctuations
+          const tempDelta = (Math.random() - 0.5) * 0.2;
+          const noiseDelta = (Math.random() - 0.5) * 0.4;
+          const newTemp = z.temp ? Number((z.temp + tempDelta).toFixed(1)) : null;
+          
+          let newNoise = z.noise ? Number((z.noise + noiseDelta).toFixed(1)) : null;
+          // Keep Bottling in breach alert threshold (>55 dB)
+          if (z.id === 'bottling' && newNoise < 64) newNoise = 67.8;
+
+          return {
+            ...z,
+            temp: newTemp,
+            noise: newNoise,
+            lastSync: 'Streaming'
+          };
+        })
+      );
+      setLastStreamTime(new Date().toLocaleTimeString());
+    }, 2000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  // Optional auto-cycle camera spotlight among zones
+  useEffect(() => {
+    if (!isAutoCycling) return;
+    const cycleTimer = setInterval(() => {
+      setActiveHighlightId((currentId) => {
+        const currentIndex = zones.findIndex((z) => z.id === currentId);
+        const nextIndex = (currentIndex + 1) % zones.length;
+        return zones[nextIndex].id;
+      });
+    }, 4000);
+
+    return () => clearInterval(cycleTimer);
+  }, [isAutoCycling, zones]);
+
+  const filteredZones = zones.filter((z) => {
+    if (filterMode === 'alerts') return z.status === 'Alert';
+    if (filterMode === 'temp') return z.temp !== null;
+    if (filterMode === 'noise') return z.noise !== null;
+    if (filterMode === 'water') return z.ph !== null || z.cod !== null || z.tds !== null;
     return true;
   });
 
-  const getMetricBadgeText = (spot) => {
-    if (filterMode === 'noise') return `${spot.noise} dB`;
-    if (filterMode === 'temp') return `${spot.temp} °C`;
-    if (filterMode === 'water') {
-      if (spot.ph) return `pH ${spot.ph}`;
-      if (spot.tds) return `${spot.tds} ppm`;
-    }
-    // Default multi-view
-    if (spot.status === 'Alert') return `${spot.noise} dB ⚠️`;
-    return `${spot.temp} °C`;
-  };
+  const highlightedZone = zones.find((z) => z.id === activeHighlightId) || zones[0];
 
   return (
     <div className={`facility-map-page animate-fade-in ${isFullscreen ? 'map-fullscreen-active' : ''}`}>
-      {/* Top Banner & Header */}
+      {/* Top Banner */}
       <div className="dashboard-title-banner">
         <div>
           <div className="title-with-pill">
-            <h1 className="page-title">Facility GIS Map & Digital Twin</h1>
+            <h1 className="page-title">Plant GIS Map & Digital Twin</h1>
             <span className="live-pill-tag">
               <span className="live-pulse-dot"></span>
-              Raffles Oil Spatial Model
+              Live Telemetry Stream: {lastStreamTime}
             </span>
           </div>
           <p className="page-subtitle">
-            Interactive 2.5D architectural digital twin with real-time multi-sensor telemetry pins across physical manufacturing sectors
+            Raffles Oil Isometric Facility Layout — continuous live telemetry popups rendered over physical plant infrastructure
           </p>
         </div>
 
-        {/* Executive Facility Status Badges */}
+        {/* Quick Plant Health Metrics */}
         <div className="facility-quick-stats-strip">
           <div className="facility-stat-item">
             <Compass size={16} className="text-primary" />
-            <span>12 Monitored Zones</span>
+            <span>10 Monitored Plant Zones</span>
           </div>
           <div className="facility-stat-item alert-breach-item">
-            <AlertTriangle size={15} className="text-alert animate-bounce-subtle" />
-            <span>1 Active Breach (Bottling)</span>
+            <AlertTriangle size={15} className="text-alert" />
+            <span>Bottling Noise Alert: <strong>{zones.find(z => z.id === 'bottling')?.noise || 68.4} dB</strong></span>
           </div>
           <div className="facility-stat-item">
-            <Radio size={14} className="text-success" />
-            <span>Telemetry Link: 100%</span>
+            <Radio size={14} className="text-success animate-pulse" />
+            <span>Edge Mesh: 100% Online</span>
           </div>
         </div>
       </div>
 
-      {/* Map Interactive Toolbar */}
+      {/* Control Bar: Layer & Continuous Display Switches */}
       <div className="map-controls-card">
         <div className="map-toolbar-row">
-          {/* Filter Overlays */}
+          {/* Layer Filter Pills */}
           <div className="map-filter-pills">
             <span className="filter-pill-label">
               <Layers size={13} />
-              Telemetry Layer:
+              Sensor Layer:
             </span>
             {[
-              { id: 'all', label: 'All Hotspots' },
-              { id: 'alerts', label: 'Breach Alerts Only', badge: '1' },
+              { id: 'all', label: 'All Zones' },
+              { id: 'alerts', label: 'Breach Only', badge: '1' },
               { id: 'temp', label: 'Thermal (°C)' },
-              { id: 'noise', label: 'Acoustics (dB)' },
-              { id: 'water', label: 'Water Quality & ETP' },
+              { id: 'noise', label: 'Noise (dB)' },
+              { id: 'water', label: 'Water Quality & ETP' }
             ].map((f) => (
               <button
                 key={f.id}
@@ -355,239 +360,291 @@ export default function FacilityMapView({ onSelectLocation }) {
             ))}
           </div>
 
-          {/* Quick Display Switches */}
+          {/* Continuous Popups Controls */}
           <div className="map-tools-right">
-            <button 
-              className={`map-tool-toggle-btn ${showValues ? 'active' : ''}`}
-              onClick={() => setShowValues(!showValues)}
-              title="Toggle Live Value Badges"
+            <button
+              className={`map-tool-toggle-btn ${showContinuousPopups ? 'active' : ''}`}
+              onClick={() => setShowContinuousPopups(!showContinuousPopups)}
+              title="Show continuous popups for all zones on the map"
             >
               <Eye size={14} />
-              <span>Live Badges</span>
+              <span>{showContinuousPopups ? 'Continuous Popups: ON' : 'Show Popups'}</span>
             </button>
 
-            <button 
-              className={`map-tool-toggle-btn ${showRings ? 'active' : ''}`}
-              onClick={() => setShowRings(!showRings)}
-              title="Toggle Radar Pulse Rings"
+            <button
+              className={`map-tool-toggle-btn ${popupViewStyle === 'full' ? 'active' : ''}`}
+              onClick={() => setPopupViewStyle(popupViewStyle === 'full' ? 'compact' : 'full')}
+              title="Toggle popup detail density"
             >
-              <Radio size={14} />
-              <span>Radar Beacons</span>
+              <Cpu size={14} />
+              <span>{popupViewStyle === 'full' ? 'Full Data Cards' : 'Compact Badges'}</span>
             </button>
 
-            <button 
+            <button
+              className={`map-tool-toggle-btn ${isAutoCycling ? 'active' : ''}`}
+              onClick={() => setIsAutoCycling(!isAutoCycling)}
+              title="Auto cycle inspection spotlight through all facility zones"
+            >
+              {isAutoCycling ? <Pause size={14} /> : <Play size={14} />}
+              <span>{isAutoCycling ? 'Cycling...' : 'Auto Tour'}</span>
+            </button>
+
+            <button
               className="map-fullscreen-btn"
               onClick={() => setIsFullscreen(!isFullscreen)}
-              title={isFullscreen ? 'Exit Fullscreen' : 'Fullscreen Map'}
             >
-              {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
+              {isFullscreen ? <Minimize2 size={15} /> : <Maximize2 size={15} />}
               <span>{isFullscreen ? 'Exit Fullscreen' : 'Full Canvas'}</span>
             </button>
           </div>
         </div>
       </div>
 
-      {/* Main 2.5D Isometric Canvas Area */}
+      {/* 2.5D Isometric Architectural Map with Continuous Live Popups */}
       <div className="facility-canvas-container">
         <div className="isometric-map-wrapper">
-          {/* Base Architectural Plant Map Image */}
+          {/* Raffles Oil Actual Architectural Layout Image */}
           <img 
             src={plantMapImg} 
-            alt="Raffles Oil Facility Layout" 
+            alt="Raffles Oil Facility Digital Twin" 
             className="plant-backdrop-image"
           />
 
-          {/* Dynamic Map Pins */}
-          {filteredSpots.map((spot) => {
+          {/* Continuous Live Hotspot Popups for Each Zone */}
+          {filteredZones.map((spot) => {
             const isAlert = spot.status === 'Alert';
-            const isSelected = selectedHotspot?.id === spot.id;
+            const isHighlighted = spot.id === activeHighlightId;
 
             return (
               <div 
                 key={spot.id}
-                className={`map-hotspot-pin ${isAlert ? 'pin-alert' : 'pin-normal'} ${isSelected ? 'pin-selected' : ''}`}
+                className={`continuous-hotspot-container ${isAlert ? 'spot-is-alert' : 'spot-is-normal'} ${isHighlighted ? 'spot-is-highlighted' : ''}`}
                 style={{ left: spot.left, top: spot.top }}
-                onClick={() => setSelectedHotspot(spot)}
+                onClick={() => setActiveHighlightId(spot.id)}
               >
-                {/* Radar Pulse Rings */}
-                {showRings && (
-                  <div className={`radar-beacon-ring ${isAlert ? 'beacon-alert' : 'beacon-normal'}`}></div>
-                )}
+                {/* Pulsing Radar Rings */}
+                <div className={`hotspot-radar-ring ${isAlert ? 'radar-alert' : 'radar-normal'}`}></div>
 
-                {/* Marker Core Bubble */}
-                <div className="pin-core-bubble">
-                  {isAlert ? (
-                    <AlertTriangle size={14} className="pin-icon-alert" />
-                  ) : (
-                    <span className="pin-dot-center"></span>
-                  )}
+                {/* Pin Needle Pinhead */}
+                <div className="hotspot-pin-head">
+                  <div className="pin-pointer-dot"></div>
                 </div>
 
-                {/* Live Value Tag Banner */}
-                {showValues && (
-                  <div className={`pin-value-tag ${isAlert ? 'tag-alert-pulse' : ''}`}>
-                    <span className="tag-zone-name">{spot.name}</span>
-                    <span className="tag-zone-metric">{getMetricBadgeText(spot)}</span>
+                {/* CONTINUOUS LIVE POPUP CARD (Always Visible) */}
+                {showContinuousPopups && (
+                  <div 
+                    className={`continuous-popup-card ${isAlert ? 'popup-theme-alert' : 'popup-theme-normal'} ${isHighlighted ? 'popup-highlight-glow' : ''} ${popupViewStyle === 'compact' ? 'popup-compact-mode' : ''}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveHighlightId(spot.id);
+                    }}
+                  >
+                    {/* Header */}
+                    <div className="continuous-popup-header">
+                      <div className="popup-title-area">
+                        <span className="popup-zone-badge">{spot.name}</span>
+                        {isAlert && <span className="alert-badge-micro">ALARM</span>}
+                      </div>
+                      <span className="live-stream-dot-micro"></span>
+                    </div>
+
+                    {/* Sensor Data (Continuous Live Stream) */}
+                    {popupViewStyle === 'full' ? (
+                      <div className="continuous-metrics-row">
+                        {spot.temp !== null && (
+                          <div className="metric-micro-pill">
+                            <Thermometer size={11} className="text-orange" />
+                            <span>{spot.temp}°C</span>
+                          </div>
+                        )}
+
+                        {spot.noise !== null && (
+                          <div className={`metric-micro-pill ${spot.noise > 55 ? 'pill-breach-alert' : ''}`}>
+                            <Volume2 size={11} className={spot.noise > 55 ? 'text-alert' : 'text-purple'} />
+                            <span className={spot.noise > 55 ? 'text-alert font-bold' : ''}>{spot.noise} dB</span>
+                          </div>
+                        )}
+
+                        {spot.humidity !== null && (
+                          <div className="metric-micro-pill">
+                            <Droplets size={11} className="text-blue" />
+                            <span>{spot.humidity}%</span>
+                          </div>
+                        )}
+
+                        {spot.ph !== null && (
+                          <div className="metric-micro-pill">
+                            <Activity size={11} className="text-emerald" />
+                            <span>pH {spot.ph}</span>
+                          </div>
+                        )}
+
+                        {spot.tds !== null && (
+                          <div className="metric-micro-pill">
+                            <Activity size={11} className="text-teal" />
+                            <span>{spot.tds} ppm</span>
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      /* Compact Mode */
+                      <div className="compact-metric-text">
+                        {isAlert ? (
+                          <span className="text-alert font-bold">⚠️ Noise: {spot.noise} dB</span>
+                        ) : spot.temp ? (
+                          <span>{spot.temp}°C • {spot.noise ? `${spot.noise} dB` : `${spot.humidity}%`}</span>
+                        ) : (
+                          <span>Online</span>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Hover Click Button */}
+                    <button 
+                      className="popup-inspect-link"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onSelectLocation(spot);
+                      }}
+                      title="Inspect full diagnostics"
+                    >
+                      <span>Diagnose</span>
+                      <ChevronRight size={11} />
+                    </button>
                   </div>
                 )}
               </div>
             );
           })}
-
-          {/* Active Hotspot HUD Telemetry Floating Inspector */}
-          {selectedHotspot && (
-            <div 
-              className={`hotspot-hud-card ${selectedHotspot.status === 'Alert' ? 'hud-alert-theme' : ''}`}
-              style={{
-                // Auto position HUD near the selected hotspot
-                left: `clamp(16px, calc(${selectedHotspot.left} + 22px), calc(100% - 340px))`,
-                top: `clamp(16px, calc(${selectedHotspot.top} - 60px), calc(100% - 320px))`
-              }}
-            >
-              <div className="hud-card-header">
-                <div>
-                  <div className="hud-badge-row">
-                    <span className={`hud-status-chip ${selectedHotspot.status === 'Alert' ? 'chip-red' : 'chip-green'}`}>
-                      {selectedHotspot.status === 'Alert' ? 'CRITICAL INCIDENT' : 'OPERATIONAL NORMAL'}
-                    </span>
-                    <span className="hud-time-tag">{selectedHotspot.lastSync}</span>
-                  </div>
-                  <h4 className="hud-title">{selectedHotspot.name}</h4>
-                  <p className="hud-sector">{selectedHotspot.sector}</p>
-                </div>
-                <button 
-                  className="hud-close-action" 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedHotspot(null);
-                  }}
-                >
-                  ✕
-                </button>
-              </div>
-
-              {selectedHotspot.alertMessage && (
-                <div className="hud-alert-banner">
-                  <AlertTriangle size={15} />
-                  <span>{selectedHotspot.alertMessage}</span>
-                </div>
-              )}
-
-              {/* 4 Sensor Reading Mini Tiles */}
-              <div className="hud-telemetry-grid">
-                {selectedHotspot.temp !== null && (
-                  <div className="hud-tile">
-                    <div className="hud-tile-top">
-                      <Thermometer size={13} className="text-orange" />
-                      <span>Temp</span>
-                    </div>
-                    <span className="hud-val">{selectedHotspot.temp} °C</span>
-                  </div>
-                )}
-
-                {selectedHotspot.noise !== null && (
-                  <div className={`hud-tile ${selectedHotspot.noise > 55 ? 'hud-tile-breach' : ''}`}>
-                    <div className="hud-tile-top">
-                      <Volume2 size={13} className={selectedHotspot.noise > 55 ? 'text-alert' : 'text-purple'} />
-                      <span>Noise</span>
-                    </div>
-                    <span className={`hud-val ${selectedHotspot.noise > 55 ? 'text-alert font-bold' : ''}`}>
-                      {selectedHotspot.noise} dB
-                    </span>
-                  </div>
-                )}
-
-                {selectedHotspot.humidity !== null && (
-                  <div className="hud-tile">
-                    <div className="hud-tile-top">
-                      <Droplets size={13} className="text-blue" />
-                      <span>Humidity</span>
-                    </div>
-                    <span className="hud-val">{selectedHotspot.humidity} %</span>
-                  </div>
-                )}
-
-                {selectedHotspot.light !== null && (
-                  <div className="hud-tile">
-                    <div className="hud-tile-top">
-                      <Sun size={13} className="text-amber" />
-                      <span>Light</span>
-                    </div>
-                    <span className="hud-val">{selectedHotspot.light} lx</span>
-                  </div>
-                )}
-
-                {selectedHotspot.ph !== null && (
-                  <div className="hud-tile">
-                    <div className="hud-tile-top">
-                      <Activity size={13} className="text-emerald" />
-                      <span>pH Level</span>
-                    </div>
-                    <span className="hud-val">{selectedHotspot.ph} pH</span>
-                  </div>
-                )}
-
-                {selectedHotspot.cod !== null && (
-                  <div className="hud-tile">
-                    <div className="hud-tile-top">
-                      <Activity size={13} className="text-teal" />
-                      <span>COD</span>
-                    </div>
-                    <span className="hud-val">{selectedHotspot.cod} mg/L</span>
-                  </div>
-                )}
-              </div>
-
-              {/* HUD Card Footer Actions */}
-              <div className="hud-footer">
-                <span className="hud-hardware-meta">
-                  {selectedHotspot.devicesCount} Sensor Node{selectedHotspot.devicesCount > 1 ? 's' : ''} • Battery: {selectedHotspot.battery}%
-                </span>
-                <button 
-                  className="hud-inspect-btn"
-                  onClick={() => onSelectLocation(selectedHotspot)}
-                >
-                  <span>Full Telemetry</span>
-                  <ExternalLink size={13} />
-                </button>
-              </div>
-            </div>
-          )}
         </div>
       </div>
 
-      {/* Facility Zone Matrix Table */}
-      <div className="enterprise-table-card map-zone-matrix-card">
+      {/* Selected Zone Deep Diagnostic Deck */}
+      {highlightedZone && (
+        <div className="active-zone-dock animate-fade-in">
+          <div className="dock-left-meta">
+            <div className={`dock-status-icon ${highlightedZone.status === 'Alert' ? 'bg-red-alert' : 'bg-emerald-normal'}`}>
+              {highlightedZone.status === 'Alert' ? <AlertTriangle size={24} /> : <CheckCircle2 size={24} />}
+            </div>
+            <div className="dock-title-block">
+              <div className="dock-tag-row">
+                <span className="dock-zone-id">Zone: #{highlightedZone.id.toUpperCase()}</span>
+                <span className={`status-pill ${highlightedZone.status === 'Alert' ? 'tag-critical' : 'pill-active'}`}>
+                  {highlightedZone.status === 'Alert' ? 'Active Alarm Breach' : 'Operational Normal'}
+                </span>
+                <span className="dock-stream-live">● Live Synchronized</span>
+              </div>
+              <h3 className="dock-zone-name">{highlightedZone.fullName}</h3>
+              <p className="dock-zone-sector">{highlightedZone.sector} • Connected to <strong>{highlightedZone.devicesCount} IoT Telemetry Nodes</strong></p>
+            </div>
+          </div>
+
+          <div className="dock-metrics-strip">
+            {highlightedZone.temp !== null && (
+              <div className="dock-metric-box">
+                <span className="metric-box-label">Temperature</span>
+                <span className="metric-box-val">{highlightedZone.temp} °C</span>
+                <div className="metric-bar-wrap">
+                  <div className="metric-bar-inner fill-orange" style={{ width: `${(highlightedZone.temp / 50) * 100}%` }}></div>
+                </div>
+              </div>
+            )}
+
+            {highlightedZone.noise !== null && (
+              <div className={`dock-metric-box ${highlightedZone.noise > 55 ? 'box-breach' : ''}`}>
+                <span className="metric-box-label">Noise Level</span>
+                <span className={`metric-box-val ${highlightedZone.noise > 55 ? 'text-alert' : ''}`}>
+                  {highlightedZone.noise} dB
+                </span>
+                <div className="metric-bar-wrap">
+                  <div className={`metric-bar-inner ${highlightedZone.noise > 55 ? 'fill-red' : 'fill-purple'}`} style={{ width: `${(highlightedZone.noise / 90) * 100}%` }}></div>
+                </div>
+              </div>
+            )}
+
+            {highlightedZone.humidity !== null && (
+              <div className="dock-metric-box">
+                <span className="metric-box-label">Humidity</span>
+                <span className="metric-box-val">{highlightedZone.humidity} %</span>
+                <div className="metric-bar-wrap">
+                  <div className="metric-bar-inner fill-blue" style={{ width: `${highlightedZone.humidity}%` }}></div>
+                </div>
+              </div>
+            )}
+
+            {highlightedZone.light !== null && (
+              <div className="dock-metric-box">
+                <span className="metric-box-label">Light / Lux</span>
+                <span className="metric-box-val">{highlightedZone.light} lx</span>
+                <div className="metric-bar-wrap">
+                  <div className="metric-bar-inner fill-amber" style={{ width: `${(highlightedZone.light / 1000) * 100}%` }}></div>
+                </div>
+              </div>
+            )}
+
+            {highlightedZone.ph !== null && (
+              <div className="dock-metric-box">
+                <span className="metric-box-label">Water pH</span>
+                <span className="metric-box-val text-primary">pH {highlightedZone.ph}</span>
+                <div className="metric-bar-wrap">
+                  <div className="metric-bar-inner fill-green" style={{ width: `${(highlightedZone.ph / 14) * 100}%` }}></div>
+                </div>
+              </div>
+            )}
+
+            {highlightedZone.tds !== null && (
+              <div className="dock-metric-box">
+                <span className="metric-box-label">TDS Water Purity</span>
+                <span className="metric-box-val">{highlightedZone.tds} ppm</span>
+                <div className="metric-bar-wrap">
+                  <div className="metric-bar-inner fill-teal" style={{ width: `${(highlightedZone.tds / 500) * 100}%` }}></div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <button 
+            className="dock-launch-inspect-btn"
+            onClick={() => onSelectLocation(highlightedZone)}
+          >
+            <span>Full Gauge Diagnostics</span>
+            <ExternalLink size={15} />
+          </button>
+        </div>
+      )}
+
+      {/* Roster Matrix Table */}
+      <div className="enterprise-table-card">
         <div className="table-header-toolbar">
           <div>
-            <h3 className="section-title">Plant Physical Sectors Telemetry Roster</h3>
-            <p className="section-subtext">Click any zone row to locate and inspect real-time boundary parameters</p>
+            <h3 className="section-title">Raffles Oil Spatial Telemetry Roster</h3>
+            <p className="section-subtext">Continuous multi-sensor readings mapped to physical infrastructure</p>
           </div>
-          <span className="stats-tag">Enrolled Hotspots: <strong>{PLANT_HOTSPOTS.length}</strong></span>
+          <span className="stats-tag">Total Enrolled Sectors: <strong>{zones.length}</strong></span>
         </div>
 
         <div className="table-wrapper">
           <table className="enterprise-data-table">
             <thead>
               <tr>
-                <th>Zone Name</th>
-                <th>Facility Sector</th>
+                <th>Physical Zone</th>
+                <th>Sector Function</th>
                 <th>Temperature</th>
-                <th>Noise Level</th>
+                <th>Noise (OSHA Limit 55dB)</th>
                 <th>Humidity</th>
-                <th>Water / Quality</th>
+                <th>Water & Effluent</th>
                 <th>Status</th>
                 <th className="text-right">Action</th>
               </tr>
             </thead>
             <tbody>
-              {PLANT_HOTSPOTS.map((spot) => {
-                const isSelected = selectedHotspot?.id === spot.id;
+              {zones.map((spot) => {
+                const isSelected = spot.id === activeHighlightId;
                 return (
                   <tr 
                     key={spot.id} 
                     className={`table-row-interactive ${isSelected ? 'row-selected-highlight' : ''}`}
-                    onClick={() => setSelectedHotspot(spot)}
+                    onClick={() => setActiveHighlightId(spot.id)}
                   >
                     <td>
                       <div className="location-title-cell">
@@ -596,7 +653,7 @@ export default function FacilityMapView({ onSelectLocation }) {
                         </div>
                         <div>
                           <span className="location-name-bold">{spot.name}</span>
-                          <div className="text-xs text-muted">Node ID: {spot.id}</div>
+                          <div className="text-xs text-muted">{spot.fullName}</div>
                         </div>
                       </div>
                     </td>
@@ -609,7 +666,7 @@ export default function FacilityMapView({ onSelectLocation }) {
                     <td>
                       {spot.noise ? (
                         <span className={spot.noise > 55 ? 'text-alert font-bold' : ''}>
-                          {spot.noise} dB
+                          {spot.noise} dB {spot.noise > 55 ? '⚠️' : ''}
                         </span>
                       ) : <span className="text-muted">—</span>}
                     </td>
