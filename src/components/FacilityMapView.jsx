@@ -450,6 +450,25 @@ export default function FacilityMapView({
           const isAlert = spot.status === 'Alert';
           const isHighlighted = spot.id === activeHighlightId;
 
+          const topVal = parseFloat(spot.top) || 50;
+          const leftVal = parseFloat(spot.left) || 50;
+          const isTopEdge = topVal < 32;
+          const isLeftEdge = leftVal < 22;
+          const isRightEdge = leftVal > 78;
+
+          const popupPosStyle = {};
+          if (isTopEdge) {
+            popupPosStyle.top = '28px';
+            popupPosStyle.bottom = 'auto';
+          }
+          if (isLeftEdge) {
+            popupPosStyle.left = '0%';
+            popupPosStyle.transform = 'translateX(0)';
+          } else if (isRightEdge) {
+            popupPosStyle.left = '100%';
+            popupPosStyle.transform = 'translateX(-100%)';
+          }
+
           return (
             <div 
               key={spot.id}
@@ -468,10 +487,11 @@ export default function FacilityMapView({
                 <div className="pin-pointer-dot"></div>
               </div>
 
-              {/* CYCLING LIVE POPUP CARD — only visible for the active zone */}
+              {/* CYCLING LIVE POPUP CARD — with edge-clamping */}
               {visiblePopupId === spot.id && (
                 <div 
-                  className={`continuous-popup-card popup-cycle-anim ${isAlert ? 'popup-theme-alert' : 'popup-theme-normal'} popup-highlight-glow`}
+                  className={`continuous-popup-card popup-cycle-anim ${isAlert ? 'popup-theme-alert' : 'popup-theme-normal'} ${isTopEdge ? 'popup-is-top-edge' : ''} ${isLeftEdge ? 'popup-is-left-edge' : ''} ${isRightEdge ? 'popup-is-right-edge' : ''}`}
+                  style={popupPosStyle}
                   onClick={(e) => {
                     e.stopPropagation();
                     setActiveHighlightId(spot.id);

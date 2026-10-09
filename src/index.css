@@ -1,35 +1,35 @@
 :root {
-  --sidebar-bg: #141e2e;
-  --sidebar-hover: #1e293b;
+  --sidebar-bg: #ffffff;
+  --sidebar-hover: #f1f5f9;
   --sidebar-active: #059669;
-  --sidebar-text: #94a3b8;
+  --sidebar-text: #475569;
   --sidebar-text-active: #ffffff;
   
   --primary: #059669;
   --primary-hover: #047857;
-  --primary-light: rgba(16, 185, 129, 0.2);
+  --primary-light: rgba(5, 150, 105, 0.12);
   
-  --bg-main: #0f172a;
-  --bg-card: rgba(30, 41, 59, 0.88);
+  --bg-main: #f4f6f8;
+  --bg-card: #ffffff;
   
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --text-subtle: #cbd5e1;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --text-subtle: #475569;
   
-  --border-color: rgba(255, 255, 255, 0.12);
-  --border-light: rgba(255, 255, 255, 0.08);
+  --border-color: #e2e8f0;
+  --border-light: #f1f5f9;
   
-  --status-active-bg: rgba(16, 185, 129, 0.15);
-  --status-active-text: #10b981;
+  --status-active-bg: rgba(16, 185, 129, 0.12);
+  --status-active-text: #059669;
   
-  --status-inactive-bg: rgba(100, 116, 139, 0.15);
-  --status-inactive-text: #94a3b8;
+  --status-inactive-bg: rgba(100, 116, 139, 0.12);
+  --status-inactive-text: #64748b;
   
-  --status-alert-bg: rgba(239, 68, 68, 0.18);
-  --status-alert-text: #ef4444;
+  --status-alert-bg: rgba(239, 68, 68, 0.12);
+  --status-alert-text: #dc2626;
   
-  --status-warn-bg: rgba(245, 158, 11, 0.18);
-  --status-warn-text: #fbbf24;
+  --status-warn-bg: rgba(245, 158, 11, 0.12);
+  --status-warn-text: #d97706;
 
   --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --radius-sm: 8px;
