@@ -28,7 +28,9 @@ import {
   Link,
   Share2,
   Copy,
-  Check
+  Check,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
 import plantIsometricImg from '../assets/plant-isometric-clean.jpg';
 import plantDroneImg from '../assets/plant-aerial-drone.jpg';
@@ -247,7 +249,13 @@ const INITIAL_ZONES = [
   }
 ];
 
-export default function FacilityMapView({ onSelectLocation, onShowToast }) {
+export default function FacilityMapView({ 
+  onSelectLocation, 
+  onShowToast, 
+  isStandalone = false, 
+  onOpenAdminDashboard, 
+  onLaunchFullscreen 
+}) {
   // Read initial targeted zone from URL if present (e.g. ?tab=facility-map&zone=bottling)
   const getInitialZone = () => {
     try {
@@ -267,6 +275,7 @@ export default function FacilityMapView({ onSelectLocation, onShowToast }) {
   const [filterMode, setFilterMode] = useState('all'); // 'all', 'alerts', 'temp', 'noise', 'water'
   const [isAutoCycling, setIsAutoCycling] = useState(false);
   const [isFullscreenModal, setIsFullscreenModal] = useState(false);
+  const [isSummaryDockExpanded, setIsSummaryDockExpanded] = useState(true);
   const [mapPerspective, setMapPerspective] = useState('3d'); // '3d' or 'aerial'
   const [zoomLevel, setZoomLevel] = useState(1);
   const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
@@ -281,6 +290,7 @@ export default function FacilityMapView({ onSelectLocation, onShowToast }) {
       const targetZone = zoneId || activeHighlightId;
       const url = new URL(window.location.origin + window.location.pathname);
       url.searchParams.set('tab', 'facility-map');
+      url.searchParams.set('mode', 'fullscreen');
       if (targetZone && targetZone !== 'bottling') {
         url.searchParams.set('zone', targetZone);
       }
@@ -289,7 +299,7 @@ export default function FacilityMapView({ onSelectLocation, onShowToast }) {
       setCopiedUrl(true);
       setTimeout(() => setCopiedUrl(false), 3000);
       if (onShowToast) {
-        onShowToast(`Direct Map URL copied: ${directUrl}`);
+        onShowToast(`Direct Fullscreen Map URL copied: ${directUrl}`);
       }
     } catch (e) {
       // Fallback
@@ -573,20 +583,325 @@ export default function FacilityMapView({ onSelectLocation, onShowToast }) {
     </div>
   );
 
+  // Pinned Floating Telemetry & Diagnostics Summary Deck
+  const renderFloatingSummaryDock = (isPinnedBottom = false) => {
+    if (!highlightedZone) return null;
+
+    return (
+      <div className={`active-zone-dock animate-fade-in ${isPinnedBottom ? 'dock-pinned-bottom' : ''} ${!isSummaryDockExpanded ? 'dock-minimized' : ''}`}>
+        {/* Dock Header & Summary Statistics Strip */}
+        <div className="dock-meta-header-bar">
+          <div className="dock-summary-stats-strip">
+            <span className="dock-kpi-pill">
+              <span className="kpi-dot dot-cyan"></span>
+              <strong>10</strong> Monitored Zones
+            </span>
+            <span className="dock-kpi-pill kpi-pill-alert">
+              <span className="kpi-dot dot-red"></span>
+              <strong>1</strong> Critical Breach: Bottling (68.7 dB)
+            </span>
+            <span className="dock-kpi-pill">
+              <span className="kpi-dot dot-emerald"></span>
+              <strong>9</strong> Operational Normal
+            </span>
+            <span className="dock-kpi-pill">
+              <Radio size={12} className="text-success animate-pulse" />
+              Edge Mesh 100% Synced
+            </span>
+          </div>
+
+          <button 
+            className="dock-minimize-toggle-btn"
+            onClick={() => setIsSummaryDockExpanded(!isSummaryDockExpanded)}
+            title={isSummaryDockExpanded ? "Minimize summary dock" : "Expand summary dock"}
+          >
+            {isSummaryDockExpanded ? (
+              <>
+                <span>Hide Summary</span>
+                <ChevronDown size={14} />
+              </>
+            ) : (
+              <>
+                <span>Show Live Telemetry Summary ({highlightedZone.name})</span>
+                <ChevronUp size={14} />
+              </>
+            )}
+          </button>
+        </div>
+
+        {isSummaryDockExpanded && (
+          <div className="dock-expanded-content">
+            <div className="dock-left-meta">
+              <div className={`dock-status-icon ${highlightedZone.status === 'Alert' ? 'bg-red-alert' : 'bg-emerald-normal'}`}>
+                {highlightedZone.status === 'Alert' ? <AlertTriangle size={22} /> : <CheckCircle2 size={22} />}
+              </div>
+              <div className="dock-title-block">
+                <div className="dock-tag-row">
+                  <span className="dock-zone-id">Zone: #{highlightedZone.id.toUpperCase()}</span>
+                  <span className={`status-pill ${highlightedZone.status === 'Alert' ? 'tag-critical' : 'pill-active'}`}>
+                    {highlightedZone.status === 'Alert' ? 'Active Alarm Breach' : 'Operational Normal'}
+                  </span>
+                  <span className="dock-stream-live">● Live Stream</span>
+                </div>
+                <h3 className="dock-zone-name">{highlightedZone.fullName}</h3>
+                <p className="dock-zone-sector">{highlightedZone.sector} • <strong>{highlightedZone.devicesCount} IoT Nodes</strong></p>
+              </div>
+            </div>
+
+            <div className="dock-metrics-strip">
+              {highlightedZone.temp !== null && (
+                <div className="dock-metric-box">
+                  <span className="metric-box-label">Temperature</span>
+                  <span className="metric-box-val">{highlightedZone.temp} °C</span>
+                  <div className="metric-bar-wrap">
+                    <div className="metric-bar-inner fill-orange" style={{ width: `${(highlightedZone.temp / 50) * 100}%` }}></div>
+                  </div>
+                </div>
+              )}
+
+              {highlightedZone.noise !== null && (
+                <div className={`dock-metric-box ${highlightedZone.noise > 55 ? 'box-breach' : ''}`}>
+                  <span className="metric-box-label">Noise Level</span>
+                  <span className={`metric-box-val ${highlightedZone.noise > 55 ? 'text-alert' : ''}`}>
+                    {highlightedZone.noise} dB
+                  </span>
+                  <div className="metric-bar-wrap">
+                    <div className={`metric-bar-inner ${highlightedZone.noise > 55 ? 'fill-red' : 'fill-purple'}`} style={{ width: `${(highlightedZone.noise / 90) * 100}%` }}></div>
+                  </div>
+                </div>
+              )}
+
+              {highlightedZone.humidity !== null && (
+                <div className="dock-metric-box">
+                  <span className="metric-box-label">Humidity</span>
+                  <span className="metric-box-val">{highlightedZone.humidity} %</span>
+                  <div className="metric-bar-wrap">
+                    <div className="metric-bar-inner fill-blue" style={{ width: `${highlightedZone.humidity}%` }}></div>
+                  </div>
+                </div>
+              )}
+
+              {highlightedZone.light !== null && (
+                <div className="dock-metric-box">
+                  <span className="metric-box-label">Light / Lux</span>
+                  <span className="metric-box-val">{highlightedZone.light} lx</span>
+                  <div className="metric-bar-wrap">
+                    <div className="metric-bar-inner fill-amber" style={{ width: `${(highlightedZone.light / 1000) * 100}%` }}></div>
+                  </div>
+                </div>
+              )}
+
+              {highlightedZone.ph !== null && (
+                <div className="dock-metric-box">
+                  <span className="metric-box-label">Water pH</span>
+                  <span className="metric-box-val text-primary">pH {highlightedZone.ph}</span>
+                  <div className="metric-bar-wrap">
+                    <div className="metric-bar-inner fill-green" style={{ width: `${(highlightedZone.ph / 14) * 100}%` }}></div>
+                  </div>
+                </div>
+              )}
+
+              {highlightedZone.tds !== null && (
+                <div className="dock-metric-box">
+                  <span className="metric-box-label">TDS Water Purity</span>
+                  <span className="metric-box-val">{highlightedZone.tds} ppm</span>
+                  <div className="metric-bar-wrap">
+                    <div className="metric-bar-inner fill-teal" style={{ width: `${(highlightedZone.tds / 500) * 100}%` }}></div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Quick Zone Switcher Buttons */}
+            <div className="dock-zone-quick-pills">
+              <span className="quick-pill-label">Zone:</span>
+              <div className="quick-pill-scroll">
+                {zones.map((z) => (
+                  <button
+                    key={z.id}
+                    className={`zone-switch-btn ${z.id === activeHighlightId ? 'active-zone' : ''} ${z.status === 'Alert' ? 'zone-has-alert' : ''}`}
+                    onClick={() => setActiveHighlightId(z.id)}
+                  >
+                    <span>{z.name}</span>
+                    {z.status === 'Alert' && <span className="zone-alert-dot">!</span>}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="dock-actions-cluster">
+              <button 
+                className="dock-share-btn"
+                onClick={() => handleCopyDirectUrl(highlightedZone.id)}
+                title={`Copy direct browser URL targeted to ${highlightedZone.name}`}
+              >
+                <Share2 size={13} />
+                <span>Share Link</span>
+              </button>
+
+              <button 
+                className="dock-launch-inspect-btn"
+                onClick={() => onSelectLocation(highlightedZone)}
+              >
+                <span>Diagnostics</span>
+                <ExternalLink size={14} />
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  // STANDALONE FULLSCREEN SCADA VIEW (Opened directly via copied link or mode=fullscreen)
+  if (isStandalone) {
+    return (
+      <div className="standalone-scada-viewport">
+        {/* Floating Top SCADA Command Bar */}
+        <div className="scada-floating-topbar">
+          <div className="scada-topbar-left">
+            <div className="scada-brand-cluster">
+              <Compass size={18} className="text-emerald" />
+              <div>
+                <span className="scada-brand-title">DUFIL • RAFFLES OIL</span>
+                <span className="scada-brand-sub">DIGITAL TWIN 3D</span>
+              </div>
+            </div>
+            <div className="scada-pulse-cluster">
+              <span className="scada-heartbeat-dot"></span>
+              <span className="scada-heartbeat-text">LIVE</span>
+            </div>
+            <div className="scada-alert-badge">
+              <AlertTriangle size={13} className="text-alert" />
+              <span>Bottling: <strong>68.7 dB</strong></span>
+            </div>
+          </div>
+
+          <div className="scada-topbar-center">
+            {/* Perspective switch */}
+            <div className="perspective-toggle-cluster">
+              <button 
+                className={`perspective-pill ${mapPerspective === '3d' ? 'active' : ''}`}
+                onClick={() => setMapPerspective('3d')}
+                title="Switch to 3D Architectural Model"
+              >
+                <Layers size={13} />
+                <span>3D Twin</span>
+              </button>
+              <button 
+                className={`perspective-pill ${mapPerspective === 'aerial' ? 'active' : ''}`}
+                onClick={() => setMapPerspective('aerial')}
+                title="Switch to Satellite Drone Aerial Photo"
+              >
+                <Camera size={13} />
+                <span>Drone Aerial</span>
+              </button>
+            </div>
+
+            {/* Filter pills */}
+            <div className="map-filter-pills">
+              {[
+                { id: 'all', label: 'All' },
+                { id: 'alerts', label: 'Alarms', badge: '1' },
+                { id: 'temp', label: 'Temp' },
+                { id: 'noise', label: 'Noise' },
+                { id: 'water', label: 'Water' }
+              ].map((f) => (
+                <button
+                  key={f.id}
+                  className={`map-chip-btn ${filterMode === f.id ? 'active' : ''}`}
+                  onClick={() => setFilterMode(f.id)}
+                >
+                  <span>{f.label}</span>
+                  {f.badge && <span className="chip-badge-alert">{f.badge}</span>}
+                </button>
+              ))}
+            </div>
+
+            {/* Popups toggle */}
+            <button
+              className={`map-tool-toggle-btn ${showContinuousPopups ? 'active' : ''}`}
+              onClick={() => setShowContinuousPopups(!showContinuousPopups)}
+            >
+              <Eye size={14} />
+              <span>{showContinuousPopups ? 'Popups: ON' : 'Popups: OFF'}</span>
+            </button>
+
+            {/* Auto Tour */}
+            <button
+              className={`map-tool-toggle-btn ${isAutoCycling ? 'active' : ''}`}
+              onClick={() => setIsAutoCycling(!isAutoCycling)}
+            >
+              {isAutoCycling ? <Pause size={14} /> : <Play size={14} />}
+              <span>{isAutoCycling ? 'Cycling...' : 'Auto Tour'}</span>
+            </button>
+          </div>
+
+          <div className="scada-topbar-right">
+            {/* Zoom cluster */}
+            <div className="fs-zoom-cluster">
+              <button className="fs-ctrl-btn" onClick={handleZoomOut} title="Zoom Out (-)">
+                <ZoomOut size={15} />
+              </button>
+              <span className="fs-zoom-readout">{Math.round(zoomLevel * 100)}%</span>
+              <button className="fs-ctrl-btn" onClick={handleZoomIn} title="Zoom In (+)">
+                <ZoomIn size={15} />
+              </button>
+              <button className="fs-ctrl-btn fs-btn-reset" onClick={handleResetZoom} title="Reset">
+                <RotateCcw size={13} />
+                <span>Reset</span>
+              </button>
+            </div>
+
+            {/* Copy Map URL */}
+            <button
+              className={`map-direct-url-btn ${copiedUrl ? 'is-copied' : ''}`}
+              onClick={() => handleCopyDirectUrl()}
+              title="Copy direct shareable browser URL"
+            >
+              {copiedUrl ? <Check size={14} className="text-success" /> : <Link size={14} />}
+              <span>{copiedUrl ? 'Copied' : 'Copy URL'}</span>
+            </button>
+
+            {/* Exit to Admin Portal */}
+            {onOpenAdminDashboard && (
+              <button
+                className="scada-admin-btn"
+                onClick={onOpenAdminDashboard}
+                title="Return to full admin console"
+              >
+                <ExternalLink size={14} />
+                <span>Dashboard</span>
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* 100vw x 100vh Fullscreen Canvas */}
+        <div className="scada-canvas-fullscreen" ref={mapContainerRef}>
+          {renderMapCanvas(true)}
+        </div>
+
+        {/* Floating Pinned Summary Dock */}
+        {renderFloatingSummaryDock(true)}
+      </div>
+    );
+  }
+
   return (
     <div className="facility-map-page animate-fade-in">
       {/* Top Banner */}
       <div className="dashboard-title-banner">
         <div>
           <div className="title-with-pill">
-            <h1 className="page-title">Plant GIS Map & Digital Twin</h1>
+            <h1 className="page-title">Plant Digital Twin</h1>
             <span className="live-pill-tag">
               <span className="live-pulse-dot"></span>
-              Live Telemetry Stream: {lastStreamTime}
+              Live: {lastStreamTime}
             </span>
           </div>
           <p className="page-subtitle">
-            Raffles Oil Isometric Facility Layout — continuous live telemetry popups rendered over physical plant infrastructure
+            Dufil Industrial • Raffles Oil 3D Spatial Telemetry
           </p>
         </div>
 
@@ -594,15 +909,15 @@ export default function FacilityMapView({ onSelectLocation, onShowToast }) {
         <div className="facility-quick-stats-strip">
           <div className="facility-stat-item">
             <Compass size={16} className="text-primary" />
-            <span>10 Monitored Plant Zones</span>
+            <span>10 Zones</span>
           </div>
           <div className="facility-stat-item alert-breach-item">
             <AlertTriangle size={15} className="text-alert" />
-            <span>Bottling Noise Alert: <strong>{zones.find(z => z.id === 'bottling')?.noise || 68.4} dB</strong></span>
+            <span>Bottling: <strong>68.4 dB</strong></span>
           </div>
           <div className="facility-stat-item">
             <Radio size={14} className="text-success animate-pulse" />
-            <span>Edge Mesh: 100% Online</span>
+            <span>Mesh Online</span>
           </div>
         </div>
       </div>
@@ -695,9 +1010,13 @@ export default function FacilityMapView({ onSelectLocation, onShowToast }) {
             <button
               className="map-fullscreen-btn"
               onClick={() => {
-                setIsFullscreenModal(true);
-                setZoomLevel(1.1);
-                setPanOffset({ x: 0, y: 0 });
+                if (onLaunchFullscreen) {
+                  onLaunchFullscreen();
+                } else {
+                  setIsFullscreenModal(true);
+                  setZoomLevel(1.1);
+                  setPanOffset({ x: 0, y: 0 });
+                }
               }}
             >
               <Maximize2 size={15} />
@@ -792,113 +1111,14 @@ export default function FacilityMapView({ onSelectLocation, onShowToast }) {
           <div className="fullscreen-map-viewport">
             {renderMapCanvas(true)}
           </div>
+
+          {/* Pinned Summary Dock inside fullscreen modal */}
+          {renderFloatingSummaryDock(true)}
         </div>
       )}
 
       {/* Selected Zone Deep Diagnostic Deck */}
-      {highlightedZone && (
-        <div className="active-zone-dock animate-fade-in">
-          <div className="dock-left-meta">
-            <div className={`dock-status-icon ${highlightedZone.status === 'Alert' ? 'bg-red-alert' : 'bg-emerald-normal'}`}>
-              {highlightedZone.status === 'Alert' ? <AlertTriangle size={24} /> : <CheckCircle2 size={24} />}
-            </div>
-            <div className="dock-title-block">
-              <div className="dock-tag-row">
-                <span className="dock-zone-id">Zone: #{highlightedZone.id.toUpperCase()}</span>
-                <span className={`status-pill ${highlightedZone.status === 'Alert' ? 'tag-critical' : 'pill-active'}`}>
-                  {highlightedZone.status === 'Alert' ? 'Active Alarm Breach' : 'Operational Normal'}
-                </span>
-                <span className="dock-stream-live">● Live Synchronized</span>
-              </div>
-              <h3 className="dock-zone-name">{highlightedZone.fullName}</h3>
-              <p className="dock-zone-sector">{highlightedZone.sector} • Connected to <strong>{highlightedZone.devicesCount} IoT Telemetry Nodes</strong></p>
-            </div>
-          </div>
-
-          <div className="dock-metrics-strip">
-            {highlightedZone.temp !== null && (
-              <div className="dock-metric-box">
-                <span className="metric-box-label">Temperature</span>
-                <span className="metric-box-val">{highlightedZone.temp} °C</span>
-                <div className="metric-bar-wrap">
-                  <div className="metric-bar-inner fill-orange" style={{ width: `${(highlightedZone.temp / 50) * 100}%` }}></div>
-                </div>
-              </div>
-            )}
-
-            {highlightedZone.noise !== null && (
-              <div className={`dock-metric-box ${highlightedZone.noise > 55 ? 'box-breach' : ''}`}>
-                <span className="metric-box-label">Noise Level</span>
-                <span className={`metric-box-val ${highlightedZone.noise > 55 ? 'text-alert' : ''}`}>
-                  {highlightedZone.noise} dB
-                </span>
-                <div className="metric-bar-wrap">
-                  <div className={`metric-bar-inner ${highlightedZone.noise > 55 ? 'fill-red' : 'fill-purple'}`} style={{ width: `${(highlightedZone.noise / 90) * 100}%` }}></div>
-                </div>
-              </div>
-            )}
-
-            {highlightedZone.humidity !== null && (
-              <div className="dock-metric-box">
-                <span className="metric-box-label">Humidity</span>
-                <span className="metric-box-val">{highlightedZone.humidity} %</span>
-                <div className="metric-bar-wrap">
-                  <div className="metric-bar-inner fill-blue" style={{ width: `${highlightedZone.humidity}%` }}></div>
-                </div>
-              </div>
-            )}
-
-            {highlightedZone.light !== null && (
-              <div className="dock-metric-box">
-                <span className="metric-box-label">Light / Lux</span>
-                <span className="metric-box-val">{highlightedZone.light} lx</span>
-                <div className="metric-bar-wrap">
-                  <div className="metric-bar-inner fill-amber" style={{ width: `${(highlightedZone.light / 1000) * 100}%` }}></div>
-                </div>
-              </div>
-            )}
-
-            {highlightedZone.ph !== null && (
-              <div className="dock-metric-box">
-                <span className="metric-box-label">Water pH</span>
-                <span className="metric-box-val text-primary">pH {highlightedZone.ph}</span>
-                <div className="metric-bar-wrap">
-                  <div className="metric-bar-inner fill-green" style={{ width: `${(highlightedZone.ph / 14) * 100}%` }}></div>
-                </div>
-              </div>
-            )}
-
-            {highlightedZone.tds !== null && (
-              <div className="dock-metric-box">
-                <span className="metric-box-label">TDS Water Purity</span>
-                <span className="metric-box-val">{highlightedZone.tds} ppm</span>
-                <div className="metric-bar-wrap">
-                  <div className="metric-bar-inner fill-teal" style={{ width: `${(highlightedZone.tds / 500) * 100}%` }}></div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div className="dock-actions-cluster">
-            <button 
-              className="dock-share-btn"
-              onClick={() => handleCopyDirectUrl(highlightedZone.id)}
-              title={`Copy direct browser URL targeted to ${highlightedZone.name}`}
-            >
-              <Share2 size={13} />
-              <span>Share Link</span>
-            </button>
-
-            <button 
-              className="dock-launch-inspect-btn"
-              onClick={() => onSelectLocation(highlightedZone)}
-            >
-              <span>Full Diagnostics</span>
-              <ExternalLink size={14} />
-            </button>
-          </div>
-        </div>
-      )}
+      {renderFloatingSummaryDock(false)}
 
       {/* Roster Matrix Table */}
       <div className="enterprise-table-card">

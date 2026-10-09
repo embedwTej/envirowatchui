@@ -24,6 +24,29 @@ import LocationDetailModal from './components/LocationDetailModal';
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
 
+  // Helper to check if standalone fullscreen map mode is active
+  const checkIsStandaloneMap = () => {
+    try {
+      const searchParams = new URLSearchParams(window.location.search);
+      const mode = searchParams.get('mode');
+      const fullscreen = searchParams.get('fullscreen');
+      const queryTab = searchParams.get('tab') || searchParams.get('view');
+      const hash = window.location.hash.replace('#', '').toLowerCase();
+
+      const isMapRoute = queryTab === 'map' || queryTab === 'facility-map' || hash === 'map' || hash === 'facility-map';
+      // If standalone/fullscreen explicitly requested OR if the map tab URL is loaded directly
+      if (mode === 'fullscreen' || mode === 'kiosk' || fullscreen === 'true') {
+        return true;
+      }
+      if (isMapRoute && mode !== 'admin') {
+        return true;
+      }
+    } catch (e) {
+      // ignore
+    }
+    return false;
+  };
+
   // Helper to parse view from URL (e.g. ?tab=facility-map or ?view=map or #map)
   const getViewFromURL = () => {
     try {
@@ -43,6 +66,7 @@ export default function App() {
   };
 
   const [currentView, setCurrentView] = useState(getViewFromURL);
+  const [isStandaloneMap, setIsStandaloneMap] = useState(checkIsStandaloneMap);
 
   // Synchronize view changes with browser URL
   const handleSetCurrentView = (newView) => {
@@ -52,9 +76,13 @@ export default function App() {
       if (newView === 'realtime') {
         url.searchParams.delete('tab');
         url.searchParams.delete('view');
+        url.searchParams.delete('mode');
         window.history.replaceState({}, '', url.pathname + (url.search ? url.search : '') + (url.hash || ''));
       } else {
         url.searchParams.set('tab', newView);
+        if (newView !== 'facility-map') {
+          url.searchParams.delete('mode');
+        }
         window.history.replaceState({}, '', url.toString());
       }
     } catch (e) {
@@ -66,6 +94,7 @@ export default function App() {
   useEffect(() => {
     const handlePopState = () => {
       setCurrentView(getViewFromURL());
+      setIsStandaloneMap(checkIsStandaloneMap());
     };
     window.addEventListener('popstate', handlePopState);
     window.addEventListener('hashchange', handlePopState);
@@ -258,6 +287,44 @@ export default function App() {
     'users': 'Users & Roles Management',
   };
 
+  // Standalone Fullscreen Map View (No sidebar, no admin navbar, pure 100vw x 100vh SCADA digital twin with popups & summary)
+  if (isStandaloneMap) {
+    return (
+      <div className="standalone-fullscreen-map-app">
+        <FacilityMapView
+          isStandalone={true}
+          onSelectLocation={(loc) => setSelectedDetailLoc(loc)}
+          onShowToast={showToast}
+          onOpenAdminDashboard={() => {
+            setIsStandaloneMap(false);
+            const url = new URL(window.location.href);
+            url.searchParams.set('tab', 'facility-map');
+            url.searchParams.set('mode', 'admin');
+            window.history.replaceState({}, '', url.toString());
+            handleSetCurrentView('facility-map');
+          }}
+        />
+
+        {/* Location Details Modal */}
+        {selectedDetailLoc && (
+          <LocationDetailModal
+            location={selectedDetailLoc}
+            devices={devicesByLocation[selectedDetailLoc.name] || []}
+            onClose={() => setSelectedDetailLoc(null)}
+          />
+        )}
+
+        {/* Floating Action Toast */}
+        {toast && (
+          <div className="toast-notification animate-fade-in">
+            <span className="toast-dot-pulse"></span>
+            <span>{toast}</span>
+          </div>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="app-layout">
       {/* Enterprise Dark Forest Sidebar */}
@@ -292,8 +359,16 @@ export default function App() {
 
           {currentView === 'facility-map' && (
             <FacilityMapView
+              isStandalone={false}
               onSelectLocation={(loc) => setSelectedDetailLoc(loc)}
               onShowToast={showToast}
+              onLaunchFullscreen={() => {
+                setIsStandaloneMap(true);
+                const url = new URL(window.location.href);
+                url.searchParams.set('tab', 'facility-map');
+                url.searchParams.set('mode', 'fullscreen');
+                window.history.replaceState({}, '', url.toString());
+              }}
             />
           )}
 

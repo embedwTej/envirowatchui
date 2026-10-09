@@ -38,16 +38,16 @@ export default function Navbar({
     <header className="top-navbar">
       <div className="navbar-left">
         <div className="page-breadcrumb">
-          <span className="breadcrumb-brand">Enviro Watch</span>
+          <span className="breadcrumb-brand">Dufil Industrial</span>
           <span className="breadcrumb-separator">/</span>
           <span className="breadcrumb-current">{currentViewTitle}</span>
         </div>
 
         <div className="live-stream-badge">
           <span className="pulse-dot"></span>
-          <span className="stream-text">LIVE TELEMETRY</span>
+          <span className="stream-text">LIVE</span>
           <span className="stream-sep">•</span>
-          <span className="gateway-text">Broker Connected</span>
+          <span className="gateway-text">Connected</span>
         </div>
       </div>
 

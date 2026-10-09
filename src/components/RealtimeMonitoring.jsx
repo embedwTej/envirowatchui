@@ -65,13 +65,13 @@ export default function RealtimeMonitoring({ locations, onSelectLocation, onExpo
       {/* Top Banner & Header */}
       <div className="dashboard-title-banner">
         <div>
-          <h1 className="page-title">Realtime Monitoring</h1>
-          <p className="page-subtitle">Continuous environmental telemetry across manufacturing units</p>
+          <h1 className="page-title">Plant Telemetry</h1>
+          <p className="page-subtitle">Dufil Industrial • Raffles Oil Complex</p>
         </div>
 
         <div className="telemetry-sync-status">
           <span className="live-pulse-dot"></span>
-          <span>Sampling Interval: <strong>1.0s</strong></span>
+          <span>Sync: <strong>1.0s</strong></span>
         </div>
       </div>
 
@@ -80,76 +80,76 @@ export default function RealtimeMonitoring({ locations, onSelectLocation, onExpo
         <div className="kpi-card kpi-card-total">
           <div className="kpi-card-header">
             <div className="kpi-icon-container kpi-teal-icon">
-              <Building2 size={22} />
+              <Building2 size={20} />
             </div>
-            <span className="kpi-trend-pill positive">+100% active</span>
+            <span className="kpi-trend-pill positive">100% Online</span>
           </div>
           <div className="kpi-card-body">
             <span className="kpi-metric-number">{totalLocations}</span>
-            <span className="kpi-metric-title">Total Monitored Locations</span>
+            <span className="kpi-metric-title">Monitored Units</span>
           </div>
           <div className="kpi-card-footer">
             <div className="kpi-progress-bar">
               <div className="kpi-progress-fill fill-teal" style={{ width: '100%' }}></div>
             </div>
-            <span className="kpi-footer-sub">All facility sectors enrolled</span>
+            <span className="kpi-footer-sub">All sectors active</span>
           </div>
         </div>
 
         <div className="kpi-card kpi-card-alert">
           <div className="kpi-card-header">
             <div className="kpi-icon-container kpi-red-icon">
-              <AlertTriangle size={22} />
+              <AlertTriangle size={20} />
             </div>
-            <span className="kpi-trend-pill alert-pulse">Action Required</span>
+            <span className="kpi-trend-pill alert-pulse">Alarm</span>
           </div>
           <div className="kpi-card-body">
             <span className="kpi-metric-number text-alert">{alertCount}</span>
-            <span className="kpi-metric-title">Active Critical Alerts</span>
+            <span className="kpi-metric-title">Critical Breach</span>
           </div>
           <div className="kpi-card-footer">
             <div className="kpi-progress-bar">
               <div className="kpi-progress-fill fill-red" style={{ width: `${(alertCount / totalLocations) * 100}%` }}></div>
             </div>
-            <span className="kpi-footer-sub text-alert">Bottling noise threshold violation</span>
+            <span className="kpi-footer-sub text-alert">Bottling: 68.4 dB</span>
           </div>
         </div>
 
         <div className="kpi-card kpi-card-normal">
           <div className="kpi-card-header">
             <div className="kpi-icon-container kpi-green-icon">
-              <Leaf size={22} />
+              <Leaf size={20} />
             </div>
-            <span className="kpi-trend-pill positive">Safe Parameters</span>
+            <span className="kpi-trend-pill positive">Normal</span>
           </div>
           <div className="kpi-card-body">
             <span className="kpi-metric-number">{normalCount}</span>
-            <span className="kpi-metric-title">All Operational Normal</span>
+            <span className="kpi-metric-title">Normal Units</span>
           </div>
           <div className="kpi-card-footer">
             <div className="kpi-progress-bar">
               <div className="kpi-progress-fill fill-green" style={{ width: `${(normalCount / totalLocations) * 100}%` }}></div>
             </div>
-            <span className="kpi-footer-sub">Telemetry within OSHA & ISO limits</span>
+            <span className="kpi-footer-sub">Within limits</span>
           </div>
         </div>
 
         <div className="kpi-card kpi-card-inactive">
           <div className="kpi-card-header">
             <div className="kpi-icon-container kpi-amber-icon">
-              <ShieldAlert size={22} />
+              <ShieldAlert size={20} />
             </div>
             <span className="kpi-trend-pill neutral">Standby</span>
           </div>
           <div className="kpi-card-body">
             <span className="kpi-metric-number">{inactiveCount}</span>
-            <span className="kpi-metric-title">Inactive / Standby Nodes</span>
+            <span className="kpi-metric-title">Standby Units</span>
           </div>
           <div className="kpi-card-footer">
             <div className="kpi-progress-bar">
               <div className="kpi-progress-fill fill-amber" style={{ width: `${(inactiveCount / totalLocations) * 100}%` }}></div>
             </div>
-            <span className="kpi-footer-sub">Scheduled line maintenance</span>
+            <span className="kpi-footer-sub">Maintenance mode</span>
           </div>
         </div>
       </div>
@@ -221,7 +221,7 @@ export default function RealtimeMonitoring({ locations, onSelectLocation, onExpo
           return (
             <div 
               key={loc.id} 
-              className={`modern-location-card ${isAlert ? 'is-alert-active' : ''}`}
+              className={`modern-location-card ${isAlert ? 'is-alert-active' : isInactive ? 'is-inactive-card' : 'is-normal-card'}`}
               onClick={() => onSelectLocation(loc)}
             >
               {/* Card Header */}
@@ -389,21 +389,6 @@ export default function RealtimeMonitoring({ locations, onSelectLocation, onExpo
                     </div>
                   </div>
                 )}
-              </div>
-
-              {/* Sparkline Visual Simulation */}
-              <div className="card-sparkline-preview">
-                <svg viewBox="0 0 100 20" className="mini-sparkline-svg">
-                  <path
-                    d={isAlert 
-                      ? "M 0,10 Q 25,18 50,5 T 100,18" 
-                      : "M 0,12 Q 25,7 50,11 T 100,9"}
-                    fill="none"
-                    stroke={isAlert ? "#ef4444" : isNormal ? "#10b981" : "#94a3b8"}
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                </svg>
               </div>
 
               {/* Card Footer */}

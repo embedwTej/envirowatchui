@@ -30,13 +30,13 @@ export default function Sidebar({ currentView, setCurrentView, onLogout, activeA
       {/* Brand Header */}
       <div className="sidebar-header">
         <div className="sidebar-logo">
-          <div className="logo-icon-box">
-            <span className="logo-letter">E</span>
+          <div className="logo-icon-box dufil-logo-box">
+            <span className="logo-letter">D</span>
             <div className="logo-pulse-ring"></div>
           </div>
           <div className="logo-text-block">
-            <span className="logo-brand-title">Enviro Watch</span>
-            <span className="logo-brand-subtitle">IoT Enterprise Telemetry</span>
+            <span className="logo-brand-title">DUFIL</span>
+            <span className="logo-brand-subtitle">Raffles Oil Complex</span>
           </div>
         </div>
       </div>
@@ -44,8 +44,8 @@ export default function Sidebar({ currentView, setCurrentView, onLogout, activeA
       {/* System Status Pill */}
       <div className="sidebar-system-status">
         <div className="sys-status-indicator">
-          <Radio size={12} className="sys-icon-radio animate-pulse" />
-          <span>Gateway: Online</span>
+          <Radio size={12} className="sys-icon-radio animate-pulse text-success" />
+          <span>Online</span>
         </div>
         <span className="sys-ping-rate">22 Nodes</span>
       </div>
