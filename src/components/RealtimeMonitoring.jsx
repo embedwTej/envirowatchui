@@ -90,93 +90,69 @@ export default function RealtimeMonitoring({ locations, onSelectLocation, onExpo
         </div>
       </div>
 
-      {/* 4 Executive KPI Cards */}
-      <div className="kpi-grid">
-        <div className="kpi-card kpi-card-total">
-          <div className="kpi-card-header">
+      {/* 4 Compact Executive KPI Cards */}
+      <div className="kpi-grid kpi-grid-compact">
+        <div className="kpi-card kpi-card-compact kpi-card-total">
+          <div className="kpi-compact-left">
             <div className="kpi-icon-container kpi-teal-icon">
-              <Building2 size={20} />
+              <Building2 size={16} />
             </div>
-            <div className="kpi-status-badge positive">
-              <span className="badge-glow-dot green"></span>
-              <span>100% ONLINE</span>
+            <div className="kpi-compact-info">
+              <div className="kpi-metric-number">{totalLocations}</div>
+              <div className="kpi-metric-title">Monitored Units</div>
             </div>
           </div>
-          <div className="kpi-card-body">
-            <div className="kpi-metric-number">{totalLocations}</div>
-            <div className="kpi-metric-title">Total Monitored Units</div>
-          </div>
-          <div className="kpi-card-footer">
-            <div className="kpi-progress-bar">
-              <div className="kpi-progress-fill fill-teal" style={{ width: '100%' }}></div>
-            </div>
-            <div className="kpi-footer-sub">All plant sectors connected</div>
+          <div className="kpi-status-badge positive">
+            <span className="badge-glow-dot green"></span>
+            <span>100% ONLINE</span>
           </div>
         </div>
 
-        <div className="kpi-card kpi-card-alert">
-          <div className="kpi-card-header">
+        <div className="kpi-card kpi-card-compact kpi-card-alert">
+          <div className="kpi-compact-left">
             <div className="kpi-icon-container kpi-red-icon">
-              <AlertTriangle size={20} />
+              <AlertTriangle size={16} />
             </div>
-            <div className="kpi-status-badge alert">
-              <span className="badge-glow-dot red"></span>
-              <span>ALARM ACTIVE</span>
+            <div className="kpi-compact-info">
+              <div className="kpi-metric-number text-alert">{alertCount}</div>
+              <div className="kpi-metric-title">Critical Breaches</div>
             </div>
           </div>
-          <div className="kpi-card-body">
-            <div className="kpi-metric-number text-alert">{alertCount}</div>
-            <div className="kpi-metric-title">Critical Breach Alert</div>
-          </div>
-          <div className="kpi-card-footer">
-            <div className="kpi-progress-bar">
-              <div className="kpi-progress-fill fill-red" style={{ width: `${Math.max(15, (alertCount / totalLocations) * 100)}%` }}></div>
-            </div>
-            <div className="kpi-footer-sub text-alert">Bottling Hub: 68.4 dB (Limit: 55 dB)</div>
+          <div className="kpi-status-badge alert">
+            <span className="badge-glow-dot red"></span>
+            <span>ALARM</span>
           </div>
         </div>
 
-        <div className="kpi-card kpi-card-normal">
-          <div className="kpi-card-header">
+        <div className="kpi-card kpi-card-compact kpi-card-normal">
+          <div className="kpi-compact-left">
             <div className="kpi-icon-container kpi-green-icon">
-              <Leaf size={20} />
+              <Leaf size={16} />
             </div>
-            <div className="kpi-status-badge normal">
-              <span className="badge-glow-dot green"></span>
-              <span>OPTIMAL</span>
+            <div className="kpi-compact-info">
+              <div className="kpi-metric-number">{normalCount}</div>
+              <div className="kpi-metric-title">Optimal Units</div>
             </div>
           </div>
-          <div className="kpi-card-body">
-            <div className="kpi-metric-number">{normalCount}</div>
-            <div className="kpi-metric-title">Normal Operating Units</div>
-          </div>
-          <div className="kpi-card-footer">
-            <div className="kpi-progress-bar">
-              <div className="kpi-progress-fill fill-green" style={{ width: `${(normalCount / totalLocations) * 100}%` }}></div>
-            </div>
-            <div className="kpi-footer-sub">Telemetry within limits</div>
+          <div className="kpi-status-badge normal">
+            <span className="badge-glow-dot green"></span>
+            <span>NORMAL</span>
           </div>
         </div>
 
-        <div className="kpi-card kpi-card-inactive">
-          <div className="kpi-card-header">
+        <div className="kpi-card kpi-card-compact kpi-card-inactive">
+          <div className="kpi-compact-left">
             <div className="kpi-icon-container kpi-amber-icon">
-              <ShieldAlert size={20} />
+              <ShieldAlert size={16} />
             </div>
-            <div className="kpi-status-badge standby">
-              <span className="badge-glow-dot slate"></span>
-              <span>STANDBY</span>
+            <div className="kpi-compact-info">
+              <div className="kpi-metric-number">{inactiveCount}</div>
+              <div className="kpi-metric-title">Standby Units</div>
             </div>
           </div>
-          <div className="kpi-card-body">
-            <div className="kpi-metric-number">{inactiveCount}</div>
-            <div className="kpi-metric-title">Standby / Inactive Units</div>
-          </div>
-          <div className="kpi-card-footer">
-            <div className="kpi-progress-bar">
-              <div className="kpi-progress-fill fill-amber" style={{ width: `${(inactiveCount / totalLocations) * 100}%` }}></div>
-            </div>
-            <div className="kpi-footer-sub">Maintenance mode active</div>
+          <div className="kpi-status-badge standby">
+            <span className="badge-glow-dot slate"></span>
+            <span>STANDBY</span>
           </div>
         </div>
       </div>
