@@ -7,7 +7,7 @@ import {
   X, 
   Cpu, 
   Wifi, 
-  Battery, 
+  Zap, 
   Clock, 
   Radio, 
   Copy, 
@@ -37,7 +37,7 @@ export default function DeviceManagement({
     status: 'Active',
     location: 'QA Lab',
     firmware: 'v2.5.0',
-    battery: '98%'
+    power: '220V AC'
   });
 
   const locationList = locations.map(l => l.name);
@@ -69,7 +69,7 @@ export default function DeviceManagement({
       status: 'Active',
       location: selectedLocation,
       firmware: 'v2.5.0',
-      battery: '100%'
+      power: '220V AC'
     });
     setIsModalOpen(true);
   };
@@ -83,7 +83,7 @@ export default function DeviceManagement({
       status: dev.status,
       location: selectedLocation,
       firmware: dev.firmware || 'v2.5.0',
-      battery: dev.battery || '95%'
+      power: dev.power || '220V AC'
     });
     setIsModalOpen(true);
   };
@@ -113,7 +113,7 @@ export default function DeviceManagement({
         lastSeen: timeStr,
         status: formData.status,
         firmware: formData.firmware || 'v2.5.0',
-        battery: '100%',
+        power: '220V AC',
         value: formData.type === 'temperature' ? '24.5 °C' : '300 lx',
       });
     }
@@ -243,8 +243,8 @@ export default function DeviceManagement({
                         </td>
                         <td>
                           <div className="power-signal-cell">
-                            <Battery size={13} className="text-success" />
-                            <span>{dev.battery || '100%'}</span>
+                            <Zap size={13} className="text-gold" />
+                            <span>220V AC</span>
                           </div>
                         </td>
                         <td>

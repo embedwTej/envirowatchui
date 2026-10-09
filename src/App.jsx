@@ -167,7 +167,7 @@ export default function App() {
           status: 'Active',
           value: '24.5 °C',
           firmware: 'v2.5.0',
-          battery: '100%'
+          power: '220V AC'
         }
       ]
     });

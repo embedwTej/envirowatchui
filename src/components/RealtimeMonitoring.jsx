@@ -10,7 +10,7 @@ import {
   CheckCircle2,
   Clock,
   Wifi,
-  Battery,
+  Zap,
   Thermometer,
   Sun,
   Volume2,
@@ -275,12 +275,12 @@ export default function RealtimeMonitoring({ locations, onSelectLocation, onExpo
                   <span>{loc.signal || 'Strong'}</span>
                 </div>
                 <div className="meta-sensor-stat">
-                  <Battery size={13} className="text-muted" />
-                  <span>{loc.battery ? `${loc.battery}%` : 'Mains 220V'}</span>
+                  <Zap size={13} className="text-gold" />
+                  <span>220V AC</span>
                 </div>
                 <div className="meta-sensor-stat meta-time">
                   <Clock size={12} className="text-muted" />
-                  <span>{loc.lastSync || '4s ago'}</span>
+                  <span>{loc.lastSync || 'Live'}</span>
                 </div>
               </div>
 

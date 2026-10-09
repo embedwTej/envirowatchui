@@ -53,7 +53,7 @@ const INITIAL_ZONES = [
     ph: null,
     cod: null,
     tds: null,
-    battery: 89,
+    power: '220V AC',
     signal: 'Strong',
     devicesCount: 4,
     lastSync: 'Live'
@@ -74,7 +74,7 @@ const INITIAL_ZONES = [
     ph: null,
     cod: null,
     tds: null,
-    battery: 98,
+    power: '220V AC',
     signal: 'Strong',
     devicesCount: 6,
     lastSync: 'Live'
@@ -95,7 +95,7 @@ const INITIAL_ZONES = [
     ph: null,
     cod: null,
     tds: null,
-    battery: 95,
+    power: '220V AC',
     signal: 'Strong',
     devicesCount: 8,
     lastSync: 'Live'
@@ -116,7 +116,7 @@ const INITIAL_ZONES = [
     ph: null,
     cod: null,
     tds: 310,
-    battery: 92,
+    power: '220V AC',
     signal: 'Good',
     devicesCount: 3,
     lastSync: 'Live'
@@ -137,7 +137,7 @@ const INITIAL_ZONES = [
     ph: 7.4,
     cod: 68.0,
     tds: 145,
-    battery: 94,
+    power: '220V AC',
     signal: 'Strong',
     devicesCount: 5,
     lastSync: 'Live'
@@ -158,7 +158,7 @@ const INITIAL_ZONES = [
     ph: null,
     cod: null,
     tds: null,
-    battery: 91,
+    power: '220V AC',
     signal: 'Strong',
     devicesCount: 2,
     lastSync: 'Live'
@@ -179,7 +179,7 @@ const INITIAL_ZONES = [
     ph: null,
     cod: null,
     tds: null,
-    battery: 100,
+    power: '220V AC',
     signal: 'Strong',
     devicesCount: 2,
     lastSync: 'Live'
@@ -200,7 +200,7 @@ const INITIAL_ZONES = [
     ph: 7.8,
     cod: 22.0,
     tds: 95,
-    battery: 97,
+    power: '220V AC',
     signal: 'Strong',
     devicesCount: 2,
     lastSync: 'Live'
@@ -221,7 +221,7 @@ const INITIAL_ZONES = [
     ph: null,
     cod: null,
     tds: null,
-    battery: 99,
+    power: '220V AC',
     signal: 'Good',
     devicesCount: 1,
     lastSync: 'Live'
@@ -242,7 +242,7 @@ const INITIAL_ZONES = [
     ph: null,
     cod: null,
     tds: null,
-    battery: 96,
+    power: '220V AC',
     signal: 'Strong',
     devicesCount: 2,
     lastSync: 'Live'

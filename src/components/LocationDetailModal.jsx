@@ -8,7 +8,7 @@ import {
   CheckCircle2, 
   Cpu, 
   Clock, 
-  Battery, 
+  Zap, 
   Download,
   AlertTriangle,
   Thermometer,
@@ -230,8 +230,8 @@ export default function LocationDetailModal({ location, onClose, devices = [] })
                         <span className="hw-meta-val capitalize">{d.type}</span>
                       </div>
                       <div>
-                        <span className="hw-meta-lbl">Battery:</span>
-                        <span className="hw-meta-val">{d.battery || '98%'}</span>
+                        <span className="hw-meta-lbl">Power Source:</span>
+                        <span className="hw-meta-val">220V AC Mains</span>
                       </div>
                       <div>
                         <span className="hw-meta-lbl">Firmware:</span>

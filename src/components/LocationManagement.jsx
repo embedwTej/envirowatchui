@@ -71,7 +71,7 @@ export default function LocationManagement({ locations, onAddLocation, onUpdateL
         temp: 24.5,
         humidity: 50.0,
         light: 300.0,
-        battery: 98,
+        power: '220V AC',
         signal: 'Strong',
         lastSync: 'Just now'
       });

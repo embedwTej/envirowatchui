@@ -12,7 +12,7 @@ export const INITIAL_LOCATIONS = [
     ph: null, 
     cod: null, 
     tds: null,
-    battery: 92,
+    power: '220V AC',
     signal: 'Strong',
     lastSync: '18s ago'
   },
@@ -29,7 +29,7 @@ export const INITIAL_LOCATIONS = [
     ph: null, 
     cod: null, 
     tds: null,
-    battery: 88,
+    power: '220V AC',
     signal: 'Good',
     lastSync: '45s ago'
   },
@@ -46,7 +46,7 @@ export const INITIAL_LOCATIONS = [
     ph: null, 
     cod: null, 
     tds: null,
-    battery: 98,
+    power: '220V AC',
     signal: 'Strong',
     lastSync: '3s ago'
   },
@@ -63,7 +63,7 @@ export const INITIAL_LOCATIONS = [
     ph: null, 
     cod: null, 
     tds: null,
-    battery: 76,
+    power: '220V AC',
     signal: 'Fair',
     lastSync: '2m ago'
   },
@@ -80,7 +80,7 @@ export const INITIAL_LOCATIONS = [
     ph: null, 
     cod: null, 
     tds: null,
-    battery: 95,
+    power: '220V AC',
     signal: 'Strong',
     lastSync: '32s ago'
   },
@@ -98,7 +98,7 @@ export const INITIAL_LOCATIONS = [
     ph: null, 
     cod: null, 
     tds: null,
-    battery: 84,
+    power: '220V AC',
     signal: 'Strong',
     lastSync: 'Just now',
     alertMsg: 'Noise exceeded safe plant threshold (60.1 dB > 55.0 dB limit)'
@@ -116,7 +116,7 @@ export const INITIAL_LOCATIONS = [
     ph: null, 
     cod: null, 
     tds: null,
-    battery: 91,
+    power: '220V AC',
     signal: 'Good',
     lastSync: '1m ago'
   },
@@ -133,7 +133,7 @@ export const INITIAL_LOCATIONS = [
     ph: null, 
     cod: null, 
     tds: null,
-    battery: 99,
+    power: '220V AC',
     signal: 'Strong',
     lastSync: '22s ago'
   },
@@ -150,7 +150,7 @@ export const INITIAL_LOCATIONS = [
     ph: null, 
     cod: null, 
     tds: null,
-    battery: 94,
+    power: '220V AC',
     signal: 'Strong',
     lastSync: '14s ago'
   },
@@ -167,7 +167,7 @@ export const INITIAL_LOCATIONS = [
     humidity: null, 
     ph: 7.15, 
     cod: 42.0,
-    battery: 87,
+    power: '220V AC',
     signal: 'Good',
     lastSync: '58s ago'
   },
@@ -184,7 +184,7 @@ export const INITIAL_LOCATIONS = [
     noise: null, 
     humidity: null, 
     tds: 140,
-    battery: 100,
+    power: '220V AC',
     signal: 'Strong',
     lastSync: '4s ago'
   },
@@ -201,7 +201,7 @@ export const INITIAL_LOCATIONS = [
     ph: null, 
     cod: null, 
     tds: null,
-    battery: 82,
+    power: '220V AC',
     signal: 'Fair',
     lastSync: '3m ago'
   },
@@ -218,7 +218,7 @@ export const INITIAL_LOCATIONS = [
     ph: null, 
     cod: null, 
     tds: null,
-    battery: 90,
+    power: '220V AC',
     signal: 'Good',
     lastSync: '40s ago'
   },
@@ -235,7 +235,7 @@ export const INITIAL_LOCATIONS = [
     ph: null, 
     cod: null, 
     tds: null,
-    battery: 100,
+    power: '220V AC',
     signal: 'Strong',
     lastSync: 'Just now'
   },
@@ -252,7 +252,7 @@ export const INITIAL_LOCATIONS = [
     ph: null, 
     cod: null, 
     tds: null,
-    battery: 96,
+    power: '220V AC',
     signal: 'Strong',
     lastSync: '8s ago'
   },
@@ -269,7 +269,7 @@ export const INITIAL_LOCATIONS = [
     ph: null, 
     cod: null, 
     tds: null,
-    battery: 93,
+    power: '220V AC',
     signal: 'Strong',
     lastSync: '12s ago'
   },
@@ -286,7 +286,7 @@ export const INITIAL_LOCATIONS = [
     ph: null, 
     cod: null, 
     tds: null,
-    battery: 89,
+    power: '220V AC',
     signal: 'Good',
     lastSync: '25s ago'
   },
@@ -303,7 +303,7 @@ export const INITIAL_LOCATIONS = [
     ph: null, 
     cod: null, 
     tds: null,
-    battery: 97,
+    power: '220V AC',
     signal: 'Strong',
     lastSync: '6s ago'
   },
@@ -320,7 +320,7 @@ export const INITIAL_LOCATIONS = [
     ph: null, 
     cod: null, 
     tds: null,
-    battery: 91,
+    power: '220V AC',
     signal: 'Good',
     lastSync: '19s ago'
   },
@@ -337,7 +337,7 @@ export const INITIAL_LOCATIONS = [
     ph: null, 
     cod: null, 
     tds: null,
-    battery: 79,
+    power: '220V AC',
     signal: 'Fair',
     lastSync: '4m ago'
   },
@@ -354,7 +354,7 @@ export const INITIAL_LOCATIONS = [
     ph: null, 
     cod: null, 
     tds: null,
-    battery: 85,
+    power: '220V AC',
     signal: 'Good',
     lastSync: '2m ago'
   },
@@ -371,7 +371,7 @@ export const INITIAL_LOCATIONS = [
     ph: null, 
     cod: null, 
     tds: null,
-    battery: 98,
+    power: '220V AC',
     signal: 'Strong',
     lastSync: '10s ago'
   },
@@ -379,82 +379,82 @@ export const INITIAL_LOCATIONS = [
 
 export const INITIAL_DEVICES = {
   'QA Lab': [
-    { id: 'd1', sensorId: 'A4F0D1503EA4', name: 'Temperature Probe', type: 'temperature', lastSeen: '2026-10-09 11:29', status: 'Active', value: '24.2 °C', firmware: 'v2.4.1', battery: '100%' },
-    { id: 'd2', sensorId: 'A4F0D1503EEC', name: 'Ambient Light Lux', type: 'light', lastSeen: '2026-10-09 11:29', status: 'Active', value: '450.0 lx', firmware: 'v2.4.1', battery: '100%' },
+    { id: 'd1', sensorId: 'A4F0D1503EA4', name: 'Temperature Probe', type: 'temperature', lastSeen: '2026-10-09 11:29', status: 'Active', value: '24.2 °C', firmware: 'v2.4.1', power: '220V AC' },
+    { id: 'd2', sensorId: 'A4F0D1503EEC', name: 'Ambient Light Lux', type: 'light', lastSeen: '2026-10-09 11:29', status: 'Active', value: '450.0 lx', firmware: 'v2.4.1', power: '220V AC' },
   ],
   'Utility Panel Room 2': [
-    { id: 'd3', sensorId: 'B2E1C9842F10', name: 'Thermal Sensor 01', type: 'temperature', lastSeen: '2026-10-09 11:25', status: 'Active', value: '28.1 °C', firmware: 'v2.3.8', battery: '89%' },
+    { id: 'd3', sensorId: 'B2E1C9842F10', name: 'Thermal Sensor 01', type: 'temperature', lastSeen: '2026-10-09 11:25', status: 'Active', value: '28.1 °C', firmware: 'v2.3.8', power: '220V AC' },
   ],
   'Bottling 2': [
-    { id: 'd4', sensorId: 'C3A4D8910B12', name: 'Overhead Lux Sensor', type: 'light', lastSeen: '2026-10-09 10:45', status: 'Active', value: '930.1 lx', firmware: 'v2.2.0', battery: '91%' },
+    { id: 'd4', sensorId: 'C3A4D8910B12', name: 'Overhead Lux Sensor', type: 'light', lastSeen: '2026-10-09 10:45', status: 'Active', value: '930.1 lx', firmware: 'v2.2.0', power: '220V AC' },
   ],
   '6 MTR': [
-    { id: 'd5', sensorId: 'D4B5E9021C23', name: 'Precision Temp Node', type: 'temperature', lastSeen: '2026-10-09 11:30', status: 'Active', value: '22.4 °C', firmware: 'v2.5.0', battery: '98%' },
-    { id: 'd6', sensorId: 'D4B5E9021C24', name: 'Luminance Monitor', type: 'light', lastSeen: '2026-10-09 11:30', status: 'Active', value: '213.0 lx', firmware: 'v2.5.0', battery: '98%' },
-    { id: 'd7', sensorId: 'D4B5E9021C25', name: 'Humidity Hygrometer', type: 'humidity', lastSeen: '2026-10-09 11:30', status: 'Active', value: '48.6 %', firmware: 'v2.5.0', battery: '98%' },
+    { id: 'd5', sensorId: 'D4B5E9021C23', name: 'Precision Temp Node', type: 'temperature', lastSeen: '2026-10-09 11:30', status: 'Active', value: '22.4 °C', firmware: 'v2.5.0', power: '220V AC' },
+    { id: 'd6', sensorId: 'D4B5E9021C24', name: 'Luminance Monitor', type: 'light', lastSeen: '2026-10-09 11:30', status: 'Active', value: '213.0 lx', firmware: 'v2.5.0', power: '220V AC' },
+    { id: 'd7', sensorId: 'D4B5E9021C25', name: 'Humidity Hygrometer', type: 'humidity', lastSeen: '2026-10-09 11:30', status: 'Active', value: '48.6 %', firmware: 'v2.5.0', power: '220V AC' },
   ],
   'JC Area 2': [
-    { id: 'd8', sensorId: 'E5C6F0132D34', name: 'Photometer Light', type: 'light', lastSeen: '2026-10-09 10:15', status: 'Active', value: '142.5 lx', firmware: 'v2.1.2', battery: '90%' },
+    { id: 'd8', sensorId: 'E5C6F0132D34', name: 'Photometer Light', type: 'light', lastSeen: '2026-10-09 10:15', status: 'Active', value: '142.5 lx', firmware: 'v2.1.2', power: '220V AC' },
   ],
   'Bottling': [
-    { id: 'd9', sensorId: 'F6D7A1243E45', name: 'Conveyor Temp Node', type: 'temperature', lastSeen: '2026-10-09 11:28', status: 'Active', value: '29.4 °C', firmware: 'v2.4.0', battery: '84%' },
-    { id: 'd10', sensorId: 'F6D7A1243E46', name: 'Acoustic Decibel Meter', type: 'noise', lastSeen: '2026-10-09 11:28', status: 'Active', value: '60.1 dB', firmware: 'v2.4.0', battery: '84%' },
-    { id: 'd11', sensorId: 'F6D7A1243E47', name: 'Mechanical Vibration', type: 'vibration', lastSeen: '2026-10-09 11:28', status: 'Active', value: '1.2 mm/s', firmware: 'v2.4.0', battery: '84%' },
+    { id: 'd9', sensorId: 'F6D7A1243E45', name: 'Conveyor Temp Node', type: 'temperature', lastSeen: '2026-10-09 11:28', status: 'Active', value: '29.4 °C', firmware: 'v2.4.0', power: '220V AC' },
+    { id: 'd10', sensorId: 'F6D7A1243E46', name: 'Acoustic Decibel Meter', type: 'noise', lastSeen: '2026-10-09 11:28', status: 'Active', value: '60.1 dB', firmware: 'v2.4.0', power: '220V AC' },
+    { id: 'd11', sensorId: 'F6D7A1243E47', name: 'Mechanical Vibration', type: 'vibration', lastSeen: '2026-10-09 11:28', status: 'Active', value: '1.2 mm/s', firmware: 'v2.4.0', power: '220V AC' },
   ],
   '0 MTR': [
-    { id: 'd12', sensorId: 'A1B2C3D4E5F6', name: 'Zone Temp Probe', type: 'temperature', lastSeen: '2026-10-09 09:30', status: 'Active', value: '30.3 °C', firmware: 'v2.3.0', battery: '92%' },
-    { id: 'd13', sensorId: 'A1B2C3D4E5F7', name: 'Ambient Lux Node', type: 'light', lastSeen: '2026-10-09 09:30', status: 'Active', value: '334.3 lx', firmware: 'v2.3.0', battery: '92%' },
+    { id: 'd12', sensorId: 'A1B2C3D4E5F6', name: 'Zone Temp Probe', type: 'temperature', lastSeen: '2026-10-09 09:30', status: 'Active', value: '30.3 °C', firmware: 'v2.3.0', power: '220V AC' },
+    { id: 'd13', sensorId: 'A1B2C3D4E5F7', name: 'Ambient Lux Node', type: 'light', lastSeen: '2026-10-09 09:30', status: 'Active', value: '334.3 lx', firmware: 'v2.3.0', power: '220V AC' },
   ],
   '0 MTR 2': [
-    { id: 'd14', sensorId: 'B2C3D4E5F6A7', name: 'Optical Lux Detector', type: 'light', lastSeen: '2026-10-09 09:15', status: 'Active', value: '103.3 lx', firmware: 'v2.2.4', battery: '88%' },
+    { id: 'd14', sensorId: 'B2C3D4E5F6A7', name: 'Optical Lux Detector', type: 'light', lastSeen: '2026-10-09 09:15', status: 'Active', value: '103.3 lx', firmware: 'v2.2.4', power: '220V AC' },
   ],
   'Sachet 2': [
-    { id: 'd15', sensorId: 'C3D4E5F6A7B8', name: 'Sealer Line Temp', type: 'temperature', lastSeen: '2026-10-09 08:45', status: 'Active', value: '30.1 °C', firmware: 'v2.1.8', battery: '85%' },
+    { id: 'd15', sensorId: 'C3D4E5F6A7B8', name: 'Sealer Line Temp', type: 'temperature', lastSeen: '2026-10-09 08:45', status: 'Active', value: '30.1 °C', firmware: 'v2.1.8', power: '220V AC' },
   ],
   'ETP2': [
-    { id: 'd16', sensorId: 'D4E5F6A7B8C9', name: 'Electrochemical pH', type: 'ph', lastSeen: '2026-10-09 11:27', status: 'Active', value: '7.92 pH', firmware: 'v3.0.1', battery: '100%' },
-    { id: 'd17', sensorId: 'D4E5F6A7B8D0', name: 'Spectro COD Probe', type: 'cod', lastSeen: '2026-10-09 11:27', status: 'Active', value: '86.5 mg/L', firmware: 'v3.0.1', battery: '100%' },
+    { id: 'd16', sensorId: 'D4E5F6A7B8C9', name: 'Electrochemical pH', type: 'ph', lastSeen: '2026-10-09 11:27', status: 'Active', value: '7.92 pH', firmware: 'v3.0.1', power: '220V AC' },
+    { id: 'd17', sensorId: 'D4E5F6A7B8D0', name: 'Spectro COD Probe', type: 'cod', lastSeen: '2026-10-09 11:27', status: 'Active', value: '86.5 mg/L', firmware: 'v3.0.1', power: '220V AC' },
   ],
   'Utility Panel Room 1': [
-    { id: 'd18', sensorId: 'E5F6A7B8C9D1', name: 'Main Busbar Temp', type: 'temperature', lastSeen: '2026-10-09 11:20', status: 'Active', value: '27.5 °C', firmware: 'v2.4.5', battery: '93%' },
-    { id: 'd19', sensorId: 'E5F6A7B8C9D2', name: 'Enclosure Humidity', type: 'humidity', lastSeen: '2026-10-09 11:20', status: 'Active', value: '45.0 %', firmware: 'v2.4.5', battery: '93%' },
+    { id: 'd18', sensorId: 'E5F6A7B8C9D1', name: 'Main Busbar Temp', type: 'temperature', lastSeen: '2026-10-09 11:20', status: 'Active', value: '27.5 °C', firmware: 'v2.4.5', power: '220V AC' },
+    { id: 'd19', sensorId: 'E5F6A7B8C9D2', name: 'Enclosure Humidity', type: 'humidity', lastSeen: '2026-10-09 11:20', status: 'Active', value: '45.0 %', firmware: 'v2.4.5', power: '220V AC' },
   ],
   'Refinery Panel Room 3': [
-    { id: 'd20', sensorId: 'F6A7B8C9D1E2', name: 'MCC Panel Temp', type: 'temperature', lastSeen: '2026-10-09 11:18', status: 'Active', value: '25.4 °C', firmware: 'v2.4.2', battery: '91%' },
+    { id: 'd20', sensorId: 'F6A7B8C9D1E2', name: 'MCC Panel Temp', type: 'temperature', lastSeen: '2026-10-09 11:18', status: 'Active', value: '25.4 °C', firmware: 'v2.4.2', power: '220V AC' },
   ],
   'Cold Room': [
-    { id: 'd21', sensorId: 'A7B8C9D1E2F3', name: 'Chamber Thermistor', type: 'temperature', lastSeen: '2026-10-09 11:10', status: 'Active', value: '25.1 °C', firmware: 'v2.4.9', battery: '94%' },
-    { id: 'd22', sensorId: 'A7B8C9D1E2F4', name: 'Storage Hygrometer', type: 'humidity', lastSeen: '2026-10-09 11:10', status: 'Active', value: '52.7 %', firmware: 'v2.4.9', battery: '94%' },
+    { id: 'd21', sensorId: 'A7B8C9D1E2F3', name: 'Chamber Thermistor', type: 'temperature', lastSeen: '2026-10-09 11:10', status: 'Active', value: '25.1 °C', firmware: 'v2.4.9', power: '220V AC' },
+    { id: 'd22', sensorId: 'A7B8C9D1E2F4', name: 'Storage Hygrometer', type: 'humidity', lastSeen: '2026-10-09 11:10', status: 'Active', value: '52.7 %', firmware: 'v2.4.9', power: '220V AC' },
   ],
   'Boiler & WTP': [
-    { id: 'd23', sensorId: 'B8C9D1E2F3A4', name: 'Steam Header Temp', type: 'temperature', lastSeen: '2026-10-09 10:55', status: 'Active', value: '34.2 °C', firmware: 'v2.3.9', battery: '95%' },
-    { id: 'd24', sensorId: 'B8C9D1E2F3A5', name: 'Workstation Lux', type: 'light', lastSeen: '2026-10-09 10:55', status: 'Active', value: '379.7 lx', firmware: 'v2.3.9', battery: '95%' },
+    { id: 'd23', sensorId: 'B8C9D1E2F3A4', name: 'Steam Header Temp', type: 'temperature', lastSeen: '2026-10-09 10:55', status: 'Active', value: '34.2 °C', firmware: 'v2.3.9', power: '220V AC' },
+    { id: 'd24', sensorId: 'B8C9D1E2F3A5', name: 'Workstation Lux', type: 'light', lastSeen: '2026-10-09 10:55', status: 'Active', value: '379.7 lx', firmware: 'v2.3.9', power: '220V AC' },
   ],
   'Canteen': [
-    { id: 'd25', sensorId: 'C9D1E2F3A4B5', name: 'Dining Room Temp', type: 'temperature', lastSeen: '2026-10-09 11:12', status: 'Active', value: '31.5 °C', firmware: 'v2.1.0', battery: '99%' },
-    { id: 'd26', sensorId: 'C9D1E2F3A4B6', name: 'Occupancy Noise', type: 'noise', lastSeen: '2026-10-09 11:12', status: 'Active', value: '74.6 dB', firmware: 'v2.1.0', battery: '99%' },
+    { id: 'd25', sensorId: 'C9D1E2F3A4B5', name: 'Dining Room Temp', type: 'temperature', lastSeen: '2026-10-09 11:12', status: 'Active', value: '31.5 °C', firmware: 'v2.1.0', power: '220V AC' },
+    { id: 'd26', sensorId: 'C9D1E2F3A4B6', name: 'Occupancy Noise', type: 'noise', lastSeen: '2026-10-09 11:12', status: 'Active', value: '74.6 dB', firmware: 'v2.1.0', power: '220V AC' },
   ],
   'Refinery Panel Room 1': [
-    { id: 'd27', sensorId: 'D1E2F3A4B5C6', name: 'Transformer Temp', type: 'temperature', lastSeen: '2026-10-09 11:24', status: 'Active', value: '26.8 °C', firmware: 'v2.4.0', battery: '96%' },
-    { id: 'd28', sensorId: 'D1E2F3A4B5C7', name: 'Control Room Lux', type: 'light', lastSeen: '2026-10-09 11:24', status: 'Active', value: '320.0 lx', firmware: 'v2.4.0', battery: '96%' },
+    { id: 'd27', sensorId: 'D1E2F3A4B5C6', name: 'Transformer Temp', type: 'temperature', lastSeen: '2026-10-09 11:24', status: 'Active', value: '26.8 °C', firmware: 'v2.4.0', power: '220V AC' },
+    { id: 'd28', sensorId: 'D1E2F3A4B5C7', name: 'Control Room Lux', type: 'light', lastSeen: '2026-10-09 11:24', status: 'Active', value: '320.0 lx', firmware: 'v2.4.0', power: '220V AC' },
   ],
   '6 MTR 2': [
-    { id: 'd29', sensorId: 'E2F3A4B5C6D7', name: 'Walkway Lux Node', type: 'light', lastSeen: '2026-10-09 10:05', status: 'Active', value: '169.6 lx', firmware: 'v2.0.4', battery: '76%' },
+    { id: 'd29', sensorId: 'E2F3A4B5C6D7', name: 'Walkway Lux Node', type: 'light', lastSeen: '2026-10-09 10:05', status: 'Active', value: '169.6 lx', firmware: 'v2.0.4', power: '220V AC' },
   ],
   'Tankfarm Panel Room': [
-    { id: 'd30', sensorId: 'F3A4B5C6D7E8', name: 'Silo Level Temp', type: 'temperature', lastSeen: '2026-10-09 11:21', status: 'Active', value: '24.9 °C', firmware: 'v2.5.2', battery: '98%' },
-    { id: 'd31', sensorId: 'F3A4B5C6D7E9', name: 'Vapor Space Humidity', type: 'humidity', lastSeen: '2026-10-09 11:21', status: 'Active', value: '44.5 %', firmware: 'v2.5.2', battery: '98%' },
+    { id: 'd30', sensorId: 'F3A4B5C6D7E8', name: 'Silo Level Temp', type: 'temperature', lastSeen: '2026-10-09 11:21', status: 'Active', value: '24.9 °C', firmware: 'v2.5.2', power: '220V AC' },
+    { id: 'd31', sensorId: 'F3A4B5C6D7E9', name: 'Vapor Space Humidity', type: 'humidity', lastSeen: '2026-10-09 11:21', status: 'Active', value: '44.5 %', firmware: 'v2.5.2', power: '220V AC' },
   ],
   'Sachet': [
-    { id: 'd32', sensorId: 'A4B5C6D7E8F9', name: 'Forming Head Temp', type: 'temperature', lastSeen: '2026-10-09 09:50', status: 'Active', value: '29.8 °C', firmware: 'v2.1.5', battery: '79%' },
+    { id: 'd32', sensorId: 'A4B5C6D7E8F9', name: 'Forming Head Temp', type: 'temperature', lastSeen: '2026-10-09 09:50', status: 'Active', value: '29.8 °C', firmware: 'v2.1.5', power: '220V AC' },
   ],
   'JC Area': [
-    { id: 'd33', sensorId: 'B5C6D7E8F9A0', name: 'Staging Temp Node', type: 'temperature', lastSeen: '2026-10-09 11:15', status: 'Active', value: '34.0 °C', firmware: 'v2.2.1', battery: '82%' },
-    { id: 'd34', sensorId: 'B5C6D7E8F9A1', name: 'Loading Bay Humidity', type: 'humidity', lastSeen: '2026-10-09 11:15', status: 'Active', value: '58.7 %', firmware: 'v2.2.1', battery: '82%' },
+    { id: 'd33', sensorId: 'B5C6D7E8F9A0', name: 'Staging Temp Node', type: 'temperature', lastSeen: '2026-10-09 11:15', status: 'Active', value: '34.0 °C', firmware: 'v2.2.1', power: '220V AC' },
+    { id: 'd34', sensorId: 'B5C6D7E8F9A1', name: 'Loading Bay Humidity', type: 'humidity', lastSeen: '2026-10-09 11:15', status: 'Active', value: '58.7 %', firmware: 'v2.2.1', power: '220V AC' },
   ],
   'Refinery Panel Room 2': [
-    { id: 'd35', sensorId: 'C6D7E8F9A0B1', name: 'Inverter Bank Temp', type: 'temperature', lastSeen: '2026-10-09 11:22', status: 'Active', value: '26.0 °C', firmware: 'v2.4.3', battery: '97%' },
-    { id: 'd36', sensorId: 'C6D7E8F9A0B2', name: 'Aisle Illuminance', type: 'light', lastSeen: '2026-10-09 11:22', status: 'Active', value: '290.0 lx', firmware: 'v2.4.3', battery: '97%' },
+    { id: 'd35', sensorId: 'C6D7E8F9A0B1', name: 'Inverter Bank Temp', type: 'temperature', lastSeen: '2026-10-09 11:22', status: 'Active', value: '26.0 °C', firmware: 'v2.4.3', power: '220V AC' },
+    { id: 'd36', sensorId: 'C6D7E8F9A0B2', name: 'Aisle Illuminance', type: 'light', lastSeen: '2026-10-09 11:22', status: 'Active', value: '290.0 lx', firmware: 'v2.4.3', power: '220V AC' },
   ],
 };
 
