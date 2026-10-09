@@ -24,7 +24,11 @@ import {
   Cpu,
   Move,
   X,
-  Camera
+  Camera,
+  Link,
+  Share2,
+  Copy,
+  Check
 } from 'lucide-react';
 import plantIsometricImg from '../assets/plant-isometric-clean.jpg';
 import plantDroneImg from '../assets/plant-aerial-drone.jpg';
@@ -243,9 +247,21 @@ const INITIAL_ZONES = [
   }
 ];
 
-export default function FacilityMapView({ onSelectLocation }) {
+export default function FacilityMapView({ onSelectLocation, onShowToast }) {
+  // Read initial targeted zone from URL if present (e.g. ?tab=facility-map&zone=bottling)
+  const getInitialZone = () => {
+    try {
+      const searchParams = new URLSearchParams(window.location.search);
+      const zoneParam = searchParams.get('zone');
+      if (zoneParam && INITIAL_ZONES.some(z => z.id === zoneParam)) {
+        return zoneParam;
+      }
+    } catch (e) {}
+    return 'bottling';
+  };
+
   const [zones, setZones] = useState(INITIAL_ZONES);
-  const [activeHighlightId, setActiveHighlightId] = useState('bottling');
+  const [activeHighlightId, setActiveHighlightId] = useState(getInitialZone);
   const [showContinuousPopups, setShowContinuousPopups] = useState(true);
   const [popupViewStyle, setPopupViewStyle] = useState('full'); // 'full' or 'compact'
   const [filterMode, setFilterMode] = useState('all'); // 'all', 'alerts', 'temp', 'noise', 'water'
@@ -257,6 +273,28 @@ export default function FacilityMapView({ onSelectLocation }) {
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [lastStreamTime, setLastStreamTime] = useState(new Date().toLocaleTimeString());
+  const [copiedUrl, setCopiedUrl] = useState(false);
+
+  // Function to copy direct shareable browser URL
+  const handleCopyDirectUrl = (zoneId = null) => {
+    try {
+      const targetZone = zoneId || activeHighlightId;
+      const url = new URL(window.location.origin + window.location.pathname);
+      url.searchParams.set('tab', 'facility-map');
+      if (targetZone && targetZone !== 'bottling') {
+        url.searchParams.set('zone', targetZone);
+      }
+      const directUrl = url.toString();
+      navigator.clipboard.writeText(directUrl);
+      setCopiedUrl(true);
+      setTimeout(() => setCopiedUrl(false), 3000);
+      if (onShowToast) {
+        onShowToast(`Direct Map URL copied: ${directUrl}`);
+      }
+    } catch (e) {
+      // Fallback
+    }
+  };
 
   const mapContainerRef = useRef(null);
 
@@ -644,6 +682,16 @@ export default function FacilityMapView({ onSelectLocation }) {
               <span>{isAutoCycling ? 'Cycling...' : 'Auto Tour'}</span>
             </button>
 
+            {/* Direct Sharable Browser URL Button */}
+            <button
+              className={`map-direct-url-btn ${copiedUrl ? 'is-copied' : ''}`}
+              onClick={() => handleCopyDirectUrl()}
+              title="Copy direct shareable browser URL (paste directly in any browser window to load this map view with popups & summary card)"
+            >
+              {copiedUrl ? <Check size={14} className="text-success" /> : <Link size={14} />}
+              <span>{copiedUrl ? 'URL Copied!' : 'Copy Direct Map URL'}</span>
+            </button>
+
             <button
               className="map-fullscreen-btn"
               onClick={() => {
@@ -831,13 +879,24 @@ export default function FacilityMapView({ onSelectLocation }) {
             )}
           </div>
 
-          <button 
-            className="dock-launch-inspect-btn"
-            onClick={() => onSelectLocation(highlightedZone)}
-          >
-            <span>Full Gauge Diagnostics</span>
-            <ExternalLink size={15} />
-          </button>
+          <div className="dock-actions-cluster">
+            <button 
+              className="dock-share-btn"
+              onClick={() => handleCopyDirectUrl(highlightedZone.id)}
+              title={`Copy direct browser URL targeted to ${highlightedZone.name}`}
+            >
+              <Share2 size={13} />
+              <span>Share Link</span>
+            </button>
+
+            <button 
+              className="dock-launch-inspect-btn"
+              onClick={() => onSelectLocation(highlightedZone)}
+            >
+              <span>Full Diagnostics</span>
+              <ExternalLink size={14} />
+            </button>
+          </div>
         </div>
       )}
 

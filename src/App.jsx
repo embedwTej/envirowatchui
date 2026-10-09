@@ -23,7 +23,57 @@ import LocationDetailModal from './components/LocationDetailModal';
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
-  const [currentView, setCurrentView] = useState('realtime');
+
+  // Helper to parse view from URL (e.g. ?tab=facility-map or ?view=map or #map)
+  const getViewFromURL = () => {
+    try {
+      const searchParams = new URLSearchParams(window.location.search);
+      const queryTab = searchParams.get('tab') || searchParams.get('view');
+      if (queryTab) {
+        if (queryTab === 'map' || queryTab === 'facility-map') return 'facility-map';
+        return queryTab;
+      }
+      const hash = window.location.hash.replace('#', '').toLowerCase();
+      if (hash === 'map' || hash === 'facility-map') return 'facility-map';
+      if (hash) return hash;
+    } catch (e) {
+      // ignore
+    }
+    return 'realtime';
+  };
+
+  const [currentView, setCurrentView] = useState(getViewFromURL);
+
+  // Synchronize view changes with browser URL
+  const handleSetCurrentView = (newView) => {
+    setCurrentView(newView);
+    try {
+      const url = new URL(window.location.href);
+      if (newView === 'realtime') {
+        url.searchParams.delete('tab');
+        url.searchParams.delete('view');
+        window.history.replaceState({}, '', url.pathname + (url.search ? url.search : '') + (url.hash || ''));
+      } else {
+        url.searchParams.set('tab', newView);
+        window.history.replaceState({}, '', url.toString());
+      }
+    } catch (e) {
+      // ignore
+    }
+  };
+
+  // Listen to browser navigation (back/forward or hash change)
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentView(getViewFromURL());
+    };
+    window.addEventListener('popstate', handlePopState);
+    window.addEventListener('hashchange', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener('hashchange', handlePopState);
+    };
+  }, []);
   
   // App Data States
   const [locations, setLocations] = useState(INITIAL_LOCATIONS);
@@ -213,7 +263,7 @@ export default function App() {
       {/* Enterprise Dark Forest Sidebar */}
       <Sidebar
         currentView={currentView}
-        setCurrentView={setCurrentView}
+        setCurrentView={handleSetCurrentView}
         onLogout={() => {
           setIsAuthenticated(false);
           showToast('Signed out of Enviro Watch.');
@@ -228,7 +278,7 @@ export default function App() {
           currentViewTitle={viewTitles[currentView] || 'Realtime Monitoring'}
           alerts={alerts}
           onSimulatePulse={handleSimulatePulse}
-          onOpenAlerts={() => setCurrentView('alerts')}
+          onOpenAlerts={() => handleSetCurrentView('alerts')}
         />
 
         <div className="main-content">
@@ -243,6 +293,7 @@ export default function App() {
           {currentView === 'facility-map' && (
             <FacilityMapView
               onSelectLocation={(loc) => setSelectedDetailLoc(loc)}
+              onShowToast={showToast}
             />
           )}
 
